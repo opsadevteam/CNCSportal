@@ -60,12 +60,12 @@ export class UserManagementComponent {
   ];
   initialSelection = [];
   allowMultiSelect = true;
-  selection = new SelectionModel<PeriodicElement>(
+  selection = new SelectionModel<DataUserManagement>(
     this.allowMultiSelect,
     this.initialSelection
   );
 
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<DataUserManagement>(Data);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -104,7 +104,7 @@ export class UserManagementComponent {
   }
 }
 
-export interface PeriodicElement {
+export interface DataUserManagement {
   id: number;
   username: string;
   password: string;
@@ -113,7 +113,7 @@ export interface PeriodicElement {
   status: string;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
+const Data: DataUserManagement[] = [
   {
     id: 1,
     username: "jdoe",
