@@ -1,6 +1,6 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { PhoneEntryFormComponent } from '../EntryForms/phone-entry-form/phone-entry-form.component';
@@ -29,6 +29,9 @@ import {
   styleUrl: './sidenav.component.css',
 })
 export class SidenavComponent {
+
+  router = inject(Router);
+
   entryFormsMenuItems = signal<IEntryFormsMenuItem[]>([
     {
       icon: 'phone',
@@ -81,9 +84,16 @@ export class SidenavComponent {
     },
   ]);
 
+
+
   collapsed = signal(false);
 
   sideNavWith = computed(() => (this.collapsed() ? '4rem' : '16rem'));
 
   profilePicSize = computed(() => (this.collapsed() ? '24' : '48'));
+
+  onLogOut() {
+    this.router.navigateByUrl('/login');
+    localStorage.removeItem('empErpUser');
+  }
 }
