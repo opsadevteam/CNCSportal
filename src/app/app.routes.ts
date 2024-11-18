@@ -12,15 +12,9 @@ import { UserManagementComponent } from "./components/Records/user-management/us
 
 export const routes: Routes = [
   {
-<<<<<<< HEAD
-    path: 'login',
-    redirectTo: 'login',
-    pathMatch: 'full',
-=======
-    path: "",
+    path: "login",
     redirectTo: "login",
     pathMatch: "full",
->>>>>>> cncs-module-laurence
   },
   {
     path: "login",
