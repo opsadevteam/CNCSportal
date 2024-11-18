@@ -1,57 +1,63 @@
-import { Routes } from '@angular/router';
-import { PhoneEntryFormComponent } from './components/EntryForms/phone-entry-form/phone-entry-form.component';
-import { LoginComponent } from './components/login/login.component';
-import { EmailEntryFormComponent } from './components/EntryForms/email-entry-form/email-entry-form.component';
-import { PhoneRecordsComponent } from './components/Records/phone-records/phone-records.component';
-import { EmailRecordsComponent } from './components/Records/email-records/email-records.component';
-import { UserManagementComponent } from './components/Records/user-management/user-management.component';
-import { ActivityLogsComponent } from './components/Records/activity-logs/activity-logs.component';
-import { WorkloadStatisticsComponent } from './components/Reports/workload-statistics/workload-statistics.component';
-import { SidenavComponent } from './components/sidenav/sidenav.component';
-import { authGuard } from './services/auth.guard';
+import { Routes } from "@angular/router";
+import { PhoneEntryFormComponent } from "./components/EntryForms/phone-entry-form/phone-entry-form.component";
+import { LoginComponent } from "./components/login/login.component";
+import { EmailEntryFormComponent } from "./components/EntryForms/email-entry-form/email-entry-form.component";
+import { PhoneRecordsComponent } from "./components/Records/phone-records/phone-records.component";
+import { EmailRecordsComponent } from "./components/Records/email-records/email-records.component";
+import { ActivityLogsComponent } from "./components/Records/activity-logs/activity-logs.component";
+import { WorkloadStatisticsComponent } from "./components/Reports/workload-statistics/workload-statistics.component";
+import { SidenavComponent } from "./components/sidenav/sidenav.component";
+import { authGuard } from "./services/auth.guard";
+import { UserManagementComponent } from "./components/Records/user-management/user-management.component";
 
 export const routes: Routes = [
   {
+<<<<<<< HEAD
     path: 'login',
     redirectTo: 'login',
     pathMatch: 'full',
+=======
+    path: "",
+    redirectTo: "login",
+    pathMatch: "full",
+>>>>>>> cncs-module-laurence
   },
   {
-    path: 'login',
+    path: "login",
     component: LoginComponent,
   },
 
   {
-    path: '',
+    path: "",
     component: SidenavComponent,
     canActivate: [authGuard],
     children: [
       {
-        path: 'phoneform',
+        path: "phoneform",
         component: PhoneEntryFormComponent,
       },
       {
-        path: 'emailform',
+        path: "emailform",
         component: EmailEntryFormComponent,
       },
       {
-        path: 'phonerecords',
+        path: "phonerecords",
         component: PhoneRecordsComponent,
       },
       {
-        path: 'emailrecords',
+        path: "emailrecords",
         component: EmailRecordsComponent,
       },
       {
-        path: 'usermanagement',
+        path: "usermanagement",
         component: UserManagementComponent,
       },
       {
-        path: 'activitylogs',
+        path: "activitylogs",
         component: ActivityLogsComponent,
       },
       {
-        path: 'workloadstatistics',
+        path: "workloadstatistics",
         component: WorkloadStatisticsComponent,
       },
     ],

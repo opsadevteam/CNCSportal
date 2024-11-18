@@ -1,0 +1,46 @@
+<div style="padding: 1rem">
+    <h4
+      mat-dialog-title
+      style="border-bottom: 1px solid rgba(120, 120, 128, 0.36)"
+    >
+      {{ data.action === "Add" ? "Add User" : "Edit User" }}
+    </h4>
+    <div class="form-field" style="margin: 1rem 1rem 0rem 1rem">
+      <label for="">Username</label>
+      <mat-form-field appearance="outline">
+        <input matInput />
+      </mat-form-field>
+      <label for="">Fullname</label>
+      <mat-form-field appearance="outline">
+        <input matInput />
+      </mat-form-field>
+      <label for="">Password</label>
+      <mat-form-field appearance="outline">
+        <input matInput [type]="hide() ? 'password' : 'text'" />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="clickEvent($event)"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide()"
+        >
+          <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+      </mat-form-field>
+      <label for="">User group</label>
+      <mat-form-field appearance="outline">
+        <mat-select>
+          <mat-option value="one">First option</mat-option>
+          <mat-option value="two">Second option</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  
+  <mat-dialog-actions style="gap: 4px">
+    <button mat-dialog-close cdkFocusInitial class="btn btn-confirm">
+      Confirm
+    </button>
+    <button mat-dialog-close class="btn btn-cancel">Cancel</button>
+  </mat-dialog-actions>
+  
