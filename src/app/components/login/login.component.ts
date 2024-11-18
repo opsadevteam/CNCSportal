@@ -10,11 +10,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
+    CommonModule,
     MatCardModule,
     MatIconModule,
     MatButtonModule,
@@ -28,7 +30,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup = new FormGroup({}); // Init
   hide: boolean = true;
   loginObj: any = {
-    email: '',
+    username: '',
     password: '',
   };
   constructor() {}
@@ -37,18 +39,18 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(6),
-      ]),
+      username: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
     });
   }
 
   onLogin() {
-    if (this.loginObj.email == 'admin' && this.loginObj.password == 'admin') {
+    if (
+      this.loginObj.username == 'admin' &&
+      this.loginObj.password == 'admin'
+    ) {
       this.router.navigateByUrl('/phoneform');
-      localStorage.setItem('empErpUser', this.loginObj.email);
+      localStorage.setItem('empErpUser', this.loginObj.username);
       //this.isLoading = false;
     } else {
       alert('Invalid Account!');

@@ -1,79 +1,83 @@
 <mat-sidenav-container>
-    <mat-sidenav opened mode="side" [style.width]="sideNavWith()">
-      <div class="sidenav-header">
-        <div (click)="collapsed.set(!collapsed())">
-          <mat-icon matListItemIcon>chevron_left</mat-icon>
-        </div>
-        <img
-          [width]="profilePicSize()"
-          [height]="profilePicSize()"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQathrq-9gMB7p7vlRZHMW_20kLCa21AKoODg&s"
-          alt=""
-        />
-        <div class="header-text" [class.hide-header-text]="collapsed()">
-          <h2>CNCS <small>v1.0.0</small></h2>
-        </div>
+  <mat-sidenav opened mode="side" [style.width]="sideNavWith()">
+    <div class="sidenav-header">
+      <div (click)="collapsed.set(!collapsed())">
+        <mat-icon matListItemIcon>chevron_left</mat-icon>
       </div>
-      <mat-nav-list>
-        <!-- Entry form header -->
+      <img
+        [width]="profilePicSize()"
+        [height]="profilePicSize()"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQathrq-9gMB7p7vlRZHMW_20kLCa21AKoODg&s"
+        alt=""
+      />
+      <div class="header-text" [class.hide-header-text]="collapsed()">
+        <h2>CNCS <small>v1.0.0</small></h2>
+      </div>
+    </div>
+    <mat-nav-list>
+      <!-- Entry form header -->
+      <span *ngIf="!collapsed()" matListItemTitle class="category-header"
+        >Entry Forms</span
+      >
+
+      <mat-list-item
+        *ngFor="let item of entryFormsMenuItems()"
+        [routerLink]="item.route"
+        routerLinkActive="selected-menu-item"
+      >
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span *ngIf="!collapsed()">{{ item.label }}</span>
+      </mat-list-item>
+
+      <!-- Records header -->
+      <span *ngIf="!collapsed()" matListItemTitle class="category-header"
+        >Records</span
+      >
+      <mat-list-item
+        *ngFor="let item of recordsMenuItems()"
+        [routerLink]="item.route"
+        routerLinkActive="selected-menu-item"
+      >
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span *ngIf="!collapsed()">{{ item.label }}</span>
+      </mat-list-item>
+      <!-- reports header -->
+      <span *ngIf="!collapsed()" matListItemTitle class="category-header"
+        >Reports</span
+      >
+      <mat-list-item
+        *ngFor="let item of reportsMenuItems()"
+        [routerLink]="item.route"
+        routerLinkActive="selected-menu-item"
+      >
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span *ngIf="!collapsed()">{{ item.label }}</span>
+      </mat-list-item>
+
+      <!-- Accounts header -->
+      <div class="accounts-header">
         <span *ngIf="!collapsed()" matListItemTitle class="category-header"
-          >Entry Forms</span
+          >Accounts</span
         >
-  
-        <mat-list-item
-          *ngFor="let item of entryFormsMenuItems()"
-          [routerLink]="item.route"
-          routerLinkActive="selected-menu-item"
-        >
-          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-          <span *ngIf="!collapsed()">{{ item.label }}</span>
-        </mat-list-item>
-  
-        <!-- Records header -->
-        <span *ngIf="!collapsed()" matListItemTitle class="category-header"
-          >Records</span
-        >
-        <mat-list-item
-          *ngFor="let item of recordsMenuItems()"
-          [routerLink]="item.route"
-          routerLinkActive="selected-menu-item"
-        >
-          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-          <span *ngIf="!collapsed()">{{ item.label }}</span>
-        </mat-list-item>
-        <!-- reports header -->
-        <span *ngIf="!collapsed()" matListItemTitle class="category-header"
-          >Reports</span
-        >
-        <mat-list-item
-          *ngFor="let item of reportsMenuItems()"
-          [routerLink]="item.route"
-          routerLinkActive="selected-menu-item"
-        >
-          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-          <span *ngIf="!collapsed()">{{ item.label }}</span>
-        </mat-list-item>
-  
-        <!-- Accounts header -->
-        <div class="accounts-header">
-          <span *ngIf="!collapsed()" matListItemTitle class="category-header"
-            >Accounts</span
-          >
-        </div>
-        <mat-list-item
-          *ngFor="let item of accountsMenuItems()"
-          [routerLink]="item.route"
-          routerLinkActive="selected-menu-item"
-        >
-          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-          <span *ngIf="!collapsed()">{{ item.label }}</span>
-        </mat-list-item>
-      </mat-nav-list>
-    </mat-sidenav>
-  
-    <mat-sidenav-content class="content" [style.margin-left]="sideNavWith()">
-      <!-- Outlet of Components -->
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-  
+      </div>
+      <mat-list-item
+        *ngFor="let item of accountsMenuItems()"
+        [routerLink]="item.route"
+        routerLinkActive="selected-menu-item"
+      >
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span *ngIf="!collapsed()">{{ item.label }}</span>
+      </mat-list-item>
+
+      <mat-list-item routerLinkActive="selected-menu-item" (click)="onLogOut()">
+        <mat-icon matListItemIcon>settings_power</mat-icon>
+        <span *ngIf="!collapsed()">Log Out</span>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="content" [style.margin-left]="sideNavWith()">
+    <!-- Outlet of Components -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
