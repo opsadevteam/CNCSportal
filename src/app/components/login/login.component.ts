@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     if (this.loginObj.email == 'admin' && this.loginObj.password == 'admin') {
-      this.router.navigateByUrl('/phoneform');
+      this.router.navigateByUrl('/home/phoneform');
       //localStorage.setItem('empErpUser', this.loginObj.email);
       //this.isLoading = false;
     } else {
