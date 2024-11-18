@@ -26,7 +26,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup = new FormGroup({}); // Init
-  hide: boolean = false;
+  hide: boolean = true;
   loginObj: any = {
     email: '',
     password: '',
@@ -47,8 +47,8 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     if (this.loginObj.email == 'admin' && this.loginObj.password == 'admin') {
-      this.router.navigateByUrl('/home/phoneform');
-      //localStorage.setItem('empErpUser', this.loginObj.email);
+      this.router.navigateByUrl('/phoneform');
+      localStorage.setItem('empErpUser', this.loginObj.email);
       //this.isLoading = false;
     } else {
       alert('Invalid Account!');

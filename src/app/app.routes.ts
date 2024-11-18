@@ -8,6 +8,7 @@ import { UserManagementComponent } from './components/Records/user-management/us
 import { ActivityLogsComponent } from './components/Records/activity-logs/activity-logs.component';
 import { WorkloadStatisticsComponent } from './components/Reports/workload-statistics/workload-statistics.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { authGuard } from './services/auth.guard';
 
 export const routes: Routes = [
   {
@@ -21,8 +22,9 @@ export const routes: Routes = [
   },
 
   {
-    path: 'home',
+    path: '',
     component: SidenavComponent,
+    canActivate: [authGuard],
     children: [
       {
         path: 'phoneform',
