@@ -12,6 +12,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { Constant } from '../../../constant/Constants';
 
 @Component({
   selector: 'app-email-entry-form',
@@ -31,6 +32,7 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrl: './email-entry-form.component.css',
 })
 export class EmailEntryFormComponent implements OnInit {
+  message = Constant.MESSAGES.EMAIL_ENTRY_FORM;
   emailEntryForm: FormGroup = new FormGroup({});
   emailEntryFormObj: any = {
     emailId: '',

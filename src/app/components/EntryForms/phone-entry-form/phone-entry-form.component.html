@@ -1,23 +1,14 @@
 <h1>Phone Entry Form</h1>
-<p>
-  This page is the phone entry form where all inbound and outbound calls are
-  looged. It helps track and document every phone interaction for efficient
-  record-keeping.
-</p>
-
-<mat-card style="margin-bottom: 4rem">
-  <mat-card-content style="margin: 2rem">
+<p>{{ message }}</p>
+<mat-card>
+  <mat-card-content>
     <form
       (ngSubmit)="onSubmit()"
       name="phoneEntryForm"
       [formGroup]="phoneEntryForm"
     >
       <mat-label>Phone ID: </mat-label><br /><br />
-      <mat-form-field
-        class="full-width"
-        appearance="outline"
-        style="padding: 0%"
-      >
+      <mat-form-field class="full-width" appearance="outline">
         <input
           formControlName="username"
           matInput
@@ -28,12 +19,11 @@
       </mat-form-field>
 
       <mat-label>Customer ID: </mat-label>
-      <mat-label style="margin-left: 52rem">Pick up Date:</mat-label>
-      <mat-label style="margin-left: 13rem">Take off Date:</mat-label>
+      <mat-label class="pickup-label">Pick up Date:</mat-label>
+      <mat-label class="takeoff-label">Take off Date:</mat-label>
       <br /><br />
       <mat-form-field class="half-width" appearance="outline">
         <input
-          style="color: #fff"
           formControlName="username"
           matInput
           placeholder="Please enter the customer ID"
@@ -41,21 +31,12 @@
           required
         />
       </mat-form-field>
-      <button
-        mat-mini-fab
-        style="
-          background-color: #2967c4;
-          color: #fff;
-          margin-left: 2em;
-          width: 8em;
-          height: 3em;
-        "
-      >
+      <button mat-mini-fab class="history-btn">
         <mat-icon>history </mat-icon>
         History
       </button>
 
-      <mat-form-field style="margin-left: 2em; margin-right: 2em">
+      <mat-form-field class="date-picker">
         <mat-label>Choose a date</mat-label>
         <input matInput [matDatepicker]="picker" />
         <mat-hint>MM/DD/YYYY</mat-hint>
@@ -66,7 +47,7 @@
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
-      <mat-form-field style="margin-left: 2em; margin-right: 2em">
+      <mat-form-field class="date-picker">
         <mat-label>Choose a date</mat-label>
         <input matInput [matDatepicker]="takeOff" />
         <mat-hint>MM/DD/YYYY</mat-hint>
@@ -125,30 +106,9 @@
           <mat-option value="">test3</mat-option>
         </mat-select>
       </mat-form-field>
-      <div style="text-align: right">
-        <button
-          style="
-            margin-right: 0.5rem;
-            background-color: rgb(15, 220, 15);
-            color: #fff;
-            width: 8em;
-            height: 3em;
-          "
-          mat-mini-fab
-        >
-          Submit
-        </button>
-        <button
-          style="
-            background-color: rgb(223, 42, 18);
-            color: #fff;
-            width: 8em;
-            height: 3em;
-          "
-          mat-mini-fab
-        >
-          Cancel
-        </button>
+      <div class="btn-container">
+        <button mat-mini-fab class="submit-btn">Submit</button>
+        <button mat-mini-fab class="cancel-btn">Cancel</button>
       </div>
     </form>
   </mat-card-content>
