@@ -1,11 +1,13 @@
-import { Component, 
-  ViewChild, 
+import {
+  Component,
+  ViewChild,
   Inject,
-  OnInit, 
-  ChangeDetectionStrategy, 
-  ChangeDetectorRef, 
+  OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   viewChild,
-  inject} from '@angular/core';
+  inject,
+} from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -58,7 +60,7 @@ interface Record {
     MatMenuModule,
     MatIconModule,
     MatCardHeader,
-    MatCardModule
+    MatCardModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './phone-records.component.html',
@@ -74,6 +76,11 @@ export class PhoneRecordsComponent implements OnInit {
   totalItems: number = 0;
   pageSize: number = 10;
   pageIndex: number = 0;
+  filterBy: string = '';
+  dateFrom: Date | null = null;
+  dateTo: Date | null = null;
+  hasSearched: boolean = false;
+  filteredData: any[] = [];
 
   displayedColumns: string[] = [
     'id',
@@ -86,7 +93,7 @@ export class PhoneRecordsComponent implements OnInit {
     'vendor',
     'description',
     'dateAdded',
-    'actionColumn'
+    'actionColumn',
   ];
 
   dataSource = new MatTableDataSource<Record>();
@@ -140,6 +147,18 @@ export class PhoneRecordsComponent implements OnInit {
       description: 'FD - Virtual Deposit',
       dateAdded: new Date('2024-11-15'),
     },
+    {
+      id: '000009',
+      status: 'PENDING',
+      emailId: 'JXF2024112004',
+      customerId: 'Sample111',
+      repliedBy: 'CS BurstFade',
+      receivedDate: new Date('2024-11-08'),
+      sendingDate: new Date('2024-11-06'),
+      vendor: 'VENDOR 05',
+      description: 'FD - Virtual Deposit',
+      dateAdded: new Date('2024-11-18'),
+    },
   ];
 
   constructor(private cdRef: ChangeDetectorRef) {}
@@ -157,14 +176,28 @@ export class PhoneRecordsComponent implements OnInit {
 
   filterSearch() {
     this.filteredRecords = this.records.filter((record) => {
-      const term = this.searchTerm.toLowerCase();
-      return (
+      const term = this.searchTerm ? this.searchTerm.toLowerCase() : '';
+      const matchesSearch =
         record.emailId.toLowerCase().includes(term) ||
         record.repliedBy.toLowerCase().includes(term) ||
         record.customerId.toLowerCase().includes(term) ||
-        record.status.toLowerCase().includes(term)
-      );
+        record.status.toLowerCase().includes(term);
+
+      const dateAdded = new Date(record.dateAdded);
+      const from = this.dateFrom ? new Date(this.dateFrom) : null;
+      const to = this.dateTo ? new Date(this.dateTo) : null;
+
+      // Adjust the 'to' date to include the full day
+      if (to) {
+        to.setHours(23, 59, 59, 999);
+      }
+
+      const matchesDate =
+        (!from || dateAdded >= from) && (!to || dateAdded <= to);
+
+      return matchesSearch && matchesDate; // Combine both filters
     });
+
     this.totalItems = this.filteredRecords.length;
 
     // Apply pagination after filtering
@@ -200,18 +233,11 @@ export class PhoneRecordsComponent implements OnInit {
     this.filterSearch();
   }
 
-  showLogs(action: string): void {   
+  showLogs(action: string): void {}
 
-  }; 
+  showEdit(action: string): void {}
 
-  showEdit(action: string): void {   
-
-  }; 
-  
-  
-  showDelete(action: string): void  {   
-    
-  };
+  showDelete(action: string): void {}
 
   filteredRecords: Record[] = [];
 }
