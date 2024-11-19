@@ -1,15 +1,24 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { PhoneEntryFormComponent } from '../EntryForms/phone-entry-form/phone-entry-form.component';
 import { CommonModule } from '@angular/common';
 import {
+  AccountsMenuItemData,
+  EntryFormsMenuItemData,
   IAccountsMenuItem,
   IEntryFormsMenuItem,
   IRecordsMenuItem,
   IReportsMenuItem,
+  RecordsMenuItemData,
+  ReportsMenuItemData,
 } from '../../Models/interface/sidenav.model';
 
 @Component({
@@ -22,69 +31,18 @@ import {
     MatSidenavModule,
     MatListModule,
     MatIconModule,
-    PhoneEntryFormComponent,
     CommonModule,
   ],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.css',
 })
 export class SidenavComponent {
-
   router = inject(Router);
 
-  entryFormsMenuItems = signal<IEntryFormsMenuItem[]>([
-    {
-      icon: 'phone',
-      label: 'Phone',
-      route: 'phoneform',
-    },
-    {
-      icon: 'email',
-      label: 'Email',
-      route: 'emailform',
-    },
-  ]);
-
-  recordsMenuItems = signal<IRecordsMenuItem[]>([
-    {
-      icon: 'view_list',
-      label: 'Phone Records',
-      route: 'phonerecords',
-    },
-    {
-      icon: 'view_list',
-      label: 'Email Records',
-      route: 'emailrecords',
-    },
-    {
-      icon: 'face',
-      label: 'User Mangement',
-      route: 'usermanagement',
-    },
-    {
-      icon: 'tune',
-      label: 'Activity Logs',
-      route: 'activitylogs',
-    },
-  ]);
-
-  reportsMenuItems = signal<IReportsMenuItem[]>([
-    {
-      icon: 'poll',
-      label: 'Workload Statistics',
-      route: 'workloadstatistics',
-    },
-  ]);
-
-  accountsMenuItems = signal<IAccountsMenuItem[]>([
-    {
-      icon: 'brightness_high',
-      label: 'Light Mode',
-      route: 'workloadstatistics',
-    },
-  ]);
-
-
+  entryFormsMenuItems = signal<IEntryFormsMenuItem[]>(EntryFormsMenuItemData);
+  recordsMenuItems = signal<IRecordsMenuItem[]>(RecordsMenuItemData);
+  reportsMenuItems = signal<IReportsMenuItem[]>(ReportsMenuItemData);
+  accountsMenuItems = signal<IAccountsMenuItem[]>(AccountsMenuItemData);
 
   collapsed = signal(false);
 
