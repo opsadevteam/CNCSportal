@@ -197,11 +197,16 @@ export class PhoneRecordsComponent implements OnInit {
     this.filterSearch();
   }
 
-  openDialog(action: string): void {   
+  showLogs(action: string): void {   
+
+  }; 
+
+  showEdit(action: string): void {   
 
   }; 
   
-  showDeleteActionDialog()  {   
+  
+  showDelete(action: string): void  {   
     
   };
 

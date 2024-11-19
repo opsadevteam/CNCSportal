@@ -8,7 +8,7 @@
 
     <!-- Search and Filter Section -->
     <div class="filter-bar">
-      <mat-form-field appearance="fill" class="filter-input">
+      <mat-form-field appearance="outline" class="filter-input">
         <mat-label>Search</mat-label>
         <input
           matInput
@@ -18,7 +18,7 @@
         />
       </mat-form-field>
 
-      <mat-form-field appearance="fill" class="filter-select">
+      <mat-form-field appearance="outline" class="filter-select">
         <mat-label>Filter by</mat-label>
         <mat-select>
           <mat-option value="customerId">Customer ID</mat-option>
@@ -26,7 +26,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" class="filter-date">
+      <mat-form-field appearance="outline" class="filter-date">
         <mat-label>Date From</mat-label>
         <input matInput [matDatepicker]="picker1" />
         <mat-datepicker-toggle
@@ -36,7 +36,7 @@
         <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" class="filter-date">
+      <mat-form-field appearance="outline" class="filter-date">
         <mat-label>Date To</mat-label>
         <input matInput [matDatepicker]="picker2" />
         <mat-datepicker-toggle
@@ -52,7 +52,7 @@
     </div>
 
     <!-- Data Table -->
-    <table
+    <mat-table
       mat-table
       [dataSource]="dataSource"
       class="mat-elevation-z8 rounded-table"
@@ -60,13 +60,27 @@
     >
       <!-- ID Column -->
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="center-header"
+        >
+          ID
+        </th>
         <td mat-cell *matCellDef="let element">{{ element.id }}</td>
       </ng-container>
 
       <!-- Status Column -->
       <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="center-header"
+        >
+          Status
+        </th>
         <td
           mat-cell
           *matCellDef="let element"
@@ -78,61 +92,144 @@
 
       <!-- Email ID Column -->
       <ng-container matColumnDef="emailId">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email ID</th>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="center-header"
+        >
+          Email ID
+        </th>
         <td mat-cell *matCellDef="let element">{{ element.emailId }}</td>
       </ng-container>
 
       <!-- Customer ID Column -->
       <ng-container matColumnDef="customerId">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer ID</th>
-        <td mat-cell *matCellDef="let element">{{ element.customerid }}</td>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="center-header"
+        >
+          Customer ID
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.customerId }}</td>
       </ng-container>
 
       <!-- Customer Replied By Column -->
       <ng-container matColumnDef="repliedBy">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Replied By</th>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="center-header"
+        >
+          Replied By
+        </th>
         <td mat-cell *matCellDef="let element">{{ element.repliedBy }}</td>
       </ng-container>
 
       <!-- Customer Received Date Column -->
       <ng-container matColumnDef="receivedDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Received Date</th>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="center-header"
+        >
+          Received Date
+        </th>
         <td mat-cell *matCellDef="let element">{{ element.receivedDate }}</td>
       </ng-container>
 
       <!-- Customer Sending Date Column -->
       <ng-container matColumnDef="sendingDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Sending Date</th>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="center-header"
+        >
+          Sending Date
+        </th>
         <td mat-cell *matCellDef="let element">{{ element.sendingDate }}</td>
       </ng-container>
-      
+
       <!-- Customer Vendor Column -->
       <ng-container matColumnDef="vendor">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Vendor</th>
-        <td mat-cell *matCellDef="let element">{{ element.vendorCol }}</td>
-      </ng-container> 
-      
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="center-header"
+        >
+          Vendor
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.vendor }}</td>
+      </ng-container>
+
       <!-- Customer Description Column -->
       <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
-        <td mat-cell *matCellDef="let element">{{ element.descriptionColumn }}</td>
-      </ng-container>  
-      
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="center-header"
+        >
+          Description
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+      </ng-container>
+
       <!-- Customer Date Added Column -->
       <ng-container matColumnDef="dateAdded">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date Added</th>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="center-header"
+        >
+          Date Added
+        </th>
         <td mat-cell *matCellDef="let element">{{ element.dateAdded }}</td>
-      </ng-container> 
-      
-      <!-- Customer Action  Column -->
+      </ng-container>
+
+      <!-- Customer Action Column -->
       <ng-container matColumnDef="actionColumn">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
-        <td mat-cell *matCellDef="let element">{{ element.actionCell }}</td>
+        <th mat-header-cell *matHeaderCellDef class="center-header">Action</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="example-button-row">
+            <div class="example-flex-container">
+              <button
+                mat-icon-button
+                aria-label=""
+                [matMenuTriggerFor]="menu"
+                #menuTrigger
+              >
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="showLogs('logsAction')">
+                  <mat-icon>visibility</mat-icon>
+                  Show Logs
+                </button>
+                <button mat-menu-item (click)="showEdit('editAction')">
+                  <mat-icon>edit</mat-icon>
+                  Edit
+                </button>
+                <button mat-menu-item (click)="showDelete('deleteAction')">
+                  <mat-icon>delete</mat-icon>
+                  Delete
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+    </mat-table>
 
     <!-- Pagination -->
     <mat-paginator
