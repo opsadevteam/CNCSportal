@@ -86,7 +86,29 @@
           *matCellDef="let element"
           [ngClass]="'status-' + element.status.toLowerCase()"
         >
-          {{ element.status }}
+          <div
+            class="badge"
+            [style.background]="
+              element.status === 'CLOSED'
+                ? 'rgba(240, 52, 45, 0.15)'
+                : element.status === 'PENDING'
+                ? 'rgba(255, 159, 10, 0.15)'
+                : element.status === 'PROCESSING'
+                ? 'rgba(28, 195, 62, 0.15)'
+                : 'rgba(116, 116, 128, 0.15)'
+            "
+            [style.color]="
+              element.status === 'CLOSED'
+                ? '#F0352D'
+                : element.status === 'PENDING'
+                ? '#FF9F0A'
+                : element.status === 'PROCESSING'
+                ? '#1CC33E'
+                : '#747480'
+            "
+          >
+            {{ element.status | uppercase }}
+          </div>
         </td>
       </ng-container>
 
