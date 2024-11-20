@@ -25,6 +25,7 @@ import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { MatCardHeader, MatCardModule } from '@angular/material/card';
+import { DialogboxComponent } from '../../Dialogbox/logs-dialog/dialogbox.component';
 
 interface Record {
   id: string;
@@ -61,6 +62,7 @@ interface Record {
     MatIconModule,
     MatCardHeader,
     MatCardModule,
+    DialogboxComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './phone-records.component.html',
@@ -81,6 +83,7 @@ export class PhoneRecordsComponent implements OnInit {
   dateTo: Date | null = null;
   hasSearched: boolean = false;
   filteredData: any[] = [];
+  emailStringParams: string = "Phone"
 
   displayedColumns: string[] = [
     'id',
@@ -233,7 +236,59 @@ export class PhoneRecordsComponent implements OnInit {
     this.filterSearch();
   }
 
-  showLogs(action: string): void {}
+  showLogs(action: string): void {
+    const logData = [
+      {
+        id: '001234',
+        action: 'INSERT',
+        status: 'PENDING',
+        emailId: 'JXF2024112001',
+        customerId: 'Sample123',
+        repliedBy: 'CS Mamamo',
+        receivedDate: new Date('2024-11-08'),
+        sendingDate: new Date('2024-11-06'),
+        vendor: 'VENDOR 05',
+        description: 'FD - Virtual Deposit',
+        dateAdded: new Date('2024-11-18'),
+      },
+      {
+        id: '001235',
+        action: 'UPDATE',
+        status: 'PROCESSING',
+        emailId: 'JXF2024112001',
+        customerId: 'Sample123',
+        repliedBy: 'CS Mamamo',
+        receivedDate: new Date('2024-11-08'),
+        sendingDate: new Date('2024-11-06'),
+        vendor: 'VENDOR 05',
+        description: 'FD - Virtual Deposit',
+        dateAdded: new Date('2024-11-18'),
+      },
+      {
+        id: '001236',
+        action: 'DELETE',
+        status: 'CLOSED',
+        emailId: 'JXF2024112001',
+        customerId: 'Sample123',
+        repliedBy: 'CS Mamamo',
+        receivedDate: new Date('2024-11-08'),
+        sendingDate: new Date('2024-11-06'),
+        vendor: 'VENDOR 06',
+        description: 'FD - Virtual Deposit',
+        dateAdded: new Date('2024-11-18'),
+      },
+    ];
+ 
+    this.dialog.open(DialogboxComponent, {
+      width: '90vw',
+      maxWidth: '100vw',
+      data: { 
+        logs: logData, 
+        emailStringParams: this.emailStringParams
+      },
+    });
+    
+  }
 
   showEdit(action: string): void {}
 
