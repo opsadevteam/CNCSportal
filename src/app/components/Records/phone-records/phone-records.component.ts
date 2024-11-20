@@ -62,7 +62,7 @@ interface Record {
     MatIconModule,
     MatCardHeader,
     MatCardModule,
-    DialogboxComponent
+    DialogboxComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './phone-records.component.html',
@@ -83,7 +83,7 @@ export class PhoneRecordsComponent implements OnInit {
   dateTo: Date | null = null;
   hasSearched: boolean = false;
   filteredData: any[] = [];
-  emailStringParams: string = "Phone"
+  emailStringParams: string = 'Phone';
 
   displayedColumns: string[] = [
     'id',
@@ -278,16 +278,15 @@ export class PhoneRecordsComponent implements OnInit {
         dateAdded: new Date('2024-11-18'),
       },
     ];
- 
+
     this.dialog.open(DialogboxComponent, {
       width: '90vw',
       maxWidth: '100vw',
-      data: { 
-        logs: logData, 
-        emailStringParams: this.emailStringParams
+      data: {
+        logs: logData,
+        emailStringParams: this.emailStringParams,
       },
     });
-    
   }
 
   showEdit(action: string): void {}
