@@ -15,8 +15,7 @@ export class TransactionService {
     obj: IPhoneEntryFormTransaction
   ): Observable<IPhoneEntryFormTransaction> {
     return this.http.post<IPhoneEntryFormTransaction>(
-      environment.API_LOCAL_EMPLOYEE_URL +
-        Constant.API_METHOD.CREATE_TRANSACTION,
+      environment.API_LOCAL_CNCS_URL + Constant.API_METHOD.CREATE_TRANSACTION,
       obj
     );
   }

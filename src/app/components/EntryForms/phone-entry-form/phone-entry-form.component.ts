@@ -17,7 +17,6 @@ import { Constant } from '../../../constant/Constants';
 import { IPhoneEntryFormTransaction } from '../../../Models/interface/phoneEntryForm.model';
 import { TransactionService } from '../../../services/transaction.service';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-phone-entry-form',
@@ -70,7 +69,7 @@ export class PhoneEntryFormComponent implements OnInit {
     let myTransactionType = 'Phone';
     let myLogId = 'JXFP20241120005';
     //JXF20241120WEH653
-    //xxxzhueng332
+    //xxxzhueng00
     let mockTransaction: IPhoneEntryFormTransaction = {
       transactionId: this.phoneEntryForm.value.phoneId,
       customerId: this.phoneEntryForm.value.customerId,
@@ -89,9 +88,7 @@ export class PhoneEntryFormComponent implements OnInit {
       logId: myLogId,
       isDeleted: false,
     };
-
     console.log(mockTransaction);
-
     const isSave = confirm('Confirmaton for Saving data');
     if (isSave) {
       this.transactionService
