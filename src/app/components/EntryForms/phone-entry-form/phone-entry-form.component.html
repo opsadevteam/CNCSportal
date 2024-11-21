@@ -101,9 +101,11 @@
           formControlName="repliedBy"
           placeholder="Choose from dropdown"
         >
-          <mat-option *ngFor="let item of userAccountList" [value]="item.fullName">{{
-            item.fullName
-          }}</mat-option>
+          <mat-option
+            *ngFor="let item of userAccountList"
+            [value]="item.fullName"
+            >{{ item.fullName }}</mat-option
+          >
         </mat-select>
       </mat-form-field>
       <mat-label>Status: </mat-label><br /><br />

@@ -54,10 +54,18 @@ export class PhoneEntryFormComponent implements OnInit {
   productVendorList: IProductVendor[] = [];
   descriptionList: IDescription[] = [];
   userAccountList: IUserAccount[] = [];
+  router: any;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
+    this.initForm();
+    this.getAllProductVendors();
+    this.getAllDescriptions();
+    this.getAllUserAccounts();
+  }
+
+  initForm() {
     this.phoneEntryForm = this.fb.group({
       phoneId: ['', [Validators.required]],
       customerId: ['', [Validators.required]],
@@ -69,10 +77,6 @@ export class PhoneEntryFormComponent implements OnInit {
       repliedBy: ['', [Validators.required]],
       status: ['', [Validators.required]],
     });
-
-    this.getAllProductVendors();
-    this.getAllDescriptions();
-    this.getAllUserAccounts();
   }
 
   getAllProductVendors() {
@@ -125,11 +129,14 @@ export class PhoneEntryFormComponent implements OnInit {
       isDeleted: false,
     };
     console.log(mockTransaction);
-    const isSave = confirm('Confirmaton for Saving data');
+    const isSave = confirm(
+      'Confirmaton for Saving Phone Entry Form Transaction'
+    );
     if (isSave) {
       this.transactionService.addTransaction(mockTransaction).subscribe(
         (res: IPhoneEntryFormTransaction) => {
           alert('Create Transaction Success!');
+          this.initForm();
         },
         (error) => {
           alert('Something Went wrong in Transaction!');

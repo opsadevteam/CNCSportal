@@ -54,6 +54,11 @@ mat-card-header {
   height: 3em;
 }
 
+.submit-btn:disabled {
+  background-color: #343434;
+  color: #5e686f;
+}
+
 .cancel-btn {
   background-color: rgb(223, 42, 18);
   color: #fff;
