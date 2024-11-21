@@ -14,9 +14,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Constant } from '../../../constant/Constants';
-import { IPhoneEntryFormTransaction } from '../../../Models/interface/phoneEntryForm.model';
+import {
+  IDescription,
+  IPhoneEntryFormTransaction,
+  IProductVendor,
+  IUserAccount,
+} from '../../../Models/interface/phoneEntryForm.model';
 import { TransactionService } from '../../../services/transaction.service';
 import { CommonModule } from '@angular/common';
+import { ProductVendorService } from '../../../services/product-vendor.service';
+import { DescriptionService } from '../../../services/description.service';
+import { UserAccountService } from '../../../services/user-account.service';
 
 @Component({
   selector: 'app-phone-entry-form',
@@ -40,6 +48,12 @@ export class PhoneEntryFormComponent implements OnInit {
   message = Constant.MESSAGES.PHONE_ENTRY_FORM;
   phoneEntryForm: FormGroup = new FormGroup({});
   transactionService = inject(TransactionService);
+  productVendorService = inject(ProductVendorService);
+  descrptionService = inject(DescriptionService);
+  userAccountService = inject(UserAccountService);
+  productVendorList: IProductVendor[] = [];
+  descriptionList: IDescription[] = [];
+  userAccountList: IUserAccount[] = [];
 
   constructor(private fb: FormBuilder) {}
 
@@ -55,6 +69,28 @@ export class PhoneEntryFormComponent implements OnInit {
       repliedBy: ['', [Validators.required]],
       status: ['', [Validators.required]],
     });
+
+    this.getAllProductVendors();
+    this.getAllDescriptions();
+    this.getAllUserAccounts();
+  }
+
+  getAllProductVendors() {
+    this.productVendorService.getAllProductVendors().subscribe((res: any) => {
+      this.productVendorList = res;
+    });
+  }
+
+  getAllDescriptions() {
+    this.descrptionService.getAllDescriptions().subscribe((res: any) => {
+      this.descriptionList = res;
+    });
+  }
+
+  getAllUserAccounts() {
+    this.userAccountService.getAllUserAccounts().subscribe((res: any) => {
+      this.userAccountList = res;
+    });
   }
 
   onSubmit() {
@@ -68,18 +104,18 @@ export class PhoneEntryFormComponent implements OnInit {
     let myShift = 'Morning';
     let myTransactionType = 'Phone';
     let myLogId = 'JXFP20241120005';
-    //JXF20241120WEH653
-    //xxxzhueng00
+    //JXF20241120WEH10
+    //xxxzhueng10
     let mockTransaction: IPhoneEntryFormTransaction = {
       transactionId: this.phoneEntryForm.value.phoneId,
       customerId: this.phoneEntryForm.value.customerId,
       pickUpDate: this.phoneEntryForm.value.pickUpDate,
       takeOffDate: this.phoneEntryForm.value.takeOffDate,
       duration: myDays,
-      productVenderId: parseInt(this.phoneEntryForm.value.productVendor),
+      productVendorId: parseInt(this.phoneEntryForm.value.productVendor),
       descriptionId: parseInt(this.phoneEntryForm.value.description),
       remark: this.phoneEntryForm.value.remark,
-      repliedBy: this.phoneEntryForm.value.description,
+      repliedBy: this.phoneEntryForm.value.repliedBy,
       status: this.phoneEntryForm.value.status,
       addedBy: myUserNow,
       dateAdded: myDateNow,
@@ -91,11 +127,14 @@ export class PhoneEntryFormComponent implements OnInit {
     console.log(mockTransaction);
     const isSave = confirm('Confirmaton for Saving data');
     if (isSave) {
-      this.transactionService
-        .addTransaction(mockTransaction)
-        .subscribe((res: any) => {
+      this.transactionService.addTransaction(mockTransaction).subscribe(
+        (res: IPhoneEntryFormTransaction) => {
           alert('Create Transaction Success!');
-        });
+        },
+        (error) => {
+          alert('Something Went wrong in Transaction!');
+        }
+      );
     }
   }
 }

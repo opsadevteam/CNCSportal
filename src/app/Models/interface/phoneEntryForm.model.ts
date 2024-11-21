@@ -4,7 +4,7 @@ export interface IPhoneEntryFormTransaction {
   pickUpDate: string;
   takeOffDate: string;
   duration: number;
-  productVenderId: number;
+  productVendorId: number;
   descriptionId: number;
   remark: string;
   repliedBy: string;
@@ -15,4 +15,36 @@ export interface IPhoneEntryFormTransaction {
   transactionType: string;
   logId: string;
   isDeleted: false;
+}
+
+export interface IProductVendor {
+  id: number;
+  productVendor: string;
+  addedBy: string;
+  dateAdded: string;
+  isDeleted: false;
+  logId: string;
+}
+
+export interface IDescription {
+  id: number;
+  productVendorId: string;
+  description: string;
+  addedBy: string;
+  dateAdded: string;
+  isDeleted: false;
+  logId: string;
+}
+
+export interface IUserAccount {
+  id: number;
+  fullName: string;
+  username: string;
+  password: string;
+  userGroup: string;
+  status: false;
+  addedBy: string;
+  dateAdded: string;
+  isDeleted: false;
+  logId: string;
 }

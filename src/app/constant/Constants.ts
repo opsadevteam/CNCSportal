@@ -1,7 +1,16 @@
 //sample
 export const Constant = {
-  API_METHOD: {
+  API_TRANSACTIONS_METHOD: {
     CREATE_TRANSACTION: 'Transaction',
+  },
+  API_PRODUCT_VENDOR_METHOD: {
+    GET_ALL_PRODUCT_VENDORS: 'ProductVendor',
+  },
+  API_DESCRIPTION_METHOD: {
+    GET_ALL_DESCRIPTIONS: 'Description',
+  },
+  API_USER_ACCOUNT_METHOD: {
+    GET_ALL_USER_ACCOUNT: 'UserAccount',
   },
 
   MESSAGES: {

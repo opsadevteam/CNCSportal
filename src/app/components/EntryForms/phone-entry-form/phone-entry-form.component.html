@@ -62,9 +62,11 @@
           formControlName="productVendor"
           placeholder="Choose a description"
         >
-          <mat-option value="1">test1</mat-option>
-          <mat-option value="2">test2</mat-option>
-          <mat-option value="3">test3</mat-option>
+          <mat-option
+            *ngFor="let item of productVendorList"
+            [value]="item.id"
+            >{{ item.productVendor }}</mat-option
+          >
         </mat-select>
       </mat-form-field>
       <mat-label>Description: </mat-label><br /><br />
@@ -74,9 +76,9 @@
           formControlName="description"
           placeholder="Choose a description"
         >
-          <mat-option value="1">test1</mat-option>
-          <mat-option value="2">test2</mat-option>
-          <mat-option value="3">test3</mat-option>
+          <mat-option *ngFor="let item of descriptionList" [value]="item.id">{{
+            item.description
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Remark: </mat-label><br /><br />
@@ -99,9 +101,9 @@
           formControlName="repliedBy"
           placeholder="Choose from dropdown"
         >
-          <mat-option value="1">test1</mat-option>
-          <mat-option value="2">test2</mat-option>
-          <mat-option value="3">test3</mat-option>
+          <mat-option *ngFor="let item of userAccountList" [value]="item.fullName">{{
+            item.fullName
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Status: </mat-label><br /><br />
@@ -111,9 +113,9 @@
           formControlName="status"
           placeholder="Choose a status"
         >
-          <mat-option value="1">test1</mat-option>
-          <mat-option value="2">test2</mat-option>
-          <mat-option value="3">test3</mat-option>
+          <mat-option value="Processing">Processing</mat-option>
+          <mat-option value="Pending">Pending</mat-option>
+          <mat-option value="Closed">Closed</mat-option>
         </mat-select>
       </mat-form-field>
       <div class="btn-container">
