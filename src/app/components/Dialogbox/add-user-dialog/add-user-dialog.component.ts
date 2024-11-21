@@ -90,8 +90,8 @@ export class AddUserDialogComponent {
    * @param event The mouse event triggered by the user.
    */
   togglePasswordVisibility(event: MouseEvent): void {
+    event.stopPropagation(); // Stop event bubbling
     this.hide.set(!this.hide());
-    event.stopPropagation();
   }
 
   /**
@@ -163,17 +163,9 @@ export class AddUserDialogComponent {
     this.dialogRef.afterClosed().subscribe(() => {
       if (this.action === 'Add') {
         alert('User successfully added');
-      } else {
+      } else if (this.action === 'Edit') {
         alert('User successfully updated');
       }
     });
-  }
-
-  /**
-   * hide modal
-   */
-  clickEvent(event: MouseEvent) {
-    this.hide.set(!this.hide());
-    event.stopPropagation();
   }
 }

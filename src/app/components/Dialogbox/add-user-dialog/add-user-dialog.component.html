@@ -7,68 +7,63 @@
   </h4>
 
   <form [formGroup]="userForm" (ngSubmit)="upsert()" style="margin: 1rem">
-    <!-- Username Field -->
+    <!-- Username -->
+    <label>Username</label>
     <mat-form-field appearance="outline">
-      <mat-label>Username</mat-label>
       <input matInput formControlName="username" />
-      <!-- error: required -->
-      @if (userForm.get('username')?.hasError('required')) {
+      @if (userForm.get('username')?.hasError('required')){
       <mat-error> Username is required. </mat-error>
-      }
-      <!-- error: minlength -->
-      @if (userForm.get('username')?.hasError('minlength')) {
-      <mat-error> Username must be at least 3 characters. </mat-error>
       }
     </mat-form-field>
 
-    <!-- Fullname Field -->
+    <!-- Fullname -->
+    <label>Fullname</label>
     <mat-form-field appearance="outline">
-      <mat-label>Full Name</mat-label>
       <input matInput formControlName="fullName" />
-      <!-- error: required -->
       @if (userForm.get('fullName')?.hasError('required')) {
       <mat-error> Full name is required. </mat-error>
       }
     </mat-form-field>
 
-    <!-- Password Field -->
+    <!-- Password -->
+    <label>Password</label>
     <mat-form-field appearance="outline">
-      <mat-label>Password</mat-label>
       <input
         matInput
         [type]="hide() ? 'password' : 'text'"
         formControlName="password"
       />
-      <button mat-icon-button matSuffix (click)="clickEvent($event)">
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="togglePasswordVisibility($event)"
+      >
         <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
       </button>
-      <!-- error: required -->
+
       @if (userForm.get('password')?.hasError('required')) {
       <mat-error> Password is required. </mat-error>
-      <!-- error: minlength -->
-      } @if (userForm.get('password')?.hasError('minlength')){
-      <mat-error> Password must be at least 6 characters. </mat-error>
       }
     </mat-form-field>
 
     <!-- User Group Dropdown -->
+    <label>Usergroup</label>
     <mat-form-field appearance="outline">
-      <mat-label>User Group</mat-label>
       <mat-select formControlName="userGroup">
         <mat-option value="Admin">Admin</mat-option>
         <mat-option value="Leader">Leader</mat-option>
         <mat-option value="Officer">Officer</mat-option>
       </mat-select>
-      <!-- error: required -->
       @if(userForm.get('userGroup')?.hasError('required')) {
       <mat-error> User group is required. </mat-error>
       }
     </mat-form-field>
 
-    <!-- Actions -->
-    <mat-dialog-actions style="justify-content: flex-end; gap: 8px">
+    <!-- Actions buttons -->
+    <mat-dialog-actions>
       <button color="primary" class="btn btn-confirm" type="submit">
-        Confirm
+        {{ action === "Add" ? "Confirm" : "Update" }}
       </button>
       <button mat-dialog-close class="btn btn-cancel">Cancel</button>
     </mat-dialog-actions>
