@@ -5,8 +5,5 @@ export interface UserAccountModel {
   password: string;
   userGroup: string;
   status: string;
-  addedBy: string;
   dateAdded: string;
-  isDeleted: boolean;
-  logId: string;
 }

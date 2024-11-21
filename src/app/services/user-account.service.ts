@@ -1,13 +1,22 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { inject, Injectable } from "@angular/core";
+import { environment } from "../../environments/environment.development";
+import { UserAccountModel } from "../Models/interface/user-account.model";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class UserAccountService {
-
   private http = inject(HttpClient);
-  baseUrl = environment.apiUrl;
-  
-  constructor() { }
+  baseUrl = environment.API_LOCAL_EMPLOYEE_URL;
+
+  constructor() {}
+
+  getUsers() {
+    return this.http.get<UserAccountModel[]>(this.baseUrl + "useraccount");
+  }
+
+  getUser(id: number) {
+    return this.http.get<UserAccountModel>(this.baseUrl + `useraccount/${id}`);
+  }
 }
