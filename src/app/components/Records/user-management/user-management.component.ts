@@ -40,8 +40,6 @@ import { UserAccountModel } from "../../../Models/interface/user-account.model";
     MatIconModule,
     MatDividerModule,
     MatMenuModule,
-    AddUserDialogComponent,
-    DeleteDialogComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./user-management.component.html",
@@ -67,6 +65,8 @@ export class UserManagementComponent implements OnInit {
     "status",
     "action",
   ];
+
+  // "fullname",
   dataSource = new MatTableDataSource<UserAccountModel>(this.users);
 
   ngOnInit(): void {
@@ -87,9 +87,10 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
-  openDialog(action: string): void {
+  openDialog(action: string, user?: UserAccountModel): void {
+    console.log("User data:", user); // Verify user data
     this.dialog.open(AddUserDialogComponent, {
-      data: { action }, // Pass the action as data to the dialog
+      data: { action, user }, // Pass the action and user as data to the dialog
       width: "750px",
     });
   }
