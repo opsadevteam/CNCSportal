@@ -11,6 +11,7 @@ import {
   MatDialogClose,
   MatDialogTitle,
   MAT_DIALOG_DATA,
+  MatDialogRef, // Import MatDialogRef
 } from "@angular/material/dialog";
 import { MatSelectModule } from "@angular/material/select";
 import { MatInputModule } from "@angular/material/input";
@@ -54,7 +55,8 @@ export class AddUserDialogComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<AddUserDialogComponent>
   ) {
     this.action = data.action;
 
@@ -69,8 +71,8 @@ export class AddUserDialogComponent {
         [Validators.required, Validators.minLength(6)],
       ],
       userGroup: [data.user?.userGroup || "", Validators.required],
-      status: ["Active"], // Default to "active"
-      dateAdded: [new Date()], // Replace "xxx" with the actual user or value
+      status: ["Active"],
+      dateAdded: [new Date()],
       addedBy: "Admin",
     });
   }
@@ -80,16 +82,17 @@ export class AddUserDialogComponent {
     event.stopPropagation();
   }
 
+  //update or insert data
   upsert(): void {
     if (this.userForm.valid) {
       const userData = this.userForm.value;
 
       if (this.action === "Edit") {
         console.log("User updated:", userData);
-        // Implement update logic here
       } else if (this.action === "Add") {
         this.accountService.addUser(userData).subscribe({
           next: () => {
+            this.closeModalAndShowAlert();
             this.router.navigateByUrl("usermanagement");
           },
           error: (error) => {
@@ -102,7 +105,14 @@ export class AddUserDialogComponent {
       }
     } else {
       console.log("Form is invalid", this.userForm.errors);
-      this.userForm.markAllAsTouched(); // Highlight all invalid fields
+      this.userForm.markAllAsTouched();
     }
+  }
+
+  closeModalAndShowAlert(): void {
+    this.dialogRef.close(); // Close the modal
+    this.dialogRef.afterClosed().subscribe(() => {
+      alert("User successfully added"); // Show the alert after the modal has been closed
+    });
   }
 }
