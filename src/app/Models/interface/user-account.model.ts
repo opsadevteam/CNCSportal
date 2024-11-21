@@ -5,5 +5,6 @@ export interface UserAccountModel {
   password: string;
   userGroup: string;
   status: string;
-  dateAdded: string;
+  dateAdded: Date;
+  addedBy: string;
 }

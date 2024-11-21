@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Inject,
-  input,
   signal,
 } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
@@ -10,15 +10,20 @@ import {
   MatDialogActions,
   MatDialogClose,
   MatDialogTitle,
+  MAT_DIALOG_DATA,
 } from "@angular/material/dialog";
 import { MatSelectModule } from "@angular/material/select";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIcon } from "@angular/material/icon";
 import { MatIconModule } from "@angular/material/icon";
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { UserAccountModel } from "../../../Models/interface/user-account.model";
-import { FormsModule } from "@angular/forms";
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
+import { UserAccountService } from "../../../services/user-account.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-add-user-dialog",
@@ -31,34 +36,73 @@ import { FormsModule } from "@angular/forms";
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatIcon,
     MatIconModule,
-    FormsModule
+    ReactiveFormsModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./add-user-dialog.component.html",
-  styleUrl: "./add-user-dialog.component.css",
+  styleUrls: ["./add-user-dialog.component.css"],
 })
 export class AddUserDialogComponent {
   hide = signal(true);
   action: string;
-  user: UserAccountModel | null;
+  userForm: FormGroup;
+  validationErrors: string[] | undefined;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+  private accountService = inject(UserAccountService);
+  private router = inject(Router);
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private fb: FormBuilder
+  ) {
     this.action = data.action;
-    this.user = data.user || null; // User data (if provided)
-  } //@Inject(MAT_DIALOG_DATA) is a decorator that tells Angular to inject MAT_DIALOG_DATA into the data parameter.
+
+    this.userForm = this.fb.group({
+      username: [
+        data.user?.username || "",
+        [Validators.required, Validators.minLength(3)],
+      ],
+      fullName: [data.user?.fullName || "", Validators.required],
+      password: [
+        data.user?.password || "",
+        [Validators.required, Validators.minLength(6)],
+      ],
+      userGroup: [data.user?.userGroup || "", Validators.required],
+      status: ["Active"], // Default to "active"
+      dateAdded: [new Date()], // Replace "xxx" with the actual user or value
+      addedBy: "Admin",
+    });
+  }
 
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
   }
 
-  saveUser(): void {
-    if (this.action === "Edit") {
-      // Logic to update the user
-    } else if (this.action === "Add") {
-      // Logic to add a new user
+  upsert(): void {
+    if (this.userForm.valid) {
+      const userData = this.userForm.value;
+
+      if (this.action === "Edit") {
+        console.log("User updated:", userData);
+        // Implement update logic here
+      } else if (this.action === "Add") {
+        this.accountService.addUser(userData).subscribe({
+          next: () => {
+            this.router.navigateByUrl("usermanagement");
+          },
+          error: (error) => {
+            console.error("Error adding user:", error);
+            this.validationErrors = error.errors || [
+              "An unexpected error occurred.",
+            ];
+          },
+        });
+      }
+    } else {
+      console.log("Form is invalid", this.userForm.errors);
+      this.userForm.markAllAsTouched(); // Highlight all invalid fields
     }
   }
 }

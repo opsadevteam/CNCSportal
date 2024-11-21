@@ -19,4 +19,8 @@ export class UserAccountService {
   getUser(id: number) {
     return this.http.get<UserAccountModel>(this.baseUrl + `UserAccount/${id}`);
   }
+
+  addUser(user: UserAccountModel) {
+    return this.http.post<UserAccountModel>(this.baseUrl + "UserAccount", user);
+  }
 }

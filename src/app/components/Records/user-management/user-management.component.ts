@@ -66,7 +66,6 @@ export class UserManagementComponent implements OnInit {
     "action",
   ];
 
-  // "fullname",
   dataSource = new MatTableDataSource<UserAccountModel>(this.users);
 
   ngOnInit(): void {
@@ -82,6 +81,7 @@ export class UserManagementComponent implements OnInit {
       next: (users) => {
         this.users = users;
         this.dataSource.data = this.users;
+        console.log(users);
       },
       error: (err) => console.error("Failed to load users:", err),
     });
