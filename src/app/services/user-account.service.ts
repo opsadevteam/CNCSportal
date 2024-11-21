@@ -13,10 +13,10 @@ export class UserAccountService {
   constructor() {}
 
   getUsers() {
-    return this.http.get<UserAccountModel[]>(this.baseUrl + "useraccount");
+    return this.http.get<UserAccountModel[]>(this.baseUrl + "UserAccount");
   }
 
   getUser(id: number) {
-    return this.http.get<UserAccountModel>(this.baseUrl + `useraccount/${id}`);
+    return this.http.get<UserAccountModel>(this.baseUrl + `UserAccount/${id}`);
   }
 }
