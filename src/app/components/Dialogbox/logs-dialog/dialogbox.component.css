@@ -1,0 +1,17 @@
+.mat-dialog-content {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+table.mat-table {
+  width: 100%;
+  table-layout: auto;
+}
+
+.badge {
+  padding: 6px 8px;
+  text-align: center;
+  border-radius: 6px;
+  font-weight: 500;
+  /* font-size: 0.7rem; */
+}
