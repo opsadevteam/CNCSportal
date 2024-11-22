@@ -20,6 +20,7 @@ import {
   RecordsMenuItemData,
   ReportsMenuItemData,
 } from '../../Models/interface/sidenav.model';
+import { Constant } from '../../constant/Constants';
 
 @Component({
   selector: 'app-sidenav',
@@ -37,6 +38,7 @@ import {
   styleUrl: './sidenav.component.css',
 })
 export class SidenavComponent {
+  version = Constant.CNCS_VERSION.NUMBER;
   router = inject(Router);
 
   entryFormsMenuItems = signal<IEntryFormsMenuItem[]>(EntryFormsMenuItemData);
