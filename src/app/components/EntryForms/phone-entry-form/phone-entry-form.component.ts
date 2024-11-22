@@ -92,7 +92,7 @@ export class PhoneEntryFormComponent implements OnInit {
   }
 
   getAllUserAccounts() {
-    this.userAccountService.getAllUserAccounts().subscribe((res: any) => {
+    this.userAccountService.getUsers().subscribe((res: any) => {
       this.userAccountList = res;
     });
   }

@@ -2,8 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnInit,
   ViewChild,
-  viewChild,
 } from "@angular/core";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatCardModule } from "@angular/material/card";
@@ -12,7 +12,6 @@ import { MatButtonModule } from "@angular/material/button";
 import { CommonModule } from "@angular/common";
 import { MatTableModule, MatTableDataSource } from "@angular/material/table";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
-import { SelectionModel } from "@angular/cdk/collections";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatIconModule } from "@angular/material/icon";
 import { MatDividerModule } from "@angular/material/divider";
@@ -21,6 +20,8 @@ import { MatMenuModule, MatMenuTrigger } from "@angular/material/menu";
 import { NumberPaddingPipe } from "../../../pipes/number-padding.pipe";
 import { AddUserDialogComponent } from "../../Dialogbox/add-user-dialog/add-user-dialog.component";
 import { DeleteDialogComponent } from "../../Dialogbox/delete-dialog/delete-dialog.component";
+import { UserAccountService } from "../../../services/user-account.service";
+import { UserAccountModel } from "../../../Models/interface/user-account.model";
 
 @Component({
   selector: "app-user-management",
@@ -38,160 +39,100 @@ import { DeleteDialogComponent } from "../../Dialogbox/delete-dialog/delete-dial
     MatIconModule,
     MatDividerModule,
     MatMenuModule,
-    AddUserDialogComponent,
-    DeleteDialogComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./user-management.component.html",
-  styleUrl: "./user-management.component.css",
+  styleUrls: ["./user-management.component.css"],
 })
-export class UserManagementComponent {
-  readonly menuTrigger = viewChild.required(MatMenuTrigger);
+export class UserManagementComponent implements OnInit {
+  ACTIVE = "Active";
+  INACTIVE = "Inactive";
+
+  @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   readonly dialog = inject(MatDialog);
+  private userAccountService = inject(UserAccountService);
+
+  users: UserAccountModel[] = [];
   displayedColumns: string[] = [
-    "select",
     "id",
     "username",
+    "fullname",
     "password",
     "dateadded",
     "usergroup",
     "status",
     "action",
   ];
-  initialSelection = [];
-  allowMultiSelect = true;
-  selection = new SelectionModel<DataUserManagement>(
-    this.allowMultiSelect,
-    this.initialSelection
-  );
 
-  dataSource = new MatTableDataSource<DataUserManagement>(Data);
+  dataSource = new MatTableDataSource<UserAccountModel>(this.users);
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  /**
+   * Lifecycle hook that initializes the component by loading user data.
+   */
+  ngOnInit(): void {
+    this.loadMembers();
+  }
 
-  ngAfterViewInit() {
+  /**
+   * Lifecycle hook that sets the paginator for the table after the view initializes.
+   */
+  ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected == numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  toggleAllRows() {
-    this.isAllSelected()
-      ? this.selection.clear()
-      : this.dataSource.data.forEach((row) => this.selection.select(row));
-  }
-
-  openDialog(action: string): void {
-    this.dialog.open(AddUserDialogComponent, {
-      data: { action }, // Pass the action as data to the dialog
-      width: "750px",
+  /**
+   * Loads the list of users from the backend and populates the table data source.
+   */
+  loadMembers(): void {
+    this.userAccountService.getUsers().subscribe({
+      next: (users) => {
+        this.users = users;
+        this.dataSource.data = this.users;
+      },
+      error: (err) => console.error("Failed to load users:", err),
     });
   }
 
-  showDeleteActionDialog() {
+  /**
+   * Opens a dialog for adding or editing a user.
+   * @param action The action to perform ('Add' or 'Edit').
+   * @param user The user data to prepopulate in the dialog (optional).
+   */
+  openDialog(action: string, user?: UserAccountModel): void {
+    const dialogRef = this.dialog.open(AddUserDialogComponent, {
+      data: { action, user },
+      width: "750px",
+    });
+
+    // Refresh data after the dialog is closed
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == "refresh") {
+        this.loadMembers();
+      }
+    });
+  }
+
+  /**
+   * Opens a dialog to confirm the deletion of a user and restores focus to the menu trigger after closing.
+   */
+  showDeleteActionDialog(id: number): void {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       restoreFocus: false,
     });
-    // Manually restore focus to the menu trigger since the element that
-    // opens the dialog won't be in the DOM any more when the dialog closes.
-    dialogRef.afterClosed().subscribe(() => this.menuTrigger().focus());
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.userAccountService.deleteUser(id).subscribe({
+          next: () => {
+            console.log(`User with ID ${id} deleted successfully.`);
+            this.loadMembers();
+          },
+          error: (err) => {
+            console.error(`Failed to delete user with ID ${id}:`, err);
+          },
+        });
+      }
+    });
   }
 }
-
-export interface DataUserManagement {
-  id: number;
-  username: string;
-  password: string;
-  dateadded: Date;
-  usergroup: string;
-  status: string;
-}
-
-const Data: DataUserManagement[] = [
-  {
-    id: 1,
-    username: "jdoe",
-    password: "pass123",
-    dateadded: new Date("2024-01-15"),
-    usergroup: "admin",
-    status: "active",
-  },
-  {
-    id: 2,
-    username: "asmith",
-    password: "secure456",
-    dateadded: new Date("2024-02-20"),
-    usergroup: "user",
-    status: "inactive",
-  },
-  {
-    id: 3,
-    username: "mjones",
-    password: "mypass789",
-    dateadded: new Date("2024-03-10"),
-    usergroup: "moderator",
-    status: "active",
-  },
-  {
-    id: 4,
-    username: "bwhite",
-    password: "whitepass987",
-    dateadded: new Date("2024-04-05"),
-    usergroup: "admin",
-    status: "inactive",
-  },
-  {
-    id: 5,
-    username: "kharris",
-    password: "kh@1234",
-    dateadded: new Date("2024-05-15"),
-    usergroup: "user",
-    status: "active",
-  },
-  {
-    id: 6,
-    username: "lwilson",
-    password: "wilson321",
-    dateadded: new Date("2024-06-20"),
-    usergroup: "moderator",
-    status: "inactive",
-  },
-  {
-    id: 7,
-    username: "tgonzalez",
-    password: "tgonz789",
-    dateadded: new Date("2024-07-11"),
-    usergroup: "user",
-    status: "active",
-  },
-  {
-    id: 8,
-    username: "rlee",
-    password: "rlee@456",
-    dateadded: new Date("2024-08-03"),
-    usergroup: "admin",
-    status: "active",
-  },
-  {
-    id: 9,
-    username: "cjackson",
-    password: "jackson000",
-    dateadded: new Date("2024-09-09"),
-    usergroup: "user",
-    status: "inactive",
-  },
-  {
-    id: 10,
-    username: "mclark",
-    password: "clark7890",
-    dateadded: new Date("2024-10-10"),
-    usergroup: "moderator",
-    status: "active",
-  },
-];
