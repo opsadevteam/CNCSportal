@@ -17,26 +17,6 @@
       [dataSource]="dataSource"
       class="mat-elevation-z8 rounded-table"
     >
-      <!-- Select Column -->
-      <ng-container matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox
-            (change)="$event ? toggleAllRows() : null"
-            [checked]="selection.hasValue() && isAllSelected()"
-            [indeterminate]="selection.hasValue() && !isAllSelected()"
-          >
-          </mat-checkbox>
-        </th>
-        <td mat-cell *matCellDef="let row">
-          <mat-checkbox
-            (click)="$event.stopPropagation()"
-            (change)="$event ? selection.toggle(row) : null"
-            [checked]="selection.isSelected(row)"
-          >
-          </mat-checkbox>
-        </td>
-      </ng-container>
-
       <!-- ID Column -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>NO.</th>
@@ -53,6 +33,14 @@
         </td>
       </ng-container>
 
+      <!-- Fullname Column -->
+      <ng-container matColumnDef="fullname">
+        <th mat-header-cell *matHeaderCellDef>FULLNAME</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.fullName | titlecase }}
+        </td>
+      </ng-container>
+
       <!-- Password Column -->
       <ng-container matColumnDef="password">
         <th mat-header-cell *matHeaderCellDef>PASSWORD</th>
@@ -63,15 +51,15 @@
       <ng-container matColumnDef="dateadded">
         <th mat-header-cell *matHeaderCellDef>DATE ADDED</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.dateadded | date : "d MMM y" }}
+          {{ element.dateAdded | date : "d MMM y" }}
         </td>
       </ng-container>
 
       <!-- User Group Column -->
       <ng-container matColumnDef="usergroup">
-        <th mat-header-cell *matHeaderCellDef>USER GROUP</th>
+        <th mat-header-cell *matHeaderCellDef>USERGROUP</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.usergroup | titlecase }}
+          {{ element.userGroup | titlecase }}
         </td>
       </ng-container>
 
@@ -82,11 +70,11 @@
           <div
             class="badge"
             [style.background]="
-              element.status == 'active'
+              element.status == ACTIVE
                 ? 'rgba(28, 204, 62, 0.15)'
                 : 'rgba(116, 116, 128, 0.15)'
             "
-            [style.color]="element.status == 'active' ? '#1ccc3e' : '#747480'"
+            [style.color]="element.status == ACTIVE ? '#1ccc3e' : '#747480'"
           >
             {{ element.status | uppercase }}
           </div>
@@ -108,8 +96,10 @@
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="openDialog('Edit')">Edit</button>
-                <button mat-menu-item (click)="showDeleteActionDialog()">
+                <button mat-menu-item (click)="openDialog('Edit', element)">
+                  Edit
+                </button>
+                <button mat-menu-item (click)="showDeleteActionDialog(element.id)">
                   Delete
                 </button>
               </mat-menu>
@@ -122,7 +112,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
     <mat-paginator
-      [pageSizeOptions]="[5, 10, 20]"
+      [pageSizeOptions]="[20]"
       showFirstLastButtons
       aria-label="Select page of periodic elements"
     >
