@@ -26,19 +26,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { MatCardHeader, MatCardModule } from '@angular/material/card';
 import { DialogboxComponent } from '../../Dialogbox/logs-dialog/dialogbox.component';
+import { HttpClient } from '@angular/common/http';
+import { IEmailRecord } from '../../../Models/interface/email-record.model';
 
-interface Record {
-  id: string;
-  status: string;
-  emailId: string;
-  customerId: string;
-  repliedBy: string;
-  receivedDate: Date;
-  sendingDate: Date;
-  vendor: string;
-  description: string;
-  dateAdded: Date;
-}
 
 @Component({
   selector: 'app-phone-records',
@@ -62,134 +52,90 @@ interface Record {
     MatIconModule,
     MatCardHeader,
     MatCardModule,
-    DialogboxComponent,
+    DialogboxComponent   
+    
   ],
   templateUrl: './email-records.component.html',
-  styleUrl: './email-records.component.css',
+  styleUrls: ['./email-records.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmailRecordsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  readonly menuTrigger = viewChild.required(MatMenuTrigger);
-  readonly dialog = inject(MatDialog);
 
   searchTerm: string = '';
   totalItems: number = 0;
   pageSize: number = 10;
   pageIndex: number = 0;
-  filterBy: string = '';
   dateFrom: Date | null = null;
   dateTo: Date | null = null;
-  hasSearched: boolean = false;
-  filteredData: any[] = [];
-  emailStringParams: string = 'Email';
 
   displayedColumns: string[] = [
     'id',
     'status',
-    'emailId',
+    'transactionId',
     'customerId',
     'repliedBy',
-    'receivedDate',
-    'sendingDate',
-    'vendor',
-    'description',
+    'pickUpDate',
+    'takeOffDate',
     'dateAdded',
     'actionColumn',
   ];
 
-  dataSource = new MatTableDataSource<Record>();
+  dataSource = new MatTableDataSource<IEmailRecord>();
+  records: IEmailRecord[] = [];
+  filteredRecords: IEmailRecord[] = [];
 
-  records: Record[] = [
-    {
-      id: '000001',
-      status: 'PROCESSING',
-      emailId: 'JXF2024112001',
-      customerId: 'Sample123',
-      repliedBy: 'CS James',
-      receivedDate: new Date('2024-11-12'),
-      sendingDate: new Date('2024-11-12'),
-      vendor: 'VENDOR 01',
-      description: 'FD - Virtual Deposit',
-      dateAdded: new Date('2024-11-13'),
-    },
-    {
-      id: '000002',
-      status: 'PROCESSING',
-      emailId: 'JXF2024112002',
-      customerId: 'Sample456',
-      repliedBy: 'CS Mamamo',
-      receivedDate: new Date('2024-11-14'),
-      sendingDate: new Date('2024-11-14'),
-      vendor: 'VENDOR 02',
-      description: 'FD - Virtual Deposit',
-      dateAdded: new Date('2024-11-14'),
-    },
-    {
-      id: '000003',
-      status: 'PROCESSING',
-      emailId: 'JXF2024112003',
-      customerId: 'Sample789',
-      repliedBy: 'CS Foreman',
-      receivedDate: new Date('2024-11-15'),
-      sendingDate: new Date('2024-11-15'),
-      vendor: 'VENDOR 03',
-      description: 'FD - Virtual Deposit',
-      dateAdded: new Date('2024-11-15'),
-    },
-    {
-      id: '000004',
-      status: 'PROCESSING',
-      emailId: 'JXF2024112004',
-      customerId: 'Sample111',
-      repliedBy: 'CS Mason',
-      receivedDate: new Date('2024-11-15'),
-      sendingDate: new Date('2024-11-15'),
-      vendor: 'VENDOR 04',
-      description: 'FD - Virtual Deposit',
-      dateAdded: new Date('2024-11-15'),
-    },
-    {
-      id: '000009',
-      status: 'PROCESSING',
-      emailId: 'JXF2024112004',
-      customerId: 'Sample111',
-      repliedBy: 'CS BurstFade',
-      receivedDate: new Date('2024-11-08'),
-      sendingDate: new Date('2024-11-06'),
-      vendor: 'VENDOR 05',
-      description: 'FD - Virtual Deposit',
-      dateAdded: new Date('2024-11-18'),
-    },
-  ];
-
-  constructor(private cdRef: ChangeDetectorRef) {}
+  constructor(private http: HttpClient, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.dataSource.data = this.records;
-    this.filteredRecords = this.records;
-    this.cdRef.detectChanges();
+    this.fetchRecords();
   }
+
+  filterBy: string = 'id'; 
+
+  fetchRecords() {
+    this.http.get<IEmailRecord[]>('https://localhost:44369/api/v1/EmailRecords').subscribe(
+      (response) => {
+        // Convert string dates to Date objects
+        this.records = response.map(record => ({
+          ...record,
+          pickUpDate: new Date(record.pickUpDate),
+          takeOffDate: new Date(record.takeOffDate),
+          dateAdded: new Date(record.dateAdded)
+        }));
+        
+        this.filteredRecords = this.records;
+        this.dataSource.data = this.filteredRecords;
+        this.totalItems = this.filteredRecords.length;
+        this.cdRef.detectChanges();
+      },
+      (error) => {
+        console.error('Error fetching records:', error);
+      }
+    );
+  }
+  
+  
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  filterSearch() {
+  applyFilter() {
     this.filteredRecords = this.records.filter((record) => {
-      const term = this.searchTerm ? this.searchTerm.toLowerCase() : '';
+      const term = this.searchTerm.toLowerCase();
       const matchesSearch =
-        record.emailId.toLowerCase().includes(term) ||
-        record.repliedBy.toLowerCase().includes(term) ||
+        record.id.toLowerCase().includes(term) ||
+        record.status.toLowerCase().includes(term) ||
         record.customerId.toLowerCase().includes(term) ||
-        record.status.toLowerCase().includes(term);
+        record.repliedBy.toLowerCase().includes(term);
 
       const dateAdded = new Date(record.dateAdded);
       const from = this.dateFrom ? new Date(this.dateFrom) : null;
       const to = this.dateTo ? new Date(this.dateTo) : null;
 
-      // Adjust the 'to' date to include the full day
       if (to) {
         to.setHours(23, 59, 59, 999);
       }
@@ -197,100 +143,57 @@ export class EmailRecordsComponent implements OnInit {
       const matchesDate =
         (!from || dateAdded >= from) && (!to || dateAdded <= to);
 
-      return matchesSearch && matchesDate; // Combine both filters
+      return matchesSearch && matchesDate;
     });
 
     this.totalItems = this.filteredRecords.length;
-
-    // Apply pagination after filtering
     this.applyPagination();
-    this.cdRef.detectChanges(); // Notify Angular to update the view
+    this.cdRef.detectChanges();
   }
 
   applyPagination() {
     const startIndex = this.pageIndex * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-
-    // Paginate the filtered records
-    const paginatedRecords = this.filteredRecords.slice(startIndex, endIndex);
-
-    // Update the dataSource
-    this.dataSource.data = paginatedRecords;
-    this.cdRef.detectChanges(); // Ensure the view updates
+    this.dataSource.data = this.filteredRecords.slice(startIndex, endIndex);
   }
 
-  applyFilter() {
-    this.filterSearch();
-  }
-
-  onPageChange(event: any): void {
+  onPageChange(event: any) {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.applyPagination();
   }
 
-  refreshTable() {
+  resetFilters() {
     this.searchTerm = '';
-    this.dataSource.filter = '';
-    this.filterSearch();
+    this.dateFrom = null;
+    this.dateTo = null;
+    this.applyFilter();
   }
 
   showLogs(action: string): void {
-    const logData = [
-      {
-        id: '001234',
-        action: 'INSERT',
-        status: 'PENDING',
-        emailId: 'JXF2024112001',
-        customerId: 'Sample123',
-        repliedBy: 'CS Mamamo',
-        receivedDate: new Date('2024-11-08'),
-        sendingDate: new Date('2024-11-06'),
-        vendor: 'VENDOR 05',
-        description: 'FD - Virtual Deposit',
-        dateAdded: new Date('2024-11-18'),
-      },
-      {
-        id: '001235',
-        action: 'UPDATE',
-        status: 'PROCESSING',
-        emailId: 'JXF2024112001',
-        customerId: 'Sample123',
-        repliedBy: 'CS Mamamo',
-        receivedDate: new Date('2024-11-08'),
-        sendingDate: new Date('2024-11-06'),
-        vendor: 'VENDOR 05',
-        description: 'FD - Virtual Deposit',
-        dateAdded: new Date('2024-11-18'),
-      },
-      {
-        id: '001236',
-        action: 'DELETE',
-        status: 'CLOSED',
-        emailId: 'JXF2024112001',
-        customerId: 'Sample123',
-        repliedBy: 'CS Mamamo',
-        receivedDate: new Date('2024-11-08'),
-        sendingDate: new Date('2024-11-06'),
-        vendor: 'VENDOR 06',
-        description: 'FD - Virtual Deposit',
-        dateAdded: new Date('2024-11-18'),
-      },
-    ];
 
-    this.dialog.open(DialogboxComponent, {
-      width: '90vw',
-      maxWidth: '100vw',
-      data: {
-        logs: logData,
-        emailStringParams: this.emailStringParams,
-      },
-    });
   }
 
-  showEdit(action: string): void {}
+  showEdit(action: string){
 
-  showDelete(action: string): void {}
+  }
 
-  filteredRecords: Record[] = [];
+  showDelete(action: string){
+
+  }
+
+
+  resolveCellValue(column: string, element: any): string {
+    switch (column) {
+      case 'status':
+        return `<span class="badge status-${element.status.toLowerCase()}">${element.status}</span>`;
+      case 'receivedDate':
+      case 'sendingDate':
+      case 'dateAdded':
+        return new Date(element[column]).toLocaleDateString();
+      default:
+        return element[column] || '-';
+    }
+  }
+  
 }

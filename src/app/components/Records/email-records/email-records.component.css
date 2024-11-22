@@ -7,9 +7,12 @@
 }
 
 .center-header {
-  text-align: center;
+  text-align: right; 
 }
 
+thead{
+  text-align: center;
+}
 
 .page-header {
   font-weight: 600;
@@ -72,13 +75,15 @@ mat-card-header {
   padding-bottom: 1rem;
   margin-bottom: 1rem;
 }
+
 .mat-mdc-table {
   border-radius: 6px;
   background-color: transparent;
   margin-bottom: 1rem;
 }
 
-.mat-mdc-header-cell
+.mat-mdc-header-cell,
+.mat-mdc-cell
 {
   text-align: center;
 }
@@ -88,9 +93,6 @@ mat-card-header {
   
 }
 
-.mat-mdc-cell {
-  text-align: left;
-}
 .badge {
   padding: 6px 8px;
   text-align: center;

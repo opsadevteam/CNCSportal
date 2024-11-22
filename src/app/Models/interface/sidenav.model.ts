@@ -1,5 +1,5 @@
 export interface IEntryFormsMenuItem {
-<<<<<<< HEAD
+
     icon: string;
     label: string;
     route?: string;
@@ -24,7 +24,7 @@ export interface IEntryFormsMenuItem {
   }
   //2
   
-=======
+export interface icon{
   icon: string;
   label: string;
   route?: string;
@@ -101,4 +101,4 @@ export const AccountsMenuItemData = [
     route: 'workloadstatistics',
   },
 ];
->>>>>>> main
+
