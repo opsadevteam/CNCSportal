@@ -12,7 +12,6 @@ import { MatButtonModule } from "@angular/material/button";
 import { CommonModule } from "@angular/common";
 import { MatTableModule, MatTableDataSource } from "@angular/material/table";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
-import { SelectionModel } from "@angular/cdk/collections";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatIconModule } from "@angular/material/icon";
 import { MatDividerModule } from "@angular/material/divider";
@@ -91,7 +90,6 @@ export class UserManagementComponent implements OnInit {
       next: (users) => {
         this.users = users;
         this.dataSource.data = this.users;
-        console.log(users);
       },
       error: (err) => console.error("Failed to load users:", err),
     });
