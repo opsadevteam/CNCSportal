@@ -13,6 +13,8 @@
       <input matInput formControlName="username" />
       @if (userForm.get('username')?.hasError('required')){
       <mat-error> Username is required. </mat-error>
+      } @if (userForm.get('username')?.hasError('UsernameTaken')){
+      <mat-error> Username is already taken. </mat-error>
       }
     </mat-form-field>
 

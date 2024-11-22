@@ -23,4 +23,9 @@ export class UserAccountService {
   addUser(user: UserAccountModel) {
     return this.http.post<UserAccountModel>(this.baseUrl + "UserAccount", user);
   }
+
+  deleteUser(id: number) {
+    return this.http.delete(this.baseUrl + `UserAccount/${id}`);
+  }
+
 }

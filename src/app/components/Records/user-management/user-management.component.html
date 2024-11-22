@@ -32,6 +32,14 @@
         </td>
       </ng-container>
 
+      <!-- Fullname Column -->
+      <ng-container matColumnDef="fullname">
+        <th mat-header-cell *matHeaderCellDef>FULLNAME</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.fullName | titlecase }}
+        </td>
+      </ng-container>
+
       <!-- Password Column -->
       <ng-container matColumnDef="password">
         <th mat-header-cell *matHeaderCellDef>PASSWORD</th>
@@ -48,7 +56,7 @@
 
       <!-- User Group Column -->
       <ng-container matColumnDef="usergroup">
-        <th mat-header-cell *matHeaderCellDef>USER GROUP</th>
+        <th mat-header-cell *matHeaderCellDef>USERGROUP</th>
         <td mat-cell *matCellDef="let element">
           {{ element.userGroup | titlecase }}
         </td>
@@ -90,7 +98,7 @@
                 <button mat-menu-item (click)="openDialog('Edit', element)">
                   Edit
                 </button>
-                <button mat-menu-item (click)="showDeleteActionDialog()">
+                <button mat-menu-item (click)="showDeleteActionDialog(element.id)">
                   Delete
                 </button>
               </mat-menu>
