@@ -12,8 +12,8 @@ import { UserManagementComponent } from "./components/Records/user-management/us
 
 export const routes: Routes = [
   {
-    path: "login",
-    redirectTo: "login",
+    path: "",
+    redirectTo: "phoneform",
     pathMatch: "full",
   },
   {
