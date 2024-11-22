@@ -1,0 +1,67 @@
+mat-card {
+  margin-bottom: 4rem;
+}
+
+mat-card-content {
+  margin: 2rem;
+}
+
+mat-card-header {
+  border-bottom: 1px solid rgba(120, 120, 128, 0.36);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  color: red;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  width: 50%;
+}
+
+.pickup-label {
+  margin-left: 52rem;
+}
+
+.takeoff-label {
+  margin-left: 13rem;
+}
+
+.history-btn {
+  background-color: #2967c4;
+  color: #fff;
+  margin-left: 2em;
+  width: 6em;
+  height: 2.5em;
+}
+
+.date-picker {
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+.btn-container {
+  text-align: right;
+}
+
+.submit-btn {
+  margin-right: 0.5rem;
+  background-color: rgb(15, 220, 15);
+  color: #fff;
+  width: 8em;
+  height: 3em;
+}
+
+.submit-btn:disabled {
+  background-color: #343434;
+  color: #5e686f;
+}
+
+.cancel-btn {
+  background-color: rgb(223, 42, 18);
+  color: #fff;
+  width: 8em;
+  height: 3em;
+}
