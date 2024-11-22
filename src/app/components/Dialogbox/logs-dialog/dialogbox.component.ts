@@ -40,8 +40,7 @@ export class DialogboxComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<DialogboxComponent>
   ) {
-     // Assign data from the passed parameters
      this.logsData = data.logs;
-     this.ngStringTitle = data.emailStringParams || 'Default Title'; // Use emailStringParams
+     this.ngStringTitle = data.emailStringParams || 'Default Title'; 
   }
 }

@@ -82,7 +82,7 @@ export class EmailRecordsComponent implements OnInit {
   dateTo: Date | null = null;
   hasSearched: boolean = false;
   filteredData: any[] = [];
-  emailStringParams: string = "Email"
+  emailStringParams: string = 'Email';
 
   displayedColumns: string[] = [
     'id',
@@ -277,16 +277,15 @@ export class EmailRecordsComponent implements OnInit {
         dateAdded: new Date('2024-11-18'),
       },
     ];
- 
+
     this.dialog.open(DialogboxComponent, {
       width: '90vw',
       maxWidth: '100vw',
-      data: { 
-        logs: logData, 
-        emailStringParams: this.emailStringParams
+      data: {
+        logs: logData,
+        emailStringParams: this.emailStringParams,
       },
     });
-    
   }
 
   showEdit(action: string): void {}
