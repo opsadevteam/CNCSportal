@@ -1,5 +1,4 @@
 export interface IEntryFormsMenuItem {
-<<<<<<< HEAD
 
     icon: string;
     label: string;
@@ -26,8 +25,7 @@ export interface IEntryFormsMenuItem {
   //2
   
 export interface icon{
-=======
->>>>>>> origin/main
+
   icon: string;
   label: string;
   route?: string;
