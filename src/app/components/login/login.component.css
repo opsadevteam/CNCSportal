@@ -1,0 +1,35 @@
+body {
+  background-color: black;
+}
+mat-card {
+  max-width: 32rem;
+  margin: 2em auto;
+  text-align: center;
+  max-height: 48rem;
+  background-color: #1c1c1e;
+  color: #fff;
+  margin-top: 200px;
+}
+
+.header {
+  text-align: center;
+}
+
+.full-width {
+  width: 80%;
+}
+
+.forgot-password {
+  padding-left: 0px;
+}
+
+.email-input {
+  color: #fff;
+  padding-top: 10px;
+}
+
+.aLink {
+  float: right;
+  padding-right: 60px;
+  text-decoration: none;
+}

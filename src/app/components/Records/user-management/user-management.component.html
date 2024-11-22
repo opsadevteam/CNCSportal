@@ -1,0 +1,121 @@
+<h2 class="page-header">User Management</h2>
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <div class="example-button-container">
+      <!-- mat-fab
+      extended -->
+      <button (click)="openDialog('Add')" class="btn btn-primary">
+        <mat-icon>add</mat-icon>
+        Add user
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      class="mat-elevation-z8 rounded-table"
+    >
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>NO.</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.id | numberPadding : 4 }}
+        </td>
+      </ng-container>
+
+      <!-- Username Column -->
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef>USERNAME</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.username | titlecase }}
+        </td>
+      </ng-container>
+
+      <!-- Fullname Column -->
+      <ng-container matColumnDef="fullname">
+        <th mat-header-cell *matHeaderCellDef>FULLNAME</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.fullName | titlecase }}
+        </td>
+      </ng-container>
+
+      <!-- Password Column -->
+      <ng-container matColumnDef="password">
+        <th mat-header-cell *matHeaderCellDef>PASSWORD</th>
+        <td mat-cell *matCellDef="let element">{{ element.password }}</td>
+      </ng-container>
+
+      <!-- Date Added Column -->
+      <ng-container matColumnDef="dateadded">
+        <th mat-header-cell *matHeaderCellDef>DATE ADDED</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.dateAdded | date : "d MMM y" }}
+        </td>
+      </ng-container>
+
+      <!-- User Group Column -->
+      <ng-container matColumnDef="usergroup">
+        <th mat-header-cell *matHeaderCellDef>USERGROUP</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.userGroup | titlecase }}
+        </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>STATUS</th>
+        <td mat-cell *matCellDef="let element">
+          <div
+            class="badge"
+            [style.background]="
+              element.status == ACTIVE
+                ? 'rgba(28, 204, 62, 0.15)'
+                : 'rgba(116, 116, 128, 0.15)'
+            "
+            [style.color]="element.status == ACTIVE ? '#1ccc3e' : '#747480'"
+          >
+            {{ element.status | uppercase }}
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Action Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>ACTION</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="example-button-row">
+            <div class="example-flex-container">
+              <button
+                mat-icon-button
+                aria-label="Example icon button with a vertical three dot icon"
+                [matMenuTriggerFor]="menu"
+                #menuTrigger
+              >
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="openDialog('Edit', element)">
+                  Edit
+                </button>
+                <button mat-menu-item (click)="showDeleteActionDialog(element.id)">
+                  Delete
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator
+      [pageSizeOptions]="[20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>
