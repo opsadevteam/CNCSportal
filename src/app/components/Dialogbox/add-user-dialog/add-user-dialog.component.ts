@@ -59,9 +59,9 @@ export class AddUserDialogComponent {
 
   private createUserForm(): FormGroup {
     return this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(3)]],
+      username: ['', [Validators.required]],
       fullName: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required]],
       userGroup: ['', Validators.required],
       status: ['Active'],
     });
@@ -119,7 +119,11 @@ export class AddUserDialogComponent {
       },
       error: (err) => {
         this.isSubmitting = false;
-        this.handleErrors(err);
+        if (err.status === 400) {
+          this.userForm.get('username')?.setErrors({ UsernameTaken: true });
+        } else {
+          this.handleErrors(err);
+        }
       },
     });
   }
