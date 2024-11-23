@@ -27,6 +27,13 @@ export class UserAccountService {
     return this.http.post<EntryUserAccount>(this.baseUrl + 'UserAccount', user);
   }
 
+  updateUser(user: EntryUserAccount) {
+    return this.http.put<EntryUserAccount>(
+      this.baseUrl + `UserAccount/${user.id}`,
+      user
+    );
+  }
+
   deleteUser(id: number) {
     return this.http.delete(this.baseUrl + `UserAccount/${id}`);
   }
