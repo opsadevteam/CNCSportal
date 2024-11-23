@@ -59,7 +59,7 @@ export class AddUserDialogComponent {
 
   private createUserForm(): FormGroup {
     return this.fb.group({
-      id: [null],
+      id: [0],
       username: ['', [Validators.required]],
       fullName: ['', Validators.required],
       password: ['', [Validators.required]],
@@ -122,7 +122,7 @@ export class AddUserDialogComponent {
       },
       error: (err) => {
         this.isSubmitting = false;
-        if (err.status === 400) {
+        if (err.status === 409) {
           this.userForm.get('username')?.setErrors({ UsernameTaken: true });
         } else {
           this.handleErrors(err);
@@ -148,7 +148,12 @@ export class AddUserDialogComponent {
         alert('User successfully updated');
       },
       error: (err) => {
-        this.handleErrors(err), console.log(user), console.log(this.id);
+        this.isSubmitting = false;
+        if (err.status === 409) {
+          this.userForm.get('username')?.setErrors({ UsernameTaken: true });
+        } else {
+          this.handleErrors(err);
+        }
       },
     });
   }
