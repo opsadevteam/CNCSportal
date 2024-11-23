@@ -1,10 +1,13 @@
-import { HttpClient } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
-import { environment } from "../../environments/environment.development";
-import { UserAccountModel } from "../Models/interface/user-account.model";
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '../../environments/environment.development';
+import {
+  DisplayUserAccount,
+  EntryUserAccount,
+} from '../Models/interface/user-account.model';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class UserAccountService {
   private http = inject(HttpClient);
@@ -13,15 +16,15 @@ export class UserAccountService {
   constructor() {}
 
   getUsers() {
-    return this.http.get<UserAccountModel[]>(this.baseUrl + "UserAccount");
+    return this.http.get<DisplayUserAccount[]>(this.baseUrl + 'UserAccount');
   }
 
   getUser(id: number) {
-    return this.http.get<UserAccountModel>(this.baseUrl + `UserAccount/${id}`);
+    return this.http.get<EntryUserAccount>(this.baseUrl + `UserAccount/${id}`);
   }
 
-  addUser(user: UserAccountModel) {
-    return this.http.post<UserAccountModel>(this.baseUrl + "UserAccount", user);
+  addUser(user: EntryUserAccount) {
+    return this.http.post<EntryUserAccount>(this.baseUrl + 'UserAccount', user);
   }
 
   deleteUser(id: number) {

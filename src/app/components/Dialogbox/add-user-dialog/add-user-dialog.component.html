@@ -3,36 +3,38 @@
     mat-dialog-title
     style="border-bottom: 1px solid rgba(120, 120, 128, 0.36)"
   >
-    {{ action === "Add" ? "Add User" : "Edit User" }}
+    {{ id ? "Edit User" : "Add User" }}
   </h4>
 
-  <form [formGroup]="userForm" (ngSubmit)="upsert()" style="margin: 1rem">
+  <form [formGroup]="userForm" (ngSubmit)="submit()" style="margin: 1rem">
     <!-- Username -->
     <label>Username</label>
     <mat-form-field appearance="outline">
       <input matInput formControlName="username" />
-      @if (userForm.get('username')?.hasError('required')){
-      <mat-error> Username is required. </mat-error>
-      } @if (userForm.get('username')?.hasError('UsernameTaken')){
-      <mat-error> Username is already taken. </mat-error>
-      }
+      <mat-error *ngIf="userForm.get('username')?.hasError('required')">
+        Username is required.
+      </mat-error>
+      <mat-error *ngIf="userForm.get('username')?.hasError('UsernameTaken')">
+        Username is already taken.
+      </mat-error>
     </mat-form-field>
 
     <!-- Fullname -->
     <label>Fullname</label>
     <mat-form-field appearance="outline">
       <input matInput formControlName="fullName" />
-      @if (userForm.get('fullName')?.hasError('required')) {
-      <mat-error> Full name is required. </mat-error>
-      }
+      <mat-error *ngIf="userForm.get('fullName')?.hasError('required')">
+        Full name is required.
+      </mat-error>
     </mat-form-field>
 
     <!-- Password -->
+
     <label>Password</label>
     <mat-form-field appearance="outline">
       <input
         matInput
-        [type]="hide() ? 'password' : 'text'"
+        [type]="hidePassword ? 'password' : 'text'"
         formControlName="password"
       />
       <button
@@ -41,12 +43,13 @@
         matSuffix
         (click)="togglePasswordVisibility($event)"
       >
-        <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+        <mat-icon>{{
+          hidePassword ? "visibility_off" : "visibility"
+        }}</mat-icon>
       </button>
-
-      @if (userForm.get('password')?.hasError('required')) {
-      <mat-error> Password is required. </mat-error>
-      }
+      <mat-error *ngIf="userForm.get('password')?.hasError('required')">
+        Password is required.
+      </mat-error>
     </mat-form-field>
 
     <!-- User Group Dropdown -->
@@ -57,15 +60,19 @@
         <mat-option value="Leader">Leader</mat-option>
         <mat-option value="Officer">Officer</mat-option>
       </mat-select>
-      @if(userForm.get('userGroup')?.hasError('required')) {
-      <mat-error> User group is required. </mat-error>
-      }
+      <mat-error *ngIf="userForm.get('userGroup')?.hasError('required')">
+        User group is required.
+      </mat-error>
     </mat-form-field>
-
     <!-- Actions buttons -->
     <mat-dialog-actions>
-      <button color="primary" class="btn btn-confirm" type="submit">
-        {{ action === "Add" ? "Confirm" : "Update" }}
+      <button
+        color="primary"
+        class="btn btn-confirm"
+        type="submit"
+        (click)="submit()"
+      >
+        {{ id ? "Update" : "Confirm" }}
       </button>
       <button mat-dialog-close class="btn btn-cancel">Cancel</button>
     </mat-dialog-actions>

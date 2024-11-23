@@ -1,4 +1,4 @@
-export interface UserAccountModel {
+export interface DisplayUserAccount {
   id: number;
   fullName: string;
   username: string;
@@ -7,4 +7,16 @@ export interface UserAccountModel {
   status: string;
   dateAdded: Date;
   addedBy: string;
+}
+
+export interface EntryUserAccount {
+  fullName: string;
+  username: string;
+  password: string;
+  userGroup: string;
+  status: string;
+  addedBy: string;
+  dateAdded: Date;
+  isDeleted: boolean;
+  logId: string;
 }
