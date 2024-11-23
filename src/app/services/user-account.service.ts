@@ -27,9 +27,9 @@ export class UserAccountService {
     return this.http.post<EntryUserAccount>(this.baseUrl + 'UserAccount', user);
   }
 
-  updateUser(user: EntryUserAccount) {
+  updateUser(id: number, user: EntryUserAccount) {
     return this.http.put<EntryUserAccount>(
-      this.baseUrl + `UserAccount/${user.id}`,
+      this.baseUrl + `UserAccount/${id}`,
       user
     );
   }

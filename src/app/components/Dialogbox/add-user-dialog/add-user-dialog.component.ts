@@ -42,6 +42,7 @@ export class AddUserDialogComponent {
   userForm: FormGroup;
   hidePassword = true;
   id: number = 0;
+  isSubmitting: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { id: number },
@@ -71,10 +72,12 @@ export class AddUserDialogComponent {
   }
 
   submit(): void {
-    if (this.userForm.invalid) {
+    if (this.userForm.invalid || this.isSubmitting) {
       this.userForm.markAllAsTouched();
       return;
     }
+
+    this.isSubmitting = true;
 
     if (this.data.id) {
       this.editUser();
@@ -109,11 +112,15 @@ export class AddUserDialogComponent {
 
     this.accountService.addUser(user).subscribe({
       next: () => {
+        this.isSubmitting = false;
         this.dialogRef.close('refresh');
         alert('User successfully added');
         console.log(user);
       },
-      error: (err) => this.handleErrors(err),
+      error: (err) => {
+        this.isSubmitting = false;
+        this.handleErrors(err);
+      },
     });
   }
 
@@ -126,8 +133,9 @@ export class AddUserDialogComponent {
       logId: 'log123', // to be set soon
     };
 
-    this.accountService.updateUser(user).subscribe({
+    this.accountService.updateUser(this.id, user).subscribe({
       next: () => {
+        this.isSubmitting = false;
         this.dialogRef.close('refresh');
         console.log(user);
         alert('User successfully updated');

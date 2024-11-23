@@ -10,7 +10,6 @@ export interface DisplayUserAccount {
 }
 
 export interface EntryUserAccount {
-  id: number;
   fullName: string;
   username: string;
   password: string;
