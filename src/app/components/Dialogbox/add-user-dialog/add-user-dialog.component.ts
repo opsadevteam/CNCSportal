@@ -19,6 +19,7 @@ import {
 import { UserAccountService } from '../../../services/user-account.service';
 import { NgIf } from '@angular/common';
 import { EntryUserAccount } from '../../../Models/interface/user-account.model';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-add-user-dialog',
@@ -33,6 +34,7 @@ import { EntryUserAccount } from '../../../Models/interface/user-account.model';
     MatIconModule,
     ReactiveFormsModule,
     NgIf,
+    MatButtonModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './add-user-dialog.component.html',
