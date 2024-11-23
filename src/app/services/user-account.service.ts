@@ -29,7 +29,7 @@ export class UserAccountService {
 
   updateUser(id: number, user: EntryUserAccount) {
     return this.http.put<EntryUserAccount>(
-      this.baseUrl + `UserAccount/${id}`,
+      `${this.baseUrl}UserAccount/${id}`,
       user
     );
   }

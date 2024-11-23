@@ -42,7 +42,7 @@ export class AddUserDialogComponent {
   userForm: FormGroup;
   hidePassword = true;
   id: number = 0;
-  isSubmitting: boolean = false;
+  isSubmitting: boolean = false; //to disable button while submitting data
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { id: number },
@@ -59,6 +59,7 @@ export class AddUserDialogComponent {
 
   private createUserForm(): FormGroup {
     return this.fb.group({
+      id: [null],
       username: ['', [Validators.required]],
       fullName: ['', Validators.required],
       password: ['', [Validators.required]],
@@ -90,12 +91,14 @@ export class AddUserDialogComponent {
     this.accountService.getUser(id).subscribe({
       next: (userData: EntryUserAccount) => {
         this.userForm.patchValue({
+          id: userData.id,
           username: userData.username,
           fullName: userData.fullName,
           password: userData.password,
           userGroup: userData.userGroup,
           status: userData.status,
         });
+        console.log(this.userForm.value);
       },
       error: (err) => this.handleErrors(err),
     });
@@ -144,7 +147,9 @@ export class AddUserDialogComponent {
         console.log(user);
         alert('User successfully updated');
       },
-      error: (err) => this.handleErrors(err),
+      error: (err) => {
+        this.handleErrors(err), console.log(user), console.log(this.id);
+      },
     });
   }
 
