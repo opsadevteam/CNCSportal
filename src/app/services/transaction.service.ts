@@ -11,13 +11,16 @@ import { IEmailRecord } from '../Models/interface/email-record.model';
 })
 export class TransactionService {
   constructor(private http: HttpClient) {}
-  apiURL = environment.API_TRANSACTION_URL
+  apiURL = environment.LOCAL
+
+  baseUrl =
+    environment.ENVI_POINT == 'DEV' ? environment.DEV : environment.LOCAL;
 
   addTransaction(
     obj: IPhoneEntryFormTransaction
   ): Observable<IPhoneEntryFormTransaction> {
     return this.http.post<IPhoneEntryFormTransaction>(
-      environment.API_LOCAL_CNCS_URL + Constant.API_TRANSACTIONS_METHOD.CREATE_TRANSACTION,
+      this.baseUrl + Constant.API_TRANSACTIONS_METHOD.CREATE_TRANSACTION,
       obj
     );
   }

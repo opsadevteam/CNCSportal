@@ -2,7 +2,8 @@
   <mat-sidenav opened mode="side" [style.width]="sideNavWith()">
     <div class="sidenav-header">
       <div (click)="collapsed.set(!collapsed())">
-        <mat-icon matListItemIcon>chevron_left</mat-icon>
+        <mat-icon *ngIf="!collapsed()" matListItemIcon>chevron_left</mat-icon>
+        <mat-icon *ngIf="collapsed()" matListItemIcon>chevron_right</mat-icon>
       </div>
       <img
         [width]="profilePicSize()"
@@ -11,7 +12,9 @@
         alt=""
       />
       <div class="header-text" [class.hide-header-text]="collapsed()">
-        <h2>CNCS <small>v1.0.0</small></h2>
+        <h2>
+          CNCS <small>{{ version }}</small>
+        </h2>
       </div>
     </div>
     <mat-nav-list>
