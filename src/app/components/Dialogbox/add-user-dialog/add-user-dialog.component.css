@@ -38,3 +38,7 @@ mat-dialog-actions {
   justify-content: flex-end;
   gap: 8px;
 }
+
+mat-error {
+  color: #ffb4ab;
+}

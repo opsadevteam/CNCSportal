@@ -28,7 +28,10 @@ import { MatCardHeader, MatCardModule } from '@angular/material/card';
 import { DialogboxComponent } from '../../Dialogbox/logs-dialog/dialogbox.component';
 import { HttpClient } from '@angular/common/http';
 import { IEmailRecord } from '../../../Models/interface/email-record.model';
-
+import { TransactionService } from '../../../services/transaction.service';
+import { ProductVendorService } from '../../../services/product-vendor.service';
+import { DescriptionService } from '../../../services/description.service';
+import { UserAccountService } from '../../../services/user-account.service';
 
 @Component({
   selector: 'app-phone-records',
@@ -39,8 +42,6 @@ import { IEmailRecord } from '../../../Models/interface/email-record.model';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    NgIf,
-    NgFor,
     CommonModule,
     MatPaginatorModule,
     MatSelectModule,
@@ -52,12 +53,10 @@ import { IEmailRecord } from '../../../Models/interface/email-record.model';
     MatIconModule,
     MatCardHeader,
     MatCardModule,
-    DialogboxComponent   
-    
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './email-records.component.html',
   styleUrls: ['./email-records.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmailRecordsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -69,7 +68,10 @@ export class EmailRecordsComponent implements OnInit {
   pageIndex: number = 0;
   dateFrom: Date | null = null;
   dateTo: Date | null = null;
+  filterBy: string = 'id';
 
+  records: IEmailRecord[] = [];
+  filteredRecords: IEmailRecord[] = [];
   displayedColumns: string[] = [
     'id',
     'status',
@@ -79,48 +81,55 @@ export class EmailRecordsComponent implements OnInit {
     'pickUpDate',
     'takeOffDate',
     'dateAdded',
+    'productVendorId',
+    'descriptionId',
     'actionColumn',
   ];
 
   dataSource = new MatTableDataSource<IEmailRecord>();
-  records: IEmailRecord[] = [];
-  filteredRecords: IEmailRecord[] = [];
 
   constructor(private http: HttpClient, private cdRef: ChangeDetectorRef) {}
 
+  /**
+   * Lifecycle hook that initializes the component by loading transaction data.
+   */
   ngOnInit() {
     this.fetchRecords();
   }
 
-  filterBy: string = 'id'; 
-
-  fetchRecords() {
-    this.http.get<IEmailRecord[]>('https://localhost:44369/api/v1/EmailRecords').subscribe(
-      (response) => {
-        // Convert string dates to Date objects
-        this.records = response.map(record => ({
-          ...record,
-          pickUpDate: new Date(record.pickUpDate),
-          takeOffDate: new Date(record.takeOffDate),
-          dateAdded: new Date(record.dateAdded)
-        }));
-        
-        this.filteredRecords = this.records;
-        this.dataSource.data = this.filteredRecords;
-        this.totalItems = this.filteredRecords.length;
-        this.cdRef.detectChanges();
-      },
-      (error) => {
-        console.error('Error fetching records:', error);
-      }
-    );
-  }
-  
-  
-
+  /**
+   * Lifecycle hook that sets the paginator for the table after the view initializes.
+   */
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  /**
+   * Loads the list of users from the backend and populates the table data source.
+   */
+  fetchRecords() {
+    this.http
+      .get<IEmailRecord[]>('https://localhost:7050/api/v1/Transaction')
+      .subscribe(
+        (response) => {
+          // Convert string dates to Date objects
+          this.records = response.map((record) => ({
+            ...record,
+            pickUpDate: new Date(record.pickUpDate),
+            takeOffDate: new Date(record.takeOffDate),
+            dateAdded: new Date(record.dateAdded),
+          }));
+
+          this.filteredRecords = this.records;
+          this.dataSource.data = this.filteredRecords;
+          this.totalItems = this.filteredRecords.length;
+          this.cdRef.detectChanges();
+        },
+        (error) => {
+          console.error('Error fetching records:', error);
+        }
+      );
   }
 
   applyFilter() {
@@ -170,23 +179,18 @@ export class EmailRecordsComponent implements OnInit {
     this.applyFilter();
   }
 
-  showLogs(action: string): void {
+  showLogs(action: string): void {}
 
-  }
+  showEdit(action: string) {}
 
-  showEdit(action: string){
-
-  }
-
-  showDelete(action: string){
-
-  }
-
+  showDelete(action: string) {}
 
   resolveCellValue(column: string, element: any): string {
     switch (column) {
       case 'status':
-        return `<span class="badge status-${element.status.toLowerCase()}">${element.status}</span>`;
+        return `<span class="badge status-${element.status.toLowerCase()}">${
+          element.status
+        }</span>`;
       case 'receivedDate':
       case 'sendingDate':
       case 'dateAdded':
@@ -195,5 +199,4 @@ export class EmailRecordsComponent implements OnInit {
         return element[column] || '-';
     }
   }
-  
 }

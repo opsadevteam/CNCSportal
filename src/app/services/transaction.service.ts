@@ -1,15 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IPhoneEntryFormTransaction } from '../Models/interface/phoneEntryForm.model';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { Constant } from '../constant/Constants';
+import { IEmailRecord } from '../Models/interface/email-record.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TransactionService {
   constructor(private http: HttpClient) {}
+  apiURL = environment.API_TRANSACTION_URL
 
   addTransaction(
     obj: IPhoneEntryFormTransaction
@@ -19,6 +21,20 @@ export class TransactionService {
       obj
     );
   }
+
+  fetchRecords(): Observable<IEmailRecord[]> {
+    return this.http.get<IEmailRecord[]>(this.apiURL).pipe(
+      map((records) =>
+        records.map((record) => ({
+          ...record,
+          pickUpDate: new Date(record.pickUpDate),
+          takeOffDate: new Date(record.takeOffDate),
+          dateAdded: new Date(record.dateAdded),            
+        }))
+      )
+    );
+  }
+  
 
   //
   //

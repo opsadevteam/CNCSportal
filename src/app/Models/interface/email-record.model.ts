@@ -7,6 +7,6 @@ export interface IEmailRecord {
   pickUpDate: string | Date;
   takeOffDate: string | Date;
   dateAdded: string | Date;
-  vendorList?: any;
-  descriptionList?: any;
+  productVendorId?: string;
+  descriptionId?: string;
 }
