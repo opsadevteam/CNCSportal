@@ -16,6 +16,10 @@ export const Constant = {
     GET_ALL_LOG_ACCOUNT: "ActivityLog",
   },
 
+  CNCS_VERSION: {
+    NUMBER: '1.0.1',
+  },
+
   MESSAGES: {
     PHONE_ENTRY_FORM:
       "This page is the phone entry form where all inbound and outbound calls are loged. It helps track and document every phone interaction for efficient  record-keeping.",

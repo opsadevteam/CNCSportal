@@ -11,10 +11,12 @@ import { Constant } from '../constant/Constants';
 export class ProductVendorService {
   constructor(private http: HttpClient) {}
 
+  baseUrl =
+    environment.ENVI_POINT == 'DEV' ? environment.DEV : environment.LOCAL;
+
   getAllProductVendors(): Observable<IProductVendor> {
     return this.http.get<IProductVendor>(
-      environment.API_LOCAL_CNCS_URL +
-        Constant.API_PRODUCT_VENDOR_METHOD.GET_ALL_PRODUCT_VENDORS
+      this.baseUrl + Constant.API_PRODUCT_VENDOR_METHOD.GET_ALL_PRODUCT_VENDORS
     );
   }
 }
