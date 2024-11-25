@@ -95,7 +95,9 @@
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="openDialog(element.id)">Edit</button>
+                <button mat-menu-item (click)="openDialog(element.id)">
+                  Edit
+                </button>
                 <button mat-menu-item (click)="confirmDelete(element.id)">
                   Delete
                 </button>
