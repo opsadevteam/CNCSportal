@@ -10,7 +10,8 @@ import { Observable } from "rxjs";
 })
 export class ActivityLogService {
   private http = inject(HttpClient);
-  baseUrl = environment.API_LOCAL_CNCS_URL;
+  baseUrl =
+    environment.ENVI_POINT == "DEV" ? environment.DEV : environment.LOCAL;
 
   constructor() {}
 

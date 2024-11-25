@@ -8,15 +8,14 @@ import {
 import { Constant } from "../constant/Constants";
 import { Observable } from "rxjs";
 
-
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UserAccountService {
   private http = inject(HttpClient);
 
   baseUrl =
-    environment.ENVI_POINT == 'DEV' ? environment.DEV : environment.LOCAL;
+    environment.ENVI_POINT == "DEV" ? environment.DEV : environment.LOCAL;
 
   constructor() {}
 
@@ -24,7 +23,7 @@ export class UserAccountService {
     return this.http.get<DisplayUserAccount[]>(
       this.baseUrl + Constant.API_USER_ACCOUNT_METHOD.GET_ALL_USER_ACCOUNT
     );
-
+  }
 
   getUser(id: number): Observable<EntryUserAccount> {
     return this.http.get<EntryUserAccount>(
@@ -33,13 +32,12 @@ export class UserAccountService {
     );
   }
 
-
   addUser(user: EntryUserAccount): Observable<EntryUserAccount> {
     return this.http.post<EntryUserAccount>(
       this.baseUrl + Constant.API_USER_ACCOUNT_METHOD.GET_ALL_USER_ACCOUNT,
       user
     );
-
+  }
 
   updateUser(id: number, user: EntryUserAccount): Observable<EntryUserAccount> {
     return this.http.put<EntryUserAccount>(
