@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnInit,
   ViewChild,
   viewChild,
 } from "@angular/core";
@@ -21,6 +22,8 @@ import { MatMenuModule, MatMenuTrigger } from "@angular/material/menu";
 import { NumberPaddingPipe } from "../../../pipes/number-padding.pipe";
 import { AddUserDialogComponent } from "../../Dialogbox/add-user-dialog/add-user-dialog.component";
 import { DeleteDialogComponent } from "../../Dialogbox/delete-dialog/delete-dialog.component";
+import { Activitylog } from "../../../Models/interface/activitylog.model";
+import { ActivityLogService } from "../../../services/activity-log.service";
 
 @Component({
   selector: "app-activity-logs",
@@ -38,14 +41,15 @@ import { DeleteDialogComponent } from "../../Dialogbox/delete-dialog/delete-dial
     MatIconModule,
     MatDividerModule,
     MatMenuModule,
-    AddUserDialogComponent,
-    DeleteDialogComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./activity-logs.component.html",
   styleUrl: "./activity-logs.component.css",
 })
-export class ActivityLogsComponent {
+export class ActivityLogsComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  activityLogs: Activitylog[] = [];
   displayedColumns: string[] = [
     "id",
     "activity",
@@ -54,63 +58,26 @@ export class ActivityLogsComponent {
     "datetime",
     "details",
   ];
-  dataSource = new MatTableDataSource<DataActivityLogs>(Data);
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  dataSource = new MatTableDataSource<Activitylog>(this.activityLogs);
+
+  constructor(private readonly activityLogService: ActivityLogService) {}
+
+  ngOnInit(): void {
+    this.loadActivityLogs();
+  }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
-}
 
-export interface DataActivityLogs {
-  id: number;
-  activity: string;
-  user: string;
-  usergroup: string;
-  datetime: Date;
-  details: string;
+  loadActivityLogs(): void {
+    this.activityLogService.getActivityLogs().subscribe({
+      next: (_activitylogs) => {
+        this.activityLogs = _activitylogs;
+        this.dataSource.data = _activitylogs;
+      },
+      error: (error) => console.error("Failed to load activity logs", error),
+    });
+  }
 }
-
-const Data: DataActivityLogs[] = [
-  {
-    id: 1,
-    activity: "Logged In",
-    user: "jdoe",
-    usergroup: "admin",
-    datetime: new Date("2024-01-15T08:30:00"),
-    details: "User logged in from IP 192.168.0.1",
-  },
-  {
-    id: 2,
-    activity: "Password Changed",
-    user: "asmith",
-    usergroup: "user",
-    datetime: new Date("2024-02-20T14:45:00"),
-    details: "Password updated successfully",
-  },
-  {
-    id: 3,
-    activity: "Created Post",
-    user: "mjones",
-    usergroup: "moderator",
-    datetime: new Date("2024-03-10T10:15:00"),
-    details: "Posted in General Discussion",
-  },
-  {
-    id: 4,
-    activity: "Logged Out",
-    user: "bwhite",
-    usergroup: "admin",
-    datetime: new Date("2024-04-05T18:05:00"),
-    details: "User logged out",
-  },
-  {
-    id: 5,
-    activity: "Commented",
-    user: "kharris",
-    usergroup: "user",
-    datetime: new Date("2024-05-15T11:20:00"),
-    details: "Commented on Post ID 123",
-  },
-];

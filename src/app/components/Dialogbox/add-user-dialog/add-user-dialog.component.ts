@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  Inject,
-  signal,
-} from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
+import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
 import {
   MatDialogActions,
   MatDialogClose,
@@ -24,13 +17,14 @@ import {
   Validators,
 } from "@angular/forms";
 import { UserAccountService } from "../../../services/user-account.service";
-import { Router } from "@angular/router";
+import { NgIf } from "@angular/common";
+import { EntryUserAccount } from "../../../Models/interface/userAccount.model";
+import { MatButtonModule } from "@angular/material/button";
 
 @Component({
   selector: "app-add-user-dialog",
   standalone: true,
   imports: [
-    MatButtonModule,
     MatDialogActions,
     MatDialogClose,
     MatDialogTitle,
@@ -39,132 +33,135 @@ import { Router } from "@angular/router";
     MatSelectModule,
     MatIconModule,
     ReactiveFormsModule,
+    NgIf,
+    MatButtonModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./add-user-dialog.component.html",
   styleUrls: ["./add-user-dialog.component.css"],
 })
 export class AddUserDialogComponent {
-  private accountService = inject(UserAccountService);
-  private router = inject(Router);
-
-  hide = signal(true);
-  action: "Add" | "Edit";
   userForm: FormGroup;
-  validationErrors: string[] | undefined;
+  hidePassword = true;
+  id: number = 0;
+  isSubmitting: boolean = false; //to disable button while submitting data
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private fb: FormBuilder,
-    private dialogRef: MatDialogRef<AddUserDialogComponent>
+    @Inject(MAT_DIALOG_DATA) public data: { id: number },
+    private readonly fb: FormBuilder,
+    private readonly dialogRef: MatDialogRef<AddUserDialogComponent>,
+    private readonly accountService: UserAccountService
   ) {
-    this.action = data.action;
-    this.userForm = this.createUserForm(data.user);
+    this.id = data.id;
+    this.userForm = this.createUserForm();
+    if (data.id) {
+      this.loadUserData(data.id);
+    }
   }
 
-  /**
-   * Creates and initializes the user form with default or provided values.
-   * @param user The user data to prepopulate the form (optional).
-   * @returns A FormGroup representing the user form.
-   */
-  private createUserForm(user: any): FormGroup {
+  private createUserForm(): FormGroup {
     return this.fb.group({
-      username: [
-        user?.username || "",
-        [Validators.required, Validators.minLength(3)],
-      ],
-      fullName: [user?.fullName || "", Validators.required],
-      password: [
-        user?.password || "",
-        [Validators.required, Validators.minLength(6)],
-      ],
-      userGroup: [user?.userGroup || "", Validators.required],
+      id: [0],
+      username: ["", [Validators.required]],
+      fullName: ["", Validators.required],
+      password: ["", [Validators.required]],
+      userGroup: ["", Validators.required],
       status: ["Active"],
-      dateAdded: [new Date()],
-      addedBy: "Admin",
     });
   }
 
-  /**
-   * Toggles the visibility of the password field in the form.
-   * @param event The mouse event triggered by the user.
-   */
   togglePasswordVisibility(event: MouseEvent): void {
-    event.stopPropagation(); // Stop event bubbling
-    this.hide.set(!this.hide());
+    this.hidePassword = !this.hidePassword;
   }
 
-  /**
-   * Validates the form and determines whether to add or edit the user.
-   */
-  upsert(): void {
-    if (!this.userForm.valid) {
-      console.warn("Form is invalid", this.userForm.errors);
+  submit(): void {
+    if (this.userForm.invalid || this.isSubmitting) {
       this.userForm.markAllAsTouched();
       return;
     }
 
-    if (this.action === "Add") {
+    this.isSubmitting = true;
+
+    if (this.data.id) {
+      this.editUser();
+    } else {
       this.addUser();
-    } else if (this.action === "Edit") {
-      // this.editUser();
     }
   }
 
-  /**
-   * Sends a request to add a new user to the system.
-   */
-  private addUser(): void {
-    const userData = this.userForm.value;
-
-    this.accountService.addUser(userData).subscribe({
-      next: () => {
-        this.dialogRef.close("refresh"),
-          this.showSuccessAlert();
+  loadUserData(id: number): void {
+    this.accountService.getUser(id).subscribe({
+      next: (userData: EntryUserAccount) => {
+        this.userForm.patchValue({
+          id: userData.id,
+          username: userData.username,
+          fullName: userData.fullName,
+          password: userData.password,
+          userGroup: userData.userGroup,
+          status: userData.status,
+        });
+        console.log(this.userForm.value);
       },
-      error: (error) => {
-        if (error.status === 400) {
+      error: (err) => this.handleErrors(err),
+    });
+  }
+
+  private addUser(): void {
+    const user: EntryUserAccount = {
+      ...this.userForm.value, // This will copy the values entered in the form
+      addedBy: "admin", // to be set soon
+      dateAdded: new Date(), // Set current date
+      isDeleted: false, // Set default value
+      logId: "log123", // to be set soon
+    };
+
+    this.accountService.addUser(user).subscribe({
+      next: () => {
+        this.isSubmitting = false;
+        this.dialogRef.close("refresh");
+        alert("User successfully added");
+        console.log(user);
+      },
+      error: (err) => {
+        this.isSubmitting = false;
+        if (err.status === 409) {
           this.userForm.get("username")?.setErrors({ UsernameTaken: true });
         } else {
-          this.handleError(error);
+          this.handleErrors(err);
         }
       },
     });
   }
 
-  /**
-   * Sends a request to update an existing user in the system.
-   */
-  /** 
-    private editUser(): void {
-    const userData = this.userForm.value;
+  private editUser(): void {
+    const user: EntryUserAccount = {
+      ...this.userForm.value,
+      addedBy: "admin",
+      dateAdded: new Date(),
+      isDeleted: false,
+      logId: "log123", // to be set soon
+    };
 
-    this.accountService.updateUser(userData).subscribe({
-      next: () => this.closeDialogWithRefresh(),
-      error: (error) => this.handleError(error),
-    });
-  }
-  */
-
-  /**
-   * Handles errors returned from the server during API calls.
-   * @param error The error response from the server.
-   */
-  private handleError(error: any): void {
-    console.error("Error occurred:", error);
-    this.validationErrors = error.errors || ["An unexpected error occurred."];
-  }
-
-  /**
-   * Closes the modal and displays an alert confirming successful user addition.
-   */
-  showSuccessAlert(): void {
-    this.dialogRef.afterClosed().subscribe(() => {
-      if (this.action === "Add") {
-        alert("User successfully added");
-      } else if (this.action === "Edit") {
+    this.accountService.updateUser(this.id, user).subscribe({
+      next: () => {
+        this.isSubmitting = false;
+        this.dialogRef.close("refresh");
+        console.log(user);
         alert("User successfully updated");
-      }
+      },
+      error: (err) => {
+        this.isSubmitting = false;
+        if (err.status === 409) {
+          this.userForm.get("username")?.setErrors({ UsernameTaken: true });
+        } else {
+          this.handleErrors(err);
+        }
+      },
     });
+  }
+
+  private handleErrors(err: any): void {
+    console.error("An error occurred:", err);
+    // Handle error logic or display error messages
   }
 }
