@@ -14,7 +14,7 @@ export class TransactionService {
   apiURL = environment.LOCAL
 
   baseUrl =
-    environment.ENVI_POINT == 'DEV' ? environment.DEV : environment.LOCAL;
+    environment.ENVI_POINT == 'LOCAL' ? environment.DEV : environment.LOCAL;
 
   addTransaction(
     obj: IPhoneEntryFormTransaction
@@ -26,7 +26,7 @@ export class TransactionService {
   }
 
   fetchRecords(): Observable<IEmailRecord[]> {
-    return this.http.get<IEmailRecord[]>(this.apiURL).pipe(
+    return this.http.get<IEmailRecord[]>(this.baseUrl).pipe(
       map((records) =>
         records.map((record) => ({
           ...record,
