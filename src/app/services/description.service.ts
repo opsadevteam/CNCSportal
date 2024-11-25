@@ -11,10 +11,12 @@ import { Constant } from '../constant/Constants';
 export class DescriptionService {
   constructor(private http: HttpClient) {}
 
+  baseUrl =
+    environment.ENVI_POINT == 'DEV' ? environment.DEV : environment.LOCAL;
+
   getAllDescriptions(): Observable<IProductVendor> {
     return this.http.get<IProductVendor>(
-      environment.API_LOCAL_CNCS_URL +
-        Constant.API_DESCRIPTION_METHOD.GET_ALL_DESCRIPTIONS
+      this.baseUrl + Constant.API_DESCRIPTION_METHOD.GET_ALL_DESCRIPTIONS
     );
   }
 }
