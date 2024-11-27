@@ -28,11 +28,11 @@ import { MatCardHeader, MatCardModule } from '@angular/material/card';
 import { DialogboxComponent } from '../../Dialogbox/logs-dialog/dialogbox.component';
 import { HttpClient } from '@angular/common/http';
 import { IPhoneRecord } from '../../../Models/interface/phone-record.model';
-import { TransactionService } from '../../../services/transaction.service';
 import { ProductVendorService } from '../../../services/product-vendor.service';
 import { DescriptionService } from '../../../services/description.service';
 import { UserAccountService } from '../../../services/user-account.service';
 import { DeleteDialogComponent } from '../../Dialogbox/delete-dialog/delete-dialog.component';
+import { PhoneRecordsService } from '../../../services/phone-records.service';
 
 interface Record {
   id: string;
@@ -67,7 +67,7 @@ interface Record {
     MatIconModule,
     MatCardHeader,
     MatCardModule,
-    DialogboxComponent,    
+    DialogboxComponent,       
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './phone-records.component.html',
@@ -108,7 +108,7 @@ export class PhoneRecordsComponent implements OnInit {
   constructor(
     private readonly cdRef: ChangeDetectorRef,
     private readonly dialog: MatDialog,
-    private readonly transactionService: TransactionService
+    private readonly phonerecordsService: PhoneRecordsService
   ) {}
 
   /**
@@ -131,7 +131,7 @@ export class PhoneRecordsComponent implements OnInit {
    */
   fetchRecords(): void {
     // Fetch data from the service
-    this.transactionService.fetchRecords().subscribe({
+    this.phonerecordsService.fetchRecords().subscribe({
       next: (records) => {
         // Filter records: Exclude isDeleted = true and transactionType !== 'Email'
         const filteredRecords = records.filter(
@@ -286,7 +286,7 @@ export class PhoneRecordsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
         // Proceed to delete the record if confirmed
-        this.transactionService.deleteUser(id).subscribe({
+        this.phonerecordsService.deleteUser(id).subscribe({
           next: () => {
             // console.log(`Record with ID ${id} deleted successfully.`);
             this.fetchRecords(); // Refresh the records after deletion
