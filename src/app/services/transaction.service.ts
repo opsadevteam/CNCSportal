@@ -22,37 +22,7 @@ export class TransactionService {
       this.baseUrl + Constant.API_TRANSACTIONS_METHOD.CREATE_TRANSACTION,
       obj
     );
-  }
-
-  fetchRecords(): Observable<IEmailRecord[]> {
-    return this.http
-      .get<IEmailRecord[]>(
-        this.baseUrl + Constant.API_EMAIL_RECORDS_METHOD.GET_ALL_EMAIL_RECORDS
-      )
-      .pipe(
-        map((records) =>
-          records.map((record) => ({
-            ...record,
-            pickUpDate: new Date(record.pickUpDate),
-            takeOffDate: new Date(record.takeOffDate),
-            dateAdded: new Date(record.dateAdded),
-          }))
-        )
-      );
-  }
-
-  deleteUser(id: number): Observable<any> {
-    const deleteDto = {
-      Id: id,
-      IsDeleted: true,
-    };
-    return this.http.put(
-      this.baseUrl +
-        Constant.API_EMAIL_RECORDS_METHOD.DELETE_SINGLE_EMAIL_RECORDS +
-        `/delete/${id}`,
-      deleteDto
-    );
-  }
+  }  
 
   //
   //
