@@ -47,7 +47,7 @@ export interface IProductVendor {
 
 export interface IDescription {
   id: number;
-  productVendorId: string;
+  productVendorId: number;
   description: string;
   addedBy: string;
   dateAdded: string;
