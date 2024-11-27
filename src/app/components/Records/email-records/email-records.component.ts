@@ -28,14 +28,14 @@ import { MatCardHeader, MatCardModule } from '@angular/material/card';
 import { DialogboxComponent } from '../../Dialogbox/logs-dialog/dialogbox.component';
 import { HttpClient } from '@angular/common/http';
 import { IEmailRecord } from '../../../Models/interface/email-record.model';
-import { TransactionService } from '../../../services/transaction.service';
 import { ProductVendorService } from '../../../services/product-vendor.service';
 import { DescriptionService } from '../../../services/description.service';
 import { UserAccountService } from '../../../services/user-account.service';
 import { DeleteDialogComponent } from '../../Dialogbox/delete-dialog/delete-dialog.component';
+import { EmailRecordsService } from '../../../services/email-records.service';
 
 @Component({
-  selector: 'app-phone-records',
+  selector: 'app-email-records',
   standalone: true,
   imports: [
     FormsModule,
@@ -94,7 +94,7 @@ export class EmailRecordsComponent implements OnInit {
   constructor(
     private readonly cdRef: ChangeDetectorRef,
     private readonly dialog: MatDialog,
-    private readonly transactionService: TransactionService
+    private readonly emailrecordsService: EmailRecordsService
   ) {}
 
   /**
@@ -116,9 +116,8 @@ export class EmailRecordsComponent implements OnInit {
    * Loads the list of users from the backend and populates the table data source.
    */
   fetchRecords(): void {
-
     // Fetch data from the service
-    this.transactionService.fetchRecords().subscribe({
+    this.emailrecordsService.fetchRecords().subscribe({
       next: (records) => {
         // Filter records: Exclude isDeleted = true and transactionType !== 'Email'
         const filteredRecords = records.filter(
@@ -131,11 +130,9 @@ export class EmailRecordsComponent implements OnInit {
 
         // If no search term and date filters are set, just reset the data
         if (!this.searchTerm && !this.dateFrom && !this.dateTo) {
-          // console.log('No filters applied. Displaying all records.');
           this.dataSource.data = [...filteredRecords]; // Display all records without further filtering
         } else {
-          // Apply search filters and date range filters
-          //console.log('Applying filters to records...');
+          // Apply search and date range filters
           this.filterSearch(); // Apply filters based on search term and date range
         }
 
@@ -147,7 +144,7 @@ export class EmailRecordsComponent implements OnInit {
         this.applyPagination();
       },
       error: (err) => {
-        //console.error('Failed to fetch records:', err);
+        // console.error('Failed to fetch records:', err);
       },
     });
   }
@@ -186,8 +183,14 @@ export class EmailRecordsComponent implements OnInit {
       const matchesDate =
         (!from || dateAdded >= from) && (!to || dateAdded <= to);
 
-      // Combine both filters
-      return matchesSearch && matchesDate;
+      // Apply isDeleted filter in combination with other filters
+      const matchesIsDeleted = !record.isDeleted;
+
+      // Apply Email filter in combination with other filters
+      const matchesTransactionType = record.transactionType === 'Email';
+
+      // Combine all filters
+      return matchesSearch && matchesDate && matchesIsDeleted && matchesTransactionType;
     });
 
     // Update data source with filtered records
@@ -200,25 +203,20 @@ export class EmailRecordsComponent implements OnInit {
   applyFilter(): void {
     // Check if search term and date filters are empty
     if (!this.searchTerm && !this.dateFrom && !this.dateTo) {
-      // If filters are empty, just reset the data to the initial state
+      // If filters are empty, reset the data to the initial state by re-fetching records
       if (this.filteredRecords.length !== this.records.length) {
-        // console.log(
-        //   'Search term and date filters are empty. Resetting data...'
-        // );
-        this.fetchRecords(); // Reset data by re-fetching records
+        // console.log('Search term and date filters are empty. Resetting data...');
+        this.fetchRecords(); // Re-fetch data only if there was no prior filtering
       }
       return; // Exit the method as no further filtering is needed
     }
 
-    // Apply combined search and date filters only if there is an active search term or date filters
-    if (this.searchTerm || this.dateFrom || this.dateTo) {
-      //  console.log('Applying filters with active inputs...');
-      this.filterSearch(); // Apply the actual search filter
+    // If there are active search or date filters, apply those filters
+    // console.log('Applying filters with active inputs...');
+    this.filterSearch(); // Apply the actual search filter
 
-      // Update pagination with the filtered data
-      this.applyPagination();
-    }
-
+    // Reapply pagination after applying filters
+    this.applyPagination();
     this.isSearchApplied = true; // Set flag indicating search is applied
   }
 
@@ -251,35 +249,6 @@ export class EmailRecordsComponent implements OnInit {
     this.applyFilter();
   }
 
-  // showLogs(emailId: string): void {
-
-  // const dialogRef = this.dialog.open(DialogboxComponent, {
-  //   data: { emailId }, // Pass the emailId (string) to the dialog
-  // });
-
-  // console.log('Email ID passed to dialog:', emailId); // Ensure this logs the string emailId
-
-  // // Optional: Handle the dialog result or closure if needed
-  // dialogRef.afterClosed().subscribe(result => {
-  //   console.log('Dialog closed', result);
-  // });
-
-  //   // const logData = [
-  //   //   {
-
-  //   //   },
-  //   // ];
-
-  //   // this.dialog.open(DialogboxComponent, {
-  //   //   width: '90vw',
-  //   //   maxWidth: '100vw',
-  //   //   data: {
-  //   //     logs: logData,
-  //   //     emailStringParams: this.emailStringParams,
-  //   //   },
-  //   // });
-  // }
-
   showLogs(emailId: string): void {
     const dialogRef = this.dialog.open(DialogboxComponent, {
       width: '90vw',
@@ -303,7 +272,7 @@ export class EmailRecordsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
         // Proceed to delete the record if confirmed
-        this.transactionService.deleteUser(id).subscribe({
+        this.emailrecordsService.deleteUser(id).subscribe({
           next: () => {
             // console.log(`Record with ID ${id} deleted successfully.`);
             this.fetchRecords(); // Refresh the records after deletion
