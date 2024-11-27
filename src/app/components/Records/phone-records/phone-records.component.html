@@ -23,7 +23,7 @@
 
         <mat-form-field appearance="outline" class="filter-select">
           <mat-label>Filter by</mat-label>
-          <mat-select>
+          <mat-select [(ngModel)]="filterBy">
             <mat-option value="customerId">Customer ID</mat-option>
             <mat-option value="emailId">Email ID</mat-option>
           </mat-select>
@@ -49,17 +49,13 @@
           <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
 
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="filterSearch()"       
-        >
+        <button mat-raised-button color="primary" (click)="applyFilter()">
           Search
         </button>
       </div>
 
       <!-- Data Table -->
-      <div *ngIF="searchTerm"></div>
+      <div *ngIf="searchTerm"></div>
       <table
         mat-table
         [dataSource]="dataSource"
@@ -68,27 +64,13 @@
       >
         <!-- ID Column -->
         <ng-container matColumnDef="id">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            class="center-header"
-          >
-            ID
-          </th>
+          <th mat-header-cell *matHeaderCellDef>ID</th>
           <td mat-cell *matCellDef="let element">{{ element.id }}</td>
         </ng-container>
 
         <!-- Status Column -->
         <ng-container matColumnDef="status">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            class="center-header"
-          >
-            Status
-          </th>
+          <th mat-header-cell *matHeaderCellDef>Status</th>
           <td
             mat-cell
             *matCellDef="let element"
@@ -97,20 +79,20 @@
             <div
               class="badge"
               [style.background]="
-                element.status === 'CLOSED'
+                element.status.toUpperCase() === 'CLOSED'
                   ? 'rgba(240, 52, 45, 0.15)'
-                  : element.status === 'PENDING'
+                  : element.status.toUpperCase() === 'PENDING'
                   ? 'rgba(255, 159, 10, 0.15)'
-                  : element.status === 'PROCESSING'
+                  : element.status.toUpperCase() === 'PROCESSING'
                   ? 'rgba(28, 195, 62, 0.15)'
                   : 'rgba(116, 116, 128, 0.15)'
               "
               [style.color]="
-                element.status === 'CLOSED'
+                element.status.toUpperCase() === 'CLOSED'
                   ? '#F0352D'
-                  : element.status === 'PENDING'
+                  : element.status.toUpperCase() === 'PENDING'
                   ? '#FF9F0A'
-                  : element.status === 'PROCESSING'
+                  : element.status.toUpperCase() === 'PROCESSING'
                   ? '#1CC33E'
                   : '#747480'
               "
@@ -121,133 +103,92 @@
         </ng-container>
 
         <!-- Email ID Column -->
-        <ng-container matColumnDef="emailId">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            class="center-header"
-          >
-            Email ID
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.emailId }}</td>
+        <ng-container matColumnDef="transactionId">
+          <th mat-header-cell *matHeaderCellDef>Email ID</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.transactionId }}
+          </td>
         </ng-container>
 
         <!-- Customer ID Column -->
         <ng-container matColumnDef="customerId">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            class="center-header"
-          >
-            Customer ID
-          </th>
+          <th mat-header-cell *matHeaderCellDef>Customer ID</th>
           <td mat-cell *matCellDef="let element">{{ element.customerId }}</td>
         </ng-container>
 
         <!-- Customer Replied By Column -->
         <ng-container matColumnDef="repliedBy">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            class="center-header"
-          >
-            Replied By
-          </th>
+          <th mat-header-cell *matHeaderCellDef>Replied By</th>
           <td mat-cell *matCellDef="let element">{{ element.repliedBy }}</td>
         </ng-container>
 
         <!-- Customer Received Date Column -->
-        <ng-container matColumnDef="receivedDate">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            class="center-header"
-          >
-            Received Date
-          </th>
+        <ng-container matColumnDef="pickUpDate">
+          <th mat-header-cell *matHeaderCellDef>Received Date</th>
           <td mat-cell *matCellDef="let element">
-            {{ element.receivedDate | date : "d MMM y" }}
+            {{ element.pickUpDate | date : "d MMM y" }}
           </td>
         </ng-container>
 
         <!-- Customer Sending Date Column -->
-        <ng-container matColumnDef="sendingDate">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            class="center-header"
-          >
-            Sending Date
-          </th>
+        <ng-container matColumnDef="takeOffDate">
+          <th mat-header-cell *matHeaderCellDef>Sending Date</th>
           <td mat-cell *matCellDef="let element">
-            {{ element.sendingDate | date : "d MMM y" }}
+            {{ element.takeOffDate | date : "d MMM y" }}
           </td>
         </ng-container>
 
         <!-- Customer Vendor Column -->
-        <ng-container matColumnDef="vendor">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            class="center-header"
-          >
-            Vendor
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.vendor }}</td>
+        <ng-container matColumnDef="productVendorId">
+          <th mat-header-cell *matHeaderCellDef>Vendor</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.productVendorId }}
+          </td>
         </ng-container>
 
         <!-- Customer Description Column -->
-        <ng-container matColumnDef="description">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            class="center-header"
-          >
-            Description
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+        <ng-container matColumnDef="descriptionId">
+          <th mat-header-cell *matHeaderCellDef>Description</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.descriptionId }}
+          </td>
         </ng-container>
 
         <!-- Customer Date Added Column -->
         <ng-container matColumnDef="dateAdded">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            class="center-header"
-          >
-            Date Added
-          </th>
+          <th mat-header-cell *matHeaderCellDef>Date Added</th>
           <td mat-cell *matCellDef="let element">
             {{ element.dateAdded | date : "d MMM y" }}
           </td>
         </ng-container>
 
+        <!-- isDeleted Column - For Debugging only -->
+        <!-- <ng-container matColumnDef="isDeleted">
+          <th mat-header-cell *matHeaderCellDef>isDeleted</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.isDeleted }}
+          </td>
+        </ng-container> -->
+
         <!-- Customer Action Column -->
         <ng-container matColumnDef="actionColumn">
-          <th mat-header-cell *matHeaderCellDef class="center-header">
-            Action
-          </th>
+          <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
             <div class="example-button-row">
               <div class="example-flex-container">
                 <button
                   mat-icon-button
-                  aria-label=""
+                  aria-label="Example icon button with a vertical three dot icon"
                   [matMenuTriggerFor]="menu"
                   #menuTrigger
                 >
                   <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
-                  <button mat-menu-item (click)="showLogs('logsAction')">
+                  <button
+                    mat-menu-item
+                    (click)="showLogs(element.transactionId)"
+                  >
                     <mat-icon>visibility</mat-icon>
                     Show Logs
                   </button>
@@ -255,7 +196,7 @@
                     <mat-icon>edit</mat-icon>
                     Edit
                   </button>
-                  <button mat-menu-item (click)="showDelete('deleteAction')">
+                  <button mat-menu-item (click)="deleteRecord(element.id)">
                     <mat-icon>delete</mat-icon>
                     Delete
                   </button>
@@ -273,6 +214,8 @@
       <mat-paginator
         [pageSize]="pageSize"
         [length]="records.length"
+        [pageIndex]="pageIndex"
+        (page)="onPageChange($event)"
         showFirstLastButtons
       >
       </mat-paginator>
