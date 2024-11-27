@@ -11,10 +11,9 @@ import { IEmailRecord } from '../Models/interface/email-record.model';
 })
 export class TransactionService {
   constructor(private http: HttpClient) {}
-  apiURL = environment.LOCAL
 
   baseUrl =
-    environment.ENVI_POINT == 'LOCAL' ? environment.DEV : environment.LOCAL;
+    environment.ENVI_POINT == 'DEV' ? environment.DEV : environment.LOCAL;
 
   addTransaction(
     obj: IPhoneEntryFormTransaction
@@ -26,18 +25,34 @@ export class TransactionService {
   }
 
   fetchRecords(): Observable<IEmailRecord[]> {
-    return this.http.get<IEmailRecord[]>(this.baseUrl).pipe(
-      map((records) =>
-        records.map((record) => ({
-          ...record,
-          pickUpDate: new Date(record.pickUpDate),
-          takeOffDate: new Date(record.takeOffDate),
-          dateAdded: new Date(record.dateAdded),            
-        }))
+    return this.http
+      .get<IEmailRecord[]>(
+        this.baseUrl + Constant.API_EMAIL_RECORDS_METHOD.GET_ALL_EMAIL_RECORDS
       )
+      .pipe(
+        map((records) =>
+          records.map((record) => ({
+            ...record,
+            pickUpDate: new Date(record.pickUpDate),
+            takeOffDate: new Date(record.takeOffDate),
+            dateAdded: new Date(record.dateAdded),
+          }))
+        )
+      );
+  }
+
+  deleteUser(id: number): Observable<any> {
+    const deleteDto = {
+      Id: id,
+      IsDeleted: true,
+    };
+    return this.http.put(
+      this.baseUrl +
+        Constant.API_EMAIL_RECORDS_METHOD.DELETE_SINGLE_EMAIL_RECORDS +
+        `/delete/${id}`,
+      deleteDto
     );
   }
-  
 
   //
   //

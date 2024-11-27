@@ -9,4 +9,6 @@ export interface IEmailRecord {
   dateAdded: string | Date;
   productVendorId?: string;
   descriptionId?: string;
+  transactionType: string,
+  isDeleted: boolean;
 }

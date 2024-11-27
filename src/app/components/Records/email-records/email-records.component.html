@@ -2,8 +2,8 @@
   <mat-card-header>
     <!-- Main Content -->
     <div class="main-content">
-      <h2>Phone Records</h2>
-      <p>Here is a list of all phone records</p>
+      <h2>Email Records</h2>
+      <p>Here is a list of all email records</p>
     </div>
   </mat-card-header>
 
@@ -55,7 +55,7 @@
       </div>
 
       <!-- Data Table -->
-      <div *ngIF="searchTerm"></div>
+      <div *ngIf="searchTerm"></div>
       <table
         mat-table
         [dataSource]="dataSource"
@@ -162,24 +162,33 @@
           </td>
         </ng-container>
 
+        <!-- isDeleted Column - For Debugging only -->
+        <!-- <ng-container matColumnDef="isDeleted">
+          <th mat-header-cell *matHeaderCellDef>isDeleted</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.isDeleted }}
+          </td>
+        </ng-container> -->
+
         <!-- Customer Action Column -->
         <ng-container matColumnDef="actionColumn">
-          <th mat-header-cell *matHeaderCellDef class="center-header">
-            Action
-          </th>
+          <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
             <div class="example-button-row">
               <div class="example-flex-container">
                 <button
                   mat-icon-button
-                  aria-label=""
+                  aria-label="Example icon button with a vertical three dot icon"
                   [matMenuTriggerFor]="menu"
                   #menuTrigger
                 >
                   <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
-                  <button mat-menu-item (click)="showLogs('logsAction')">
+                  <button
+                    mat-menu-item
+                    (click)="showLogs(element.transactionId)"
+                  >
                     <mat-icon>visibility</mat-icon>
                     Show Logs
                   </button>
@@ -187,7 +196,7 @@
                     <mat-icon>edit</mat-icon>
                     Edit
                   </button>
-                  <button mat-menu-item (click)="showDelete('deleteAction')">
+                  <button mat-menu-item (click)="deleteRecord(element.id)">
                     <mat-icon>delete</mat-icon>
                     Delete
                   </button>

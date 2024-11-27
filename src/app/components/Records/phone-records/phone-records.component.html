@@ -60,7 +60,7 @@
       </div>
 
       <!-- Data Table -->
-      <div *ngIF="searchTerm"></div>
+      <div *ngIf="searchTerm"></div>
       <table
         mat-table
         [dataSource]="dataSource"
@@ -230,6 +230,7 @@
             {{ element.dateAdded | date : "d MMM y" }}
           </td>
         </ng-container>
+        
 
         <!-- Customer Action Column -->
         <ng-container matColumnDef="actionColumn">
