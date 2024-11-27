@@ -65,6 +65,7 @@
           <mat-option
             *ngFor="let item of productVendorList"
             [value]="item.id"
+            (click)="onProductVendorSelect(item.id)"
             >{{ item.productVendor }}</mat-option
           >
         </mat-select>
@@ -76,7 +77,7 @@
           formControlName="description"
           placeholder="Choose a description"
         >
-          <mat-option *ngFor="let item of descriptionList" [value]="item.id">{{
+          <mat-option *ngFor="let item of filteredDescriptions" [value]="item.id">{{
             item.description
           }}</mat-option>
         </mat-select>

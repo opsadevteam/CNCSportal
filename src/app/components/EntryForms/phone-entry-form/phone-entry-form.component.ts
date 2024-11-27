@@ -46,6 +46,7 @@ import { UserAccountService } from '../../../services/user-account.service';
 })
 export class PhoneEntryFormComponent implements OnInit {
   message = Constant.MESSAGES.PHONE_ENTRY_FORM;
+  filteredDescriptions: IDescription[] = [];
   phoneEntryForm: FormGroup = new FormGroup({});
   transactionService = inject(TransactionService);
   productVendorService = inject(ProductVendorService);
@@ -89,6 +90,12 @@ export class PhoneEntryFormComponent implements OnInit {
     this.descrptionService.getAllDescriptions().subscribe((res: any) => {
       this.descriptionList = res;
     });
+  }
+
+  onProductVendorSelect(id: number) {
+    this.filteredDescriptions = this.descriptionList.filter(
+      (desc) => desc.productVendorId === id
+    );
   }
 
   getAllUserAccounts() {
