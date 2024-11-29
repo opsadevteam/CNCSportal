@@ -56,14 +56,13 @@ mat-option {
   background-image: linear-gradient(
     to bottom,
     rgb(198, 201, 226),
-    rgb(21, 130, 232)
+    rgb(3, 76, 145)
   );
   color: #fff;
   margin-left: 2em;
   width: 8rem;
   height: 3em;
 }
-
 .date-picker {
   margin-left: 2em;
 }

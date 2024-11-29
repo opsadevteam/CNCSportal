@@ -1,36 +1,43 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
-} from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatNativeDateModule } from "@angular/material/core";
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatSelectModule } from "@angular/material/select";
-import { Constant } from "../../../constant/Constants";
-import { TransactionService } from "../../../services/transaction.service";
-import { ProductVendorService } from "../../../services/product-vendor.service";
-import { DescriptionService } from "../../../services/description.service";
-import { UserAccountService } from "../../../services/user-account.service";
+} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { Constant } from '../../../constant/Constants';
+import { TransactionService } from '../../../services/transaction.service';
+import { ProductVendorService } from '../../../services/product-vendor.service';
+import { DescriptionService } from '../../../services/description.service';
+import { UserAccountService } from '../../../services/user-account.service';
 import {
   IDescription,
   IEmailEntryFormTransaction,
   IProductVendor,
   IUserAccount,
-} from "../../../Models/interface/phoneEntryForm.model";
-import { CommonModule } from "@angular/common";
+} from '../../../Models/interface/phoneEntryForm.model';
+import { CommonModule } from '@angular/common';
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogModule,
+} from '@angular/material/dialog';
 
 @Component({
-  selector: "app-email-entry-form",
+  selector: 'app-email-entry-form',
   standalone: true,
   imports: [
     CommonModule,
+    MatDialogActions,
+    MatDialogClose,
     MatNativeDateModule,
     MatInputModule,
     MatDatepickerModule,
@@ -40,12 +47,14 @@ import { CommonModule } from "@angular/common";
     ReactiveFormsModule,
     MatSelectModule,
     MatButtonModule,
+    MatDialogModule,
   ],
-  templateUrl: "./email-entry-form.component.html",
-  styleUrl: "./email-entry-form.component.css",
+  templateUrl: './email-entry-form.component.html',
+  styleUrl: './email-entry-form.component.css',
 })
 export class EmailEntryFormComponent implements OnInit {
   message = Constant.MESSAGES.EMAIL_ENTRY_FORM;
+  filteredDescriptions: IDescription[] = [];
   emailEntryForm: FormGroup = new FormGroup({});
   transactionService = inject(TransactionService);
   productVendorService = inject(ProductVendorService);
@@ -66,15 +75,15 @@ export class EmailEntryFormComponent implements OnInit {
 
   initForm() {
     this.emailEntryForm = this.fb.group({
-      emailId: ["", [Validators.required]],
-      customerId: ["", [Validators.required]],
-      pickUpDate: ["", [Validators.required]],
-      takeOffDate: ["", [Validators.required]],
-      productVendor: ["", [Validators.required]],
-      description: ["", [Validators.required]],
-      remark: ["", [Validators.required]],
-      repliedBy: ["", [Validators.required]],
-      status: ["", [Validators.required]],
+      emailId: ['', [Validators.required]],
+      customerId: ['', [Validators.required]],
+      pickUpDate: ['', [Validators.required]],
+      takeOffDate: ['', [Validators.required]],
+      productVendor: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      remark: ['', [Validators.required]],
+      repliedBy: ['', [Validators.required]],
+      status: ['', [Validators.required]],
     });
   }
 
@@ -90,6 +99,12 @@ export class EmailEntryFormComponent implements OnInit {
     });
   }
 
+  onProductVendorSelect(id: number) {
+    this.filteredDescriptions = this.descriptionList.filter(
+      (desc) => desc.productVendorId === id
+    );
+  }
+
   getAllUserAccounts() {
     this.userAccountService.getUsers().subscribe((res: any) => {
       this.userAccountList = res;
@@ -102,11 +117,11 @@ export class EmailEntryFormComponent implements OnInit {
       this.emailEntryForm.value.takeOffDate -
       this.emailEntryForm.value.pickUpDate;
     let myDays = myMilliseconds / (1000 * 3600 * 24);
-    let myDateNow = "2024-11-19T16:00:00.000Z";
-    let myUserNow = "Robert M. Verano";
-    let myShift = "Morning";
-    let myTransactionType = "Email";
-    let myLogId = "JXFP20241120005";
+    let myDateNow = '2024-11-19T16:00:00.000Z';
+    let myUserNow = 'Robert M. Verano';
+    let myShift = 'Morning';
+    let myTransactionType = 'Email';
+    let myLogId = 'JXFP20241120005';
     //JXF20241120WEH10
     //xxxzhueng10
     let mockTransaction: IEmailEntryFormTransaction = {
@@ -129,16 +144,16 @@ export class EmailEntryFormComponent implements OnInit {
     };
     console.log(mockTransaction);
     const isSave = confirm(
-      "Confirmaton for Saving Email Entry Form Transaction"
+      'Confirmaton for Saving Email Entry Form Transaction'
     );
     if (isSave) {
       this.transactionService.addTransaction(mockTransaction).subscribe(
         (res: IEmailEntryFormTransaction) => {
-          alert("Create Transaction Success!");
+          alert('Create Transaction Success!');
           this.initForm();
         },
         (error) => {
-          alert("Something Went wrong in Transaction!");
+          alert('Something Went wrong in Transaction!');
         }
       );
     }

@@ -1,16 +1,38 @@
 mat-card {
-  margin-bottom: 4rem;
+  border: solid rgb(47, 46, 46) 1px;
+  color: #fff;
+  font-size: 12px;
+  overflow: hidden;
 }
-
-mat-card-content {
-  margin: 2rem;
-}
-
 mat-card-header {
-  border-bottom: 1px solid rgba(120, 120, 128, 0.36);
-  padding-bottom: 1rem;
-  margin-bottom: 1rem;
-  color: red;
+  color: #fff;
+  background-image: linear-gradient(
+    to top,
+    rgb(20, 19, 19),
+    rgb(104, 103, 102)
+  );
+}
+mat-card-content {
+  font-size: 12px;
+  background-image: linear-gradient(
+    to bottom,
+    rgb(20, 19, 19),
+    rgb(104, 103, 102)
+  );
+  height: 100%;
+}
+mat-form-field {
+  font-size: 12px;
+}
+mat-label {
+  font-size: 12px;
+}
+mat-select {
+  font-size: 12px;
+}
+
+mat-option {
+  font-size: 12px;
 }
 
 .full-width {
@@ -30,36 +52,52 @@ mat-card-header {
 }
 
 .history-btn {
-  background-color: #2967c4;
+  background-image: linear-gradient(
+    to bottom,
+    rgb(198, 201, 226),
+    rgb(3, 76, 145)
+  );
   color: #fff;
   margin-left: 2em;
-  width: 6em;
-  height: 2.5em;
+  width: 8rem;
+  height: 3em;
 }
 
 .date-picker {
   margin-left: 2em;
-  margin-right: 2em;
 }
 
 .btn-container {
   text-align: right;
 }
+
 .submit-btn {
   margin-right: 0.5rem;
-  background-color: rgb(15, 220, 15);
+  background-image: linear-gradient(
+    to bottom,
+    rgb(158, 224, 158),
+    rgb(8, 234, 8)
+  );
   color: #fff;
   width: 8em;
   height: 3em;
 }
 
 .submit-btn:disabled {
-  background-color: #343434;
+  background-image: linear-gradient(
+    to bottom,
+    rgb(57, 57, 57),
+    rgb(37, 36, 36)
+  );
   color: #5e686f;
 }
 
 .cancel-btn {
-  background-color: rgb(223, 42, 18);
+  background-image: linear-gradient(
+    to bottom,
+    rgb(236, 145, 145),
+    rgb(240, 42, 3)
+  );
   color: #fff;
   width: 8em;
   height: 3em;
