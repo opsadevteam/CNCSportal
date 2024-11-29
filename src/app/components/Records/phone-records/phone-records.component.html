@@ -4,7 +4,7 @@
     <div class="main-content">
       <h2>Phone Records</h2>
       <p>Here is a list of all phone records</p>
-       <button (click)="openDialog()" class="btn btn-primary">
+       <button mat-raised-button (click)="openDialog()" class="add-btn">
         <mat-icon>add</mat-icon>
         Add Phone Record
       </button>
@@ -53,7 +53,7 @@
           <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" (click)="applyFilter()">
+        <button mat-raised-button class="add-btn" (click)="applyFilter()">
           Search
         </button>
       </div>
