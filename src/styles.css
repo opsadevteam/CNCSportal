@@ -1,5 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-
 html,
 body {
   height: 100%;
@@ -15,15 +14,6 @@ body {
   );
 }
 
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
 .btn {
   color: white;
   border-radius: 6px;
@@ -31,6 +21,14 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+/* Color Variables */
+:root {
+  --primary: #0a84ff;
+  --confirm: #1ccc3e;
+  --cancel: #f0352d;
+  --delete: #ff9f0a;
 }
 
 .btn-confirm {
@@ -44,9 +42,4 @@ body {
 }
 .btn-delete {
   background-color: #ff9f0a;
-}
-
-mat-icon {
-  font-family: "Material Icons" !important;
-  font-size: 1.5rem;
 }
