@@ -25,6 +25,7 @@ body {
 
 /* Color Variables */
 :root {
+  /* basic */
   --primary: #0a84ff;
   --confirm: #1ccc3e;
   --cancel: #f0352d;
