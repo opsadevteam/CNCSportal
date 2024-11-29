@@ -38,3 +38,15 @@ mat-card {
   padding-right: 60px;
   text-decoration: none;
 }
+
+.login-btn {
+  margin: 1rem;
+  background-image: linear-gradient(
+    to bottom,
+    rgb(198, 201, 226),
+    rgb(3, 76, 145)
+  );
+  color: #fff !important;
+  margin: 0.5rem;
+  border-radius: 12px;
+}
