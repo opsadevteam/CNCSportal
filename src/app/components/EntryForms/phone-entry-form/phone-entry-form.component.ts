@@ -157,7 +157,7 @@ export class PhoneEntryFormComponent implements OnInit {
         (res: IPhoneEntryFormTransaction) => {
           alert('Create Transaction Success!');
           this.initForm();
-          this.dialogRef.close(this.phoneEntryForm.value);
+          this.dialogRef.close();
         },
         (error) => {
           alert('Something Went wrong in Transaction!');

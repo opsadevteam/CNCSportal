@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, Optional } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -29,6 +29,7 @@ import {
   MatDialogActions,
   MatDialogClose,
   MatDialogModule,
+  MatDialogRef,
 } from '@angular/material/dialog';
 
 @Component({
@@ -64,7 +65,10 @@ export class EmailEntryFormComponent implements OnInit {
   descriptionList: IDescription[] = [];
   userAccountList: IUserAccount[] = [];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    @Optional() public dialogRef: MatDialogRef<EmailEntryFormComponent>
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -151,6 +155,7 @@ export class EmailEntryFormComponent implements OnInit {
         (res: IEmailEntryFormTransaction) => {
           alert('Create Transaction Success!');
           this.initForm();
+          this.dialogRef.close();
         },
         (error) => {
           alert('Something Went wrong in Transaction!');
