@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, Optional } from '@angular/core';
 import {
   FormGroup,
   ReactiveFormsModule,
@@ -69,7 +69,7 @@ export class PhoneEntryFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<PhoneEntryFormComponent>
+    @Optional() public dialogRef: MatDialogRef<PhoneEntryFormComponent>
   ) {}
 
   ngOnInit(): void {
