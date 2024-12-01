@@ -1,16 +1,16 @@
-* {
-  color: white;
+/* * { */
+/* color: white;
   font-family: "Poppins", sans-serif;
   font-weight: 400;
-  font-style: normal;
-  /* font-size: 0.75rem; */
-}
+  font-style: normal; */
+/* font-size: 0.75rem; */
+/* } */
 
 .center-header {
-  text-align: right; 
+  text-align: right;
 }
 
-thead{
+thead {
   text-align: center;
 }
 
@@ -22,13 +22,12 @@ thead{
 header h1 {
   font-size: 1.8em;
   margin-bottom: 0.5em;
-  color: #ffffff; 
+  color: #ffffff;
 }
 
 header p {
   font-size: 1.2em;
-  color: #b0b0b0; 
-
+  color: #b0b0b0;
 }
 
 /* Filter Bar */
@@ -59,7 +58,6 @@ header p {
   background-color: #1976d2; /* Darker blue on hover */
 }
 
-
 /* .btn-primary {
   border-radius: 6px;
   background-color: #0a84ff;
@@ -69,6 +67,14 @@ header p {
   display: flex;
   align-items: center;
 } */
+mat-card {
+  font-size: 12px;
+  background-image: linear-gradient(
+    to right,
+    rgb(20, 19, 19),
+    rgb(104, 103, 102)
+  );
+}
 
 mat-card-header {
   border-bottom: 1px solid rgba(120, 120, 128, 0.36);
@@ -83,14 +89,12 @@ mat-card-header {
 }
 
 .mat-mdc-header-cell,
-.mat-mdc-cell
-{
+.mat-mdc-cell {
   text-align: center;
 }
 
-.cdk-text-column{
+.cdk-text-column {
   text-align: center;
-  
 }
 
 .badge {
@@ -102,8 +106,25 @@ mat-card-header {
 }
 
 .mat-mdc-paginator {
-  font-family: "Poppins", sans-serif;
+  background-image: linear-gradient(
+    to right,
+    rgb(20, 19, 19),
+    rgb(104, 103, 102)
+  );
+
   font-weight: 400;
   font-style: normal;
   /* font-size: 0.75rem; */
+}
+
+.add-btn {
+  margin: 1rem;
+  background-image: linear-gradient(
+    to bottom,
+    rgb(198, 201, 226),
+    rgb(3, 76, 145)
+  );
+  color: #fff !important;
+  margin: 0.5rem;
+  border-radius: 12px;
 }

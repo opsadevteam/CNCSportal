@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, Optional } from '@angular/core';
 import {
   FormGroup,
   ReactiveFormsModule,
@@ -25,12 +25,21 @@ import { CommonModule } from '@angular/common';
 import { ProductVendorService } from '../../../services/product-vendor.service';
 import { DescriptionService } from '../../../services/description.service';
 import { UserAccountService } from '../../../services/user-account.service';
+import {
+  MatDialogActions,
+  matDialogAnimations,
+  MatDialogClose,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-phone-entry-form',
   standalone: true,
   imports: [
     CommonModule,
+    MatDialogActions,
+    MatDialogClose,
     MatNativeDateModule,
     MatInputModule,
     MatDatepickerModule,
@@ -40,6 +49,7 @@ import { UserAccountService } from '../../../services/user-account.service';
     ReactiveFormsModule,
     MatSelectModule,
     MatButtonModule,
+    MatDialogModule,
   ],
   templateUrl: './phone-entry-form.component.html',
   styleUrl: './phone-entry-form.component.css',
@@ -57,7 +67,10 @@ export class PhoneEntryFormComponent implements OnInit {
   userAccountList: IUserAccount[] = [];
   router: any;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    @Optional() public dialogRef: MatDialogRef<PhoneEntryFormComponent>
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -144,6 +157,7 @@ export class PhoneEntryFormComponent implements OnInit {
         (res: IPhoneEntryFormTransaction) => {
           alert('Create Transaction Success!');
           this.initForm();
+          this.dialogRef.close();
         },
         (error) => {
           alert('Something Went wrong in Transaction!');

@@ -6,7 +6,12 @@ mat-card {
   margin: 2em auto;
   text-align: center;
   max-height: 48rem;
-  background-color: #1c1c1e;
+  background-image: linear-gradient(
+    to top,
+    rgb(20, 19, 19),
+    rgb(104, 103, 102)
+  );
+
   color: #fff;
   margin-top: 200px;
 }
@@ -32,4 +37,16 @@ mat-card {
   float: right;
   padding-right: 60px;
   text-decoration: none;
+}
+
+.login-btn {
+  margin: 1rem;
+  background-image: linear-gradient(
+    to bottom,
+    rgb(198, 201, 226),
+    rgb(3, 76, 145)
+  );
+  color: #fff !important;
+  margin: 0.5rem;
+  border-radius: 12px;
 }

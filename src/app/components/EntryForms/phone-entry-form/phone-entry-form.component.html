@@ -1,13 +1,15 @@
-<h1>Phone Entry Form</h1>
-<p>{{ message }}</p>
 <mat-card>
+  <mat-card-header>
+    <h1 matCardTitle>Phone Entry Form</h1>
+  </mat-card-header>
+  <br />
   <mat-card-content>
     <form
       (ngSubmit)="onSubmit()"
       name="phoneEntryForm"
       [formGroup]="phoneEntryForm"
     >
-      <mat-label>Phone ID: </mat-label><br /><br />
+      <mat-label>Phone ID: </mat-label><br />
       <mat-form-field class="full-width" appearance="outline">
         <input
           formControlName="phoneId"
@@ -16,9 +18,7 @@
         />
       </mat-form-field>
       <mat-label>Customer ID: </mat-label>
-      <!-- <mat-label class="pickup-label">Pick up Date:</mat-label>
-      <mat-label class="takeoff-label">Take off Date:</mat-label> -->
-      <br /><br />
+      <br />
       <mat-form-field class="half-width" appearance="outline">
         <input
           formControlName="customerId"
@@ -26,11 +26,12 @@
           placeholder="Please enter the customer ID"
         />
       </mat-form-field>
-      <a mat-mini-fab class="history-btn">
+      <button type="button" mat-raised-button class="history-btn">
         <mat-icon>history </mat-icon>
         History
-      </a>
-      <mat-form-field class="date-picker">
+      </button>
+
+      <mat-form-field class="date-picker" appearance="outline">
         <mat-label>Pick up Date</mat-label>
         <input formControlName="pickUpDate" matInput [matDatepicker]="picker" />
         <mat-hint>MM/DD/YYYY</mat-hint>
@@ -40,7 +41,7 @@
         ></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-      <mat-form-field class="date-picker">
+      <mat-form-field class="date-picker" appearance="outline">
         <mat-label>Take off Date</mat-label>
         <input
           formControlName="takeOffDate"
@@ -55,7 +56,7 @@
         <mat-datepicker #takeOff></mat-datepicker>
       </mat-form-field>
       <br />
-      <mat-label>Product / Vendor: </mat-label><br /><br />
+      <mat-label>Product / Vendor: </mat-label><br />
       <mat-form-field class="full-width" appearance="outline">
         <mat-select
           id="productVendor"
@@ -70,19 +71,21 @@
           >
         </mat-select>
       </mat-form-field>
-      <mat-label>Description: </mat-label><br /><br />
+      <mat-label>Description: </mat-label><br />
       <mat-form-field class="full-width" appearance="outline">
         <mat-select
           id="description"
           formControlName="description"
           placeholder="Choose a description"
         >
-          <mat-option *ngFor="let item of filteredDescriptions" [value]="item.id">{{
-            item.description
-          }}</mat-option>
+          <mat-option
+            *ngFor="let item of filteredDescriptions"
+            [value]="item.id"
+            >{{ item.description }}</mat-option
+          >
         </mat-select>
       </mat-form-field>
-      <mat-label>Remark: </mat-label><br /><br />
+      <mat-label>Remark: </mat-label><br />
       <mat-form-field class="full-width" appearance="outline">
         <textarea
           id="remark"
@@ -91,11 +94,11 @@
           matInput
           cdkTextareaAutosize
           #autosize="cdkTextareaAutosize"
-          cdkAutosizeMinRows="8"
-          cdkAutosizeMaxRows="5"
+          cdkAutosizeMinRows="7"
+          cdkAutosizeMaxRows="7"
         ></textarea>
       </mat-form-field>
-      <mat-label>Replied By: </mat-label><br /><br />
+      <mat-label>Replied By: </mat-label><br />
       <mat-form-field class="full-width" appearance="outline">
         <mat-select
           id="repliedBy"
@@ -109,7 +112,7 @@
           >
         </mat-select>
       </mat-form-field>
-      <mat-label>Status: </mat-label><br /><br />
+      <mat-label>Status: </mat-label><br />
       <mat-form-field class="full-width" appearance="outline">
         <mat-select
           id="status"
@@ -121,17 +124,26 @@
           <mat-option value="Closed">Closed</mat-option>
         </mat-select>
       </mat-form-field>
-      <div class="btn-container">
-        <button
-          type="submit"
-          [disabled]="phoneEntryForm.invalid"
-          mat-mini-fab
-          class="submit-btn"
-        >
-          Submit
-        </button>
-        <button type="button" mat-mini-fab class="cancel-btn">Cancel</button>
-      </div>
+      <mat-dialog-actions>
+        <div class="btn-container">
+          <button
+            type="submit"
+            [disabled]="phoneEntryForm.invalid"
+            mat-mini-fab
+            class="submit-btn"
+          >
+            Submit
+          </button>
+          <button
+            mat-dialog-close
+            type="button"
+            mat-mini-fab
+            class="cancel-btn"
+          >
+            Cancel
+          </button>
+        </div>
+      </mat-dialog-actions>
     </form>
   </mat-card-content>
 </mat-card>

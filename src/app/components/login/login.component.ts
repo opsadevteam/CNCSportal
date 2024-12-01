@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
       this.loginObj.username == 'admin' &&
       this.loginObj.password == 'admin'
     ) {
-      this.router.navigateByUrl('/phoneform');
+      this.router.navigateByUrl('/phonerecords');
       localStorage.setItem('empErpUser', this.loginObj.username);
       //this.isLoading = false;
     } else {
