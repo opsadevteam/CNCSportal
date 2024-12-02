@@ -1,11 +1,20 @@
-* {
+/* * {
   color: white;
   font-style: normal;
-}
+} */
 
 .page-header {
   font-weight: 600;
   font-size: 1rem;
+}
+
+mat-card {
+  font-size: 12px;
+  background-image: linear-gradient(
+    to right,
+    rgb(20, 19, 19),
+    rgb(104, 103, 102)
+  );
 }
 
 mat-card-header {
@@ -13,6 +22,7 @@ mat-card-header {
   padding-bottom: 1rem;
   margin-bottom: 1rem;
 }
+
 .mat-mdc-table {
   border-radius: 6px;
   background-color: transparent;
@@ -32,7 +42,24 @@ mat-card-header {
 }
 
 .mat-mdc-paginator {
+  background-image: linear-gradient(
+    to right,
+    rgb(20, 19, 19),
+    rgb(104, 103, 102)
+  );
   font-weight: 400;
   font-style: normal;
   /* font-size: 0.75rem; */
+}
+
+.add-btn {
+  margin: 1rem;
+  background-image: linear-gradient(
+    to bottom,
+    rgb(198, 201, 226),
+    rgb(3, 76, 145)
+  );
+  color: #fff !important;
+  margin: 0.5rem;
+  border-radius: 12px;
 }

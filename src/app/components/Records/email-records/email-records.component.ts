@@ -33,6 +33,7 @@ import { DescriptionService } from '../../../services/description.service';
 import { UserAccountService } from '../../../services/user-account.service';
 import { DeleteDialogComponent } from '../../Dialogbox/delete-dialog/delete-dialog.component';
 import { EmailRecordsService } from '../../../services/email-records.service';
+import { EmailEntryFormComponent } from '../../EntryForms/email-entry-form/email-entry-form.component';
 
 @Component({
   selector: 'app-email-records',
@@ -303,5 +304,17 @@ export class EmailRecordsComponent implements OnInit {
       default:
         return element[column] || '-';
     }
+  }
+
+  openDialog(id?: number): void {
+    const dialogRef = this.dialog.open(EmailEntryFormComponent, {
+      width: '80%',
+      height: '95%',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+    });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   // if (result === "refresh") this.loadUsers();
+    // });
   }
 }

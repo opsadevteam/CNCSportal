@@ -1,28 +1,34 @@
 <mat-sidenav-container>
   <mat-sidenav opened mode="side" [style.width]="sideNavWith()">
     <div class="sidenav-header">
-      <div (click)="collapsed.set(!collapsed())">
-        <mat-icon *ngIf="!collapsed()" matListItemIcon>chevron_left</mat-icon>
-        <mat-icon *ngIf="collapsed()" matListItemIcon>chevron_right</mat-icon>
-      </div>
       <img
         [width]="profilePicSize()"
         [height]="profilePicSize()"
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQathrq-9gMB7p7vlRZHMW_20kLCa21AKoODg&s"
         alt=""
       />
-      <div class="header-text" [class.hide-header-text]="collapsed()">
+      <div
+        *ngIf="!collapsed()"
+        class="header-text"
+        [class.hide-header-text]="collapsed()"
+      >
         <h2>
-          CNCS <small>{{ version }}</small>
+          CNCS <small>v{{ version }}</small>
         </h2>
+      </div>
+      <div
+        [ngClass]="!collapsed() ? 'sidenav-toggle-btn' : ''"
+        (click)="collapsed.set(!collapsed())"
+      >
+        <mat-icon *ngIf="!collapsed()" matListItemIcon>chevron_left</mat-icon>
+        <mat-icon *ngIf="collapsed()" matListItemIcon>chevron_right</mat-icon>
       </div>
     </div>
     <mat-nav-list>
       <!-- Entry form header -->
-      <span *ngIf="!collapsed()" matListItemTitle class="category-header"
+      <!-- <span *ngIf="!collapsed()" matListItemTitle class="category-header"
         >Entry Forms</span
       >
-
       <mat-list-item
         *ngFor="let item of entryFormsMenuItems()"
         [routerLink]="item.route"
@@ -30,8 +36,7 @@
       >
         <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
         <span *ngIf="!collapsed()">{{ item.label }}</span>
-      </mat-list-item>
-
+      </mat-list-item> -->
       <!-- Records header -->
       <span *ngIf="!collapsed()" matListItemTitle class="category-header"
         >Records</span

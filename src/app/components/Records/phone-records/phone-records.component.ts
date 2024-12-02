@@ -33,6 +33,9 @@ import { DescriptionService } from '../../../services/description.service';
 import { UserAccountService } from '../../../services/user-account.service';
 import { DeleteDialogComponent } from '../../Dialogbox/delete-dialog/delete-dialog.component';
 import { PhoneRecordsService } from '../../../services/phone-records.service';
+import { AddUserDialogComponent } from '../../Dialogbox/add-user-dialog/add-user-dialog.component';
+import { PhoneEntryFormComponent } from '../../EntryForms/phone-entry-form/phone-entry-form.component';
+import { EmailEntryFormComponent } from '../../EntryForms/email-entry-form/email-entry-form.component';
 
 interface Record {
   id: string;
@@ -67,8 +70,12 @@ interface Record {
     MatIconModule,
     MatCardHeader,
     MatCardModule,
+<<<<<<< HEAD
     DialogboxComponent,
+=======
+>>>>>>> 814f312456d80907e9fac4e7ae48a1f3be2be373
   ],
+  providers: [MatDatepickerModule, MatNativeDateModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './phone-records.component.html',
   styleUrls: ['./phone-records.component.css'],
@@ -317,5 +324,17 @@ export class PhoneRecordsComponent implements OnInit {
       default:
         return element[column] || '-';
     }
+  }
+
+  openDialog(id?: number): void {
+    const dialogRef = this.dialog.open(PhoneEntryFormComponent, {
+      width: '80%',
+      height: '95%',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+    });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   // if (result === "refresh") this.loadUsers();
+    // });
   }
 }
