@@ -4,7 +4,7 @@
 }
 
 mat-list-item span {
-  color: #fff;
+  color: var(--main-text);
   opacity: 1;
 }
 
@@ -13,35 +13,25 @@ mat-nav-list {
 }
 
 .category-header {
-  color: #fff;
+  color: var(--main-text);
 }
 
 mat-sidenav {
-  background-image: linear-gradient(
-    to left,
-    rgb(20, 19, 19),
-    rgb(104, 103, 102)
-  );
+  background-color: var(--main-background);
   border-radius: 0%;
-  color: #fff;
   transition: width 0.4s;
-  border-color: rgb(73, 74, 73);
+  border-color: var(--border-color);
 }
 
 mat-sidenav-container {
-  background-image: linear-gradient(
-    to right,
-    rgb(20, 19, 19),
-    rgb(104, 103, 102)
-  );
+  background-color: var(--main-background);
   height: calc(100vh - 0px);
-  color: #fff;
 }
 
 .sidenav-header {
   padding-top: 24px;
   text-align: center;
-  color: #fff;
+  color: var(--main-text);
   cursor: pointer;
   display: inline-block;
   margin-left: 1rem;
@@ -78,7 +68,7 @@ mat-sidenav-container {
 
 .selected-menu-item {
   border-left: 2px solid;
-  border-left-color: gold;
+  border-left-color: var(--border-color);
   opacity: 1;
   border-radius: 0 !important;
 }
