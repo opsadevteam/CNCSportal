@@ -1,4 +1,4 @@
-export interface DisplayUserAccount {
+export interface UserAccountGet {
   id: number;
   fullName: string;
   username: string;
@@ -9,7 +9,7 @@ export interface DisplayUserAccount {
   addedBy: string;
 }
 
-export interface EntryUserAccount {
+export interface UserAccountUpsert {
   id: number;
   fullName: string;
   username: string;
