@@ -11,4 +11,5 @@ export interface IEmailRecord {
   descriptionId?: string;
   transactionType: string,
   isDeleted: boolean;
+  remark: string;
 }

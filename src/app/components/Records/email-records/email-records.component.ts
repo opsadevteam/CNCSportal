@@ -34,6 +34,8 @@ import { UserAccountService } from '../../../services/user-account.service';
 import { DeleteDialogComponent } from '../../Dialogbox/delete-dialog/delete-dialog.component';
 import { EmailRecordsService } from '../../../services/email-records.service';
 import { EmailEntryFormComponent } from '../../EntryForms/email-entry-form/email-entry-form.component';
+import { filter } from 'rxjs';
+import { trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-email-records',
@@ -87,6 +89,7 @@ export class EmailRecordsComponent implements OnInit {
     'dateAdded',
     'productVendorId',
     'descriptionId',
+    'remark',
     'actionColumn',
   ];
 
@@ -103,6 +106,9 @@ export class EmailRecordsComponent implements OnInit {
    */
   ngOnInit() {
     this.fetchRecords();
+    const today = new Date();
+    this.dateFrom = today; // Set to today's date
+    this.dateTo = today; // Set to today's date
   }
 
   /**
@@ -121,13 +127,15 @@ export class EmailRecordsComponent implements OnInit {
     this.emailrecordsService.fetchRecords().subscribe({
       next: (records) => {
         // Filter records: Exclude isDeleted = true and transactionType !== 'Email'
-        const filteredRecords = records.filter(
-          (record) => !record.isDeleted && record.transactionType === 'Email'
-        );
-
+        const filteredRecords = records
+          .filter(
+            (record) => !record.isDeleted && record.transactionType === 'Email'
+          )
+          .sort((a, b) => Number(b.id) - Number(a.id));
         // Store both raw and filtered records
         this.records = records;
         this.filteredRecords = filteredRecords;
+        this.dataSource.data = [...filteredRecords];
 
         // If no search term and date filters are set, just reset the data
         if (!this.searchTerm && !this.dateFrom && !this.dateTo) {
@@ -140,6 +148,13 @@ export class EmailRecordsComponent implements OnInit {
         // Reset pagination and sorting with updated data
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
+
+        // Set default sorting explicitly
+        this.sort.sort({
+          id: 'id',
+          start: 'desc',
+          disableClear: true,
+        });
 
         // Recalculate pagination and apply pagination to the filtered data
         this.applyPagination();
