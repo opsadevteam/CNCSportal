@@ -190,7 +190,12 @@ export class EmailRecordsComponent implements OnInit {
       const matchesTransactionType = record.transactionType === 'Email';
 
       // Combine all filters
-      return matchesSearch && matchesDate && matchesIsDeleted && matchesTransactionType;
+      return (
+        matchesSearch &&
+        matchesDate &&
+        matchesIsDeleted &&
+        matchesTransactionType
+      );
     });
 
     // Update data source with filtered records

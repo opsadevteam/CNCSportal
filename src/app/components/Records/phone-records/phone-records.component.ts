@@ -55,7 +55,7 @@ interface Record {
     MatSnackBarModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule,  
+    MatButtonModule,
     CommonModule,
     MatPaginatorModule,
     MatSelectModule,
@@ -67,7 +67,7 @@ interface Record {
     MatIconModule,
     MatCardHeader,
     MatCardModule,
-    DialogboxComponent,       
+    DialogboxComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './phone-records.component.html',
@@ -204,7 +204,12 @@ export class PhoneRecordsComponent implements OnInit {
       const matchesTransactionType = record.transactionType === 'Phone';
 
       // Combine all filters
-      return matchesSearch && matchesDate && matchesIsDeleted && matchesTransactionType;
+      return (
+        matchesSearch &&
+        matchesDate &&
+        matchesIsDeleted &&
+        matchesTransactionType
+      );
     });
 
     // Update data source with filtered records
