@@ -11,4 +11,5 @@ export interface IPhoneRecord {
   descriptionId?: string;
   transactionType: string;
   isDeleted: boolean;
+  remark: string;
 }
