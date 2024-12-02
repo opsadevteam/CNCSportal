@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { environment } from "../../environments/environment.development";
-import { Activitylog } from "../Models/interface/activitylog.model";
+import { ActivitylogGet } from "../Models/interface/activitylog.model";
 import { Constant } from "../constant/Constants";
 import { Observable } from "rxjs";
 
@@ -15,8 +15,8 @@ export class ActivityLogService {
 
   constructor() {}
 
-  getActivityLogs(): Observable<Activitylog[]> {
-    return this.http.get<Activitylog[]>(
+  getActivityLogs(): Observable<ActivitylogGet[]> {
+    return this.http.get<ActivitylogGet[]>(
       this.baseUrl + Constant.API_ACTIVITY_LOG_METHOD.GET_ALL_LOG_ACCOUNT
     );
   }
