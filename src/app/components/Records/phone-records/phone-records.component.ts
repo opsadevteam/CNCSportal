@@ -70,10 +70,7 @@ interface Record {
     MatIconModule,
     MatCardHeader,
     MatCardModule,
-<<<<<<< HEAD
     DialogboxComponent,
-=======
->>>>>>> 814f312456d80907e9fac4e7ae48a1f3be2be373
   ],
   providers: [MatDatepickerModule, MatNativeDateModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
