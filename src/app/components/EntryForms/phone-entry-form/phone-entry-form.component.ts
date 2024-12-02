@@ -69,8 +69,9 @@ export class PhoneEntryFormComponent implements OnInit {
   productVendorList: IProductVendor[] = [];
   descriptionList: IDescription[] = [];
   userAccountList: IUserAccount[] = [];
-  router: any;
+  descriptionSuggest: boolean = true;
   filteredOption: Observable<IDescription[]> = new Observable<IDescription[]>();
+  filteredProductVendor: IProductVendor[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -115,16 +116,22 @@ export class PhoneEntryFormComponent implements OnInit {
     });
   }
 
-  getAllDescriptions() {
-    this.descrptionService.getAllDescriptions().subscribe((res: any) => {
-      this.descriptionList = res;
-    });
-  }
-
   onProductVendorSelect(id: number) {
     this.filteredDescriptions = this.descriptionList.filter(
       (desc) => desc.productVendorId === id
     );
+    this.descriptionSuggest = false;
+    this.phoneEntryForm.controls['description'].setValue('');
+  }
+
+  onDescriptionSelect(id: number) {
+    this.phoneEntryForm.controls['productVendor'].setValue(id);
+  }
+
+  getAllDescriptions() {
+    this.descrptionService.getAllDescriptions().subscribe((res: any) => {
+      this.descriptionList = res;
+    });
   }
 
   getAllUserAccounts() {
