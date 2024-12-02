@@ -138,7 +138,7 @@ export class EmailRecordsComponent implements OnInit {
         this.dataSource.data = [...filteredRecords];
 
         // If no search term and date filters are set, just reset the data
-        if (!this.searchTerm && !this.dateFrom && !this.dateTo) {
+        if (!this.searchTerm){ //} && !this.dateFrom && !this.dateTo) {
           this.dataSource.data = [...filteredRecords]; // Display all records without further filtering
         } else {
           // Apply search and date range filters
