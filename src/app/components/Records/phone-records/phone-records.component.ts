@@ -104,6 +104,7 @@ export class PhoneRecordsComponent implements OnInit {
     'dateAdded',
     'productVendorId',
     'descriptionId',
+    'remark',
     'actionColumn',
   ];
 
@@ -120,6 +121,9 @@ export class PhoneRecordsComponent implements OnInit {
    */
   ngOnInit() {
     this.fetchRecords();
+    const today = new Date();
+    this.dateFrom = today; // Set to today's date
+    this.dateTo = today; // Set to today's date
   }
 
   /**
@@ -134,35 +138,41 @@ export class PhoneRecordsComponent implements OnInit {
    * Loads the list of users from the backend and populates the table data source.
    */
   fetchRecords(): void {
-    // Fetch data from the service
     this.phonerecordsService.fetchRecords().subscribe({
       next: (records) => {
-        // Filter records: Exclude isDeleted = true and transactionType !== 'Email'
-        const filteredRecords = records.filter(
-          (record) => !record.isDeleted && record.transactionType === 'Phone'
-        );
+        const filteredRecords = records
+          .filter(
+            (record) => !record.isDeleted && record.transactionType === 'Phone'
+          )
+          .sort((a, b) => Number(b.id) - Number(a.id)); // Sort by ID descending
 
-        // Store both raw and filtered records
         this.records = records;
         this.filteredRecords = filteredRecords;
+        this.dataSource.data = [...filteredRecords];
 
-        // If no search term and date filters are set, just reset the data
+        //If no search term and date filters are set, just reset the data
         if (!this.searchTerm && !this.dateFrom && !this.dateTo) {
-          this.dataSource.data = [...filteredRecords]; // Display all records without further filtering
+          this.dataSource.data = [...filteredRecords]; // Display all records w/o further filtering
         } else {
-          // Apply search and date range filters
-          this.filterSearch(); // Apply filters based on search term and date range
+          this.filterSearch();
         }
 
-        // Reset pagination and sorting with updated data
+        // Ensure sorting and pagination are properly linked
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
 
-        // Recalculate pagination and apply pagination to the filtered data
+        // Set default sorting explicitly
+        this.sort.sort({
+          id: 'id',
+          start: 'desc',
+          disableClear: true,
+        });
+
+        // Reapply pagination
         this.applyPagination();
       },
       error: (err) => {
-        // console.error('Failed to fetch records:', err);
+        console.error('Failed to fetch records:', err);
       },
     });
   }

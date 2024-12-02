@@ -30,6 +30,7 @@
           <mat-select [(ngModel)]="filterBy">
             <mat-option value="customerId">Customer ID</mat-option>
             <mat-option value="emailId">Email ID</mat-option>
+            <mat-option value="repliedBy">Replied By</mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -166,6 +167,14 @@
           </td>
         </ng-container>
 
+        <!-- Remarks Column - For Debugging only -->
+        <ng-container matColumnDef="remark">
+          <th mat-header-cell *matHeaderCellDef>Remarks</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.remark }}
+          </td>
+        </ng-container>
+
         <!-- isDeleted Column - For Debugging only -->
         <!-- <ng-container matColumnDef="isDeleted">
           <th mat-header-cell *matHeaderCellDef>isDeleted</th>
@@ -215,12 +224,18 @@
       </table>
 
       <!-- Pagination -->
-      <mat-paginator
+      <!-- <mat-paginator
         [pageSize]="pageSize"
         [length]="records.length"
         [pageIndex]="pageIndex"
         (page)="onPageChange($event)"
         showFirstLastButtons
+      >
+      </mat-paginator> -->
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+        aria-label="Select page of periodic elements"
       >
       </mat-paginator>
     </div>
