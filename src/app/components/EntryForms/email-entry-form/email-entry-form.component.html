@@ -71,20 +71,45 @@
           >
         </mat-select>
       </mat-form-field>
-      <mat-label>Description: </mat-label><br />
-      <mat-form-field class="full-width" appearance="outline">
-        <mat-select
-          id="description"
-          formControlName="description"
-          placeholder="Choose a description"
-        >
-          <mat-option
-            *ngFor="let item of filteredDescriptions"
-            [value]="item.id"
-            >{{ item.description }}</mat-option
-          >
-        </mat-select>
-      </mat-form-field>
+      <div *ngIf="descriptionSuggest">
+        <mat-label>Description: </mat-label><br />
+        <mat-form-field class="full-width" appearance="outline">
+          <input
+            type="text"
+            formControlName="description"
+            [matAutocomplete]="auto"
+            matInput
+          />
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let item of filteredOption | async"
+              [value]="item.description"
+              (click)="onDescriptionSelect(item.productVendorId)"
+              >{{ item.description }}</mat-option
+            >
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div *ngIf="!descriptionSuggest">
+        <mat-label>Description: </mat-label><br />
+        <mat-form-field class="full-width" appearance="outline">
+          <input
+            type="text"
+            formControlName="description"
+            [matAutocomplete]="auto"
+            matInput
+          />
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let item of filteredDescriptions"
+              [value]="item.description"
+              (onSelectionChange)="onDescriptionSelect(item.productVendorId)"
+              (blur)="onDescriptionSelect(item.productVendorId)"
+              >{{ item.description }}</mat-option
+            >
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
       <mat-label>Remark: </mat-label><br />
       <mat-form-field class="full-width" appearance="outline">
         <textarea
