@@ -71,7 +71,7 @@
           >
         </mat-select>
       </mat-form-field>
-      <mat-label>Description: </mat-label><br />
+      <!-- <mat-label>Description: </mat-label><br />
       <mat-form-field class="full-width" appearance="outline">
         <mat-select
           id="description"
@@ -84,6 +84,23 @@
             >{{ item.description }}</mat-option
           >
         </mat-select>
+      </mat-form-field> -->
+      <!-- edit here -->
+      <mat-label>Description: </mat-label><br />
+      <mat-form-field class="full-width" appearance="outline">
+        <input
+          type="text"
+          formControlName="description"
+          [matAutocomplete]="auto"
+          matInput
+        />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let item of filteredOption | async"
+            [value]="item.description"
+            >{{ item.description }}</mat-option
+          >
+        </mat-autocomplete>
       </mat-form-field>
       <mat-label>Remark: </mat-label><br />
       <mat-form-field class="full-width" appearance="outline">
