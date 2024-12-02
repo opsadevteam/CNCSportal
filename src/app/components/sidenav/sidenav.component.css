@@ -43,6 +43,8 @@ mat-sidenav-container {
   text-align: center;
   color: #fff;
   cursor: pointer;
+  display: inline-block;
+  margin-left: 1rem;
 
   > img {
     border-radius: 100%;
@@ -51,6 +53,10 @@ mat-sidenav-container {
   }
 
   .header-text {
+    display: inline-block;
+    position: relative;
+    bottom: 1.5rem;
+    left: 1rem;
     > h2 {
       margin: 0;
       font-size: 1rem;
@@ -79,4 +85,11 @@ mat-sidenav-container {
 
 .accounts-header {
   margin-top: 8rem;
+}
+
+.sidenav-toggle-btn {
+  display: inline-block;
+  position: relative;
+  bottom: 1rem;
+  left: 5rem;
 }
