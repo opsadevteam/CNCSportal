@@ -84,7 +84,8 @@ mat-sidenav-container {
 }
 
 .accounts-header {
-  margin-top: 8rem;
+  position: relative;
+  top: 20rem;
 }
 
 .sidenav-toggle-btn {
