@@ -19,6 +19,9 @@ export const Constant = {
     GET_ALL_EMAIL_RECORDS: 'EmailRecords',
     DELETE_SINGLE_EMAIL_RECORDS: 'EmailRecords',
   },
+  API_TRANSACTION_LOGS_METHOD: {
+    GET_TRANSACTION_LOGS_RECORDS: 'TransactionLogs/id',   
+  },
   CNCS_VERSION: {
     NUMBER: '1.0.2',
   },
