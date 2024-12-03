@@ -68,9 +68,12 @@ mat-sidenav-container {
 
 .selected-menu-item {
   border-left: 2px solid;
-  border-left-color: var(--border-color);
+  border-left-color: var(--button-background);
   opacity: 1;
-  border-radius: 0 !important;
+}
+
+mat-list-item.selected-menu-item {
+  border-radius: 0;
 }
 
 .accounts-header {
