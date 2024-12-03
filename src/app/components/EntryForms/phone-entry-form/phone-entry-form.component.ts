@@ -178,7 +178,7 @@ export class PhoneEntryFormComponent implements OnInit {
       this.phoneEntryForm.value.takeOffDate -
       this.phoneEntryForm.value.pickUpDate;
     let myDays = myMilliseconds / (1000 * 3600 * 24);
-    let myDateNow = '2024-11-19T16:00:00.000Z';
+    let myDateNow = new Date().toISOString();
     let myUserNow = 'Robert M. Verano';
     let myShift = 'Morning';
     let myTransactionType = 'Phone';
