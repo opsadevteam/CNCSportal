@@ -28,6 +28,7 @@ import { MatCardHeader, MatCardModule } from '@angular/material/card';
 import { DialogboxComponent } from '../../Dialogbox/logs-dialog/dialogbox.component';
 import { HttpClient } from '@angular/common/http';
 import { IEmailRecord } from '../../../Models/interface/email-record.model';
+import { ITransactionLog } from '../../../Models/interface/transaction-log.model';
 import { ProductVendorService } from '../../../services/product-vendor.service';
 import { DescriptionService } from '../../../services/description.service';
 import { UserAccountService } from '../../../services/user-account.service';
@@ -36,6 +37,7 @@ import { EmailRecordsService } from '../../../services/email-records.service';
 import { EmailEntryFormComponent } from '../../EntryForms/email-entry-form/email-entry-form.component';
 import { filter } from 'rxjs';
 import { trigger } from '@angular/animations';
+import { TransactionLogsService } from '../../../services/transaction-logs.service';
 
 @Component({
   selector: 'app-email-records',
@@ -75,7 +77,7 @@ export class EmailRecordsComponent implements OnInit {
   dateFrom: Date | null = null;
   dateTo: Date | null = null;
   filterBy: string = 'id';
-  emailStringParams: string = 'Email';
+  emailStringParams: string = 'Email'; 
   records: IEmailRecord[] = [];
   filteredRecords: IEmailRecord[] = [];
   displayedColumns: string[] = [
@@ -98,7 +100,8 @@ export class EmailRecordsComponent implements OnInit {
   constructor(
     private readonly cdRef: ChangeDetectorRef,
     private readonly dialog: MatDialog,
-    private readonly emailrecordsService: EmailRecordsService
+    private readonly emailrecordsService: EmailRecordsService,
+    private readonly transactionlogsService: TransactionLogsService
   ) {}
 
   /**
@@ -138,7 +141,8 @@ export class EmailRecordsComponent implements OnInit {
         this.dataSource.data = [...filteredRecords];
 
         // If no search term and date filters are set, just reset the data
-        if (!this.searchTerm && !this.dateFrom && !this.dateTo) {
+        if (!this.searchTerm) {
+          //} && !this.dateFrom && !this.dateTo) {
           this.dataSource.data = [...filteredRecords]; // Display all records without further filtering
         } else {
           // Apply search and date range filters
@@ -270,15 +274,34 @@ export class EmailRecordsComponent implements OnInit {
     this.applyFilter();
   }
 
-  showLogs(emailId: string): void {
-    const dialogRef = this.dialog.open(DialogboxComponent, {
-      width: '90vw',
-      maxWidth: '100vw',
-      data: {
-        emailId: emailId,
-        emailStringParams: this.emailStringParams,
-      },
-    });
+  showLogs(emailId: number): void {
+    // Fetch transaction logs for the given emailId (or modify the logic as per your need)
+    this.transactionlogsService
+      .getTransactionLogsByTransactionId(emailId.toString())
+      .subscribe(
+        (logs: ITransactionLog[]) => {
+          // Once logs are fetched, open the dialog and pass the logs as data
+          const dialogRef = this.dialog.open(DialogboxComponent, {
+            width: '90vw',
+            maxWidth: '100vw',
+            data: {
+              emailId: emailId,
+              emailStringParams: this.emailStringParams,
+              transactionLogs: logs, // Passing the fetched transaction logs
+            },
+          });
+
+          // Optionally, you can subscribe to the dialog's afterClosed() event
+          dialogRef.afterClosed().subscribe((result) => {
+            // Handle any logic after the dialog is closed, if necessary
+            console.log('The dialog was closed', result);
+          });
+        },
+        (error) => {
+          console.error('Error fetching transaction logs:', error);
+          // Handle error if necessary (show error messages, etc.)
+        }
+      );
   }
 
   showEdit(action: string) {}
@@ -306,21 +329,6 @@ export class EmailRecordsComponent implements OnInit {
     });
   }
 
-  resolveCellValue(column: string, element: any): string {
-    switch (column) {
-      case 'status':
-        return `<span class="badge status-${element.status.toLowerCase()}">${
-          element.status
-        }</span>`;
-      case 'receivedDate':
-      case 'sendingDate':
-      case 'dateAdded':
-        return new Date(element[column]).toLocaleDateString();
-      default:
-        return element[column] || '-';
-    }
-  }
-
   openDialog(id?: number): void {
     const dialogRef = this.dialog.open(EmailEntryFormComponent, {
       width: '80%',
@@ -328,8 +336,5 @@ export class EmailRecordsComponent implements OnInit {
       maxWidth: '100vw',
       maxHeight: '100vh',
     });
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   // if (result === "refresh") this.loadUsers();
-    // });
   }
 }

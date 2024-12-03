@@ -28,6 +28,7 @@ import { MatCardHeader, MatCardModule } from '@angular/material/card';
 import { DialogboxComponent } from '../../Dialogbox/logs-dialog/dialogbox.component';
 import { HttpClient } from '@angular/common/http';
 import { IPhoneRecord } from '../../../Models/interface/phone-record.model';
+import { ITransactionLog } from '../../../Models/interface/transaction-log.model';
 import { ProductVendorService } from '../../../services/product-vendor.service';
 import { DescriptionService } from '../../../services/description.service';
 import { UserAccountService } from '../../../services/user-account.service';
@@ -36,6 +37,7 @@ import { PhoneRecordsService } from '../../../services/phone-records.service';
 import { AddUserDialogComponent } from '../../Dialogbox/add-user-dialog/add-user-dialog.component';
 import { PhoneEntryFormComponent } from '../../EntryForms/phone-entry-form/phone-entry-form.component';
 import { EmailEntryFormComponent } from '../../EntryForms/email-entry-form/email-entry-form.component';
+import { TransactionLogsService } from '../../../services/transaction-logs.service';
 
 interface Record {
   id: string;
@@ -90,7 +92,7 @@ export class PhoneRecordsComponent implements OnInit {
   dateFrom: Date | null = null;
   dateTo: Date | null = null;
   filterBy: string = 'id';
-  emailStringParams: string = 'Email';
+  emailStringParams: string = 'Phone';
   records: IPhoneRecord[] = [];
   filteredRecords: IPhoneRecord[] = [];
   displayedColumns: string[] = [
@@ -113,7 +115,9 @@ export class PhoneRecordsComponent implements OnInit {
   constructor(
     private readonly cdRef: ChangeDetectorRef,
     private readonly dialog: MatDialog,
-    private readonly phonerecordsService: PhoneRecordsService
+    private readonly phonerecordsService: PhoneRecordsService,
+    private readonly transactionlogsService: TransactionLogsService
+  
   ) {}
 
   /**
@@ -151,7 +155,7 @@ export class PhoneRecordsComponent implements OnInit {
         this.dataSource.data = [...filteredRecords];
 
         //If no search term and date filters are set, just reset the data
-        if (!this.searchTerm && !this.dateFrom && !this.dateTo) {
+        if (!this.searchTerm) {
           this.dataSource.data = [...filteredRecords]; // Display all records w/o further filtering
         } else {
           this.filterSearch();
@@ -282,15 +286,34 @@ export class PhoneRecordsComponent implements OnInit {
     this.applyFilter();
   }
 
-  showLogs(emailId: string): void {
-    const dialogRef = this.dialog.open(DialogboxComponent, {
-      width: '90vw',
-      maxWidth: '100vw',
-      data: {
-        emailId: emailId,
-        emailStringParams: this.emailStringParams,
-      },
-    });
+  showLogs(emailId: number): void {
+    // Fetch transaction logs for the given emailId (or modify the logic as per your need)
+    this.transactionlogsService
+      .getTransactionLogsByTransactionId(emailId.toString())
+      .subscribe(
+        (logs: ITransactionLog[]) => {
+          // Once logs are fetched, open the dialog and pass the logs as data
+          const dialogRef = this.dialog.open(DialogboxComponent, {
+            width: '90vw',
+            maxWidth: '100vw',
+            data: {
+              emailId: emailId,
+              emailStringParams: this.emailStringParams,
+              transactionLogs: logs, // Passing the fetched transaction logs
+            },
+          });
+
+          // Optionally, you can subscribe to the dialog's afterClosed() event
+          dialogRef.afterClosed().subscribe((result) => {
+            // Handle any logic after the dialog is closed, if necessary
+            console.log('The dialog was closed', result);
+          });
+        },
+        (error) => {
+          console.error('Error fetching transaction logs:', error);
+          // Handle error if necessary (show error messages, etc.)
+        }
+      );
   }
 
   showEdit(action: string) {}
@@ -316,21 +339,6 @@ export class PhoneRecordsComponent implements OnInit {
         });
       }
     });
-  }
-
-  resolveCellValue(column: string, element: any): string {
-    switch (column) {
-      case 'status':
-        return `<span class="badge status-${element.status.toLowerCase()}">${
-          element.status
-        }</span>`;
-      case 'receivedDate':
-      case 'sendingDate':
-      case 'dateAdded':
-        return new Date(element[column]).toLocaleDateString();
-      default:
-        return element[column] || '-';
-    }
   }
 
   openDialog(id?: number): void {
