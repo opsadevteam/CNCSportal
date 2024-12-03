@@ -1,81 +1,106 @@
-<div style="padding: 1rem">
-  <h4
-    mat-dialog-title
-    style="border-bottom: 1px solid rgba(120, 120, 128, 0.36)"
-  >
-    {{ id ? "Edit User" : "Add User" }}
-  </h4>
+<div class="container">
+  <div style="padding: 1rem">
+    <h4
+      mat-dialog-title
+      style="border-bottom: 1px solid rgba(120, 120, 128, 0.36)"
+    >
+      {{ id ? "Edit User" : "Add User" }}
+    </h4>
 
-  <form [formGroup]="userForm" (ngSubmit)="submit()" style="margin: 1rem">
-    <!-- Username -->
-    <label>Username</label>
-    <mat-form-field appearance="outline">
-      <input matInput formControlName="username" />
-      <mat-error *ngIf="userForm.get('username')?.hasError('required')">
-        Username is required.
-      </mat-error>
-      <mat-error *ngIf="userForm.get('username')?.hasError('UsernameTaken')">
-        Username is already taken.
-      </mat-error>
-    </mat-form-field>
+    <form [formGroup]="userForm" (ngSubmit)="submit()" style="margin: 1rem">
+      <!-- Username -->
+      <label>Username</label>
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="username" />
+        <mat-error *ngIf="userForm.get('username')?.hasError('required')">
+          Username is required.
+        </mat-error>
+        <mat-error *ngIf="userForm.get('username')?.hasError('UsernameTaken')">
+          Username is already taken.
+        </mat-error>
+      </mat-form-field>
 
-    <!-- Fullname -->
-    <label>Fullname</label>
-    <mat-form-field appearance="outline">
-      <input matInput formControlName="fullName" />
-      <mat-error *ngIf="userForm.get('fullName')?.hasError('required')">
-        Full name is required.
-      </mat-error>
-    </mat-form-field>
+      <!-- Fullname -->
+      <label>Fullname</label>
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="fullName" />
+        <mat-error *ngIf="userForm.get('fullName')?.hasError('required')">
+          Full name is required.
+        </mat-error>
+      </mat-form-field>
 
-    <!-- Password -->
+      <!-- Password -->
+      <label>Password</label>
+      <mat-form-field appearance="outline">
+        <input
+          matInput
+          [type]="hidePassword ? 'password' : 'text'"
+          formControlName="password"
+        />
+        <button
+          type="button"
+          mat-icon-button
+          matSuffix
+          (click)="togglePasswordVisibility($event)"
+        >
+          <mat-icon>{{
+            hidePassword ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
+        <mat-error *ngIf="userForm.get('password')?.hasError('required')">
+          Password is required.
+        </mat-error>
+      </mat-form-field>
 
-    <label>Password</label>
-    <mat-form-field appearance="outline">
-      <input
-        matInput
-        [type]="hidePassword ? 'password' : 'text'"
-        formControlName="password"
-      />
-      <button
-        type="button"
-        mat-icon-button
-        matSuffix
-        (click)="togglePasswordVisibility($event)"
-      >
-        <mat-icon>{{
-          hidePassword ? "visibility_off" : "visibility"
-        }}</mat-icon>
-      </button>
-      <mat-error *ngIf="userForm.get('password')?.hasError('required')">
-        Password is required.
-      </mat-error>
-    </mat-form-field>
+      <!-- User Group Dropdown -->
+      <label>Usergroup</label>
+      <mat-form-field appearance="outline">
+        <mat-select formControlName="userGroup">
+          <mat-option value="Admin">{{ Constant.USER_GROUP.ADMIN }}</mat-option>
+          <mat-option value="Leader">{{
+            Constant.USER_GROUP.LEADER
+          }}</mat-option>
+          <mat-option value="Officer">{{
+            Constant.USER_GROUP.OFFICER
+          }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="userForm.get('userGroup')?.hasError('required')">
+          User group is required.
+        </mat-error>
+      </mat-form-field>
 
-    <!-- User Group Dropdown -->
-    <label>Usergroup</label>
-    <mat-form-field appearance="outline">
-      <mat-select formControlName="userGroup">
-        <mat-option value="Admin">Admin</mat-option>
-        <mat-option value="Leader">Leader</mat-option>
-        <mat-option value="Officer">Officer</mat-option>
-      </mat-select>
-      <mat-error *ngIf="userForm.get('userGroup')?.hasError('required')">
-        User group is required.
-      </mat-error>
-    </mat-form-field>
-    <!-- Actions buttons -->
-    <mat-dialog-actions>
-      <button
-        color="primary"
-        class="btn btn-confirm"
-        type="submit"
-        (click)="submit()"
-        [disabled]="isSubmitting"
-      >
-        {{ id ? "Update" : "Confirm" }}
-      </button>
-      <button mat-dialog-close class="btn btn-cancel">Cancel</button>
-    </mat-dialog-actions>
-  </form>
+      <!-- Status Dropdown -->
+      <label>Status</label>
+      <mat-form-field appearance="outline">
+        <mat-select formControlName="status">
+          <mat-option value="Active">{{
+            Constant.USER_STATUS.ACTIVE
+          }}</mat-option>
+          <mat-option value="Inactive">{{
+            Constant.USER_STATUS.INACTIVE
+          }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="userForm.get('status')?.hasError('required')">
+          Status is required.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Actions buttons -->
+      <mat-dialog-actions>
+        <button
+          mat-flat-button
+          color="primary"
+          class="btn btn-confirm"
+          type="submit"
+          (click)="submit()"
+          [disabled]="isSubmitting"
+        >
+          {{ id ? "Update" : "Confirm" }}
+        </button>
+        <button mat-flat-button mat-dialog-close class="btn btn-cancel">
+          Cancel
+        </button>
+      </mat-dialog-actions>
+    </form>
+  </div>
 </div>
