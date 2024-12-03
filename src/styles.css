@@ -1,46 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  overflow-y: hidden;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-image: linear-gradient(
-    to top,
-    rgb(20, 19, 19),
-    rgb(104, 103, 102)
-  );
-}
-
-.btn {
-  color: white;
-  border-radius: 6px;
-  padding: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Color Variables */
 :root {
   /* basic */
   --primary: #0a84ff;
   --confirm: #1ccc3e;
   --cancel: #f0352d;
   --delete: #ff9f0a;
+
+  /* Jira Colors */
+  --main-background: #1d2125;
+  --secondary-background: #4a4d51;
+  --button-background: #539afa;
+  --border-color: #343c44;
+
+  /* text */
+  --main-text: #9fadbc;
+  --secondary-text: #302125;
+  --hover-background: #82bafa; 
+  --disabled: #2f2d2d;
+
+  /* --tertiary-background: #eaeaea; 
+  --header-background: #333333; 
+  --footer-background: #1a1a1a;
+  --card-background: #fafafa; 
+  --modal-background: rgba(0, 0, 0, 0.6); 
+ 
+   */
+
+  /* Fonts or text */
+  /* 
+
+  --heading-text: #111111;
+  --link-text: #007bff;
+  --link-hover-text: #0056b3;
+   */
 }
 
-.btn-confirm {
-  background-color: #1ccc3e;
-}
-.btn-cancel {
-  background-color: #f0352d;
-}
-.btn-primary {
-  background-color: #0a84ff;
-}
-.btn-delete {
-  background-color: #ff9f0a;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow-y: hidden;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--main-background);
 }

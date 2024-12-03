@@ -23,7 +23,7 @@ export const Constant = {
     GET_TRANSACTION_LOGS_RECORDS: 'TransactionLogs/id',   
   },
   CNCS_VERSION: {
-    NUMBER: '1.0.2',
+    NUMBER: '1.0.3',
   },
 
   MESSAGES: {

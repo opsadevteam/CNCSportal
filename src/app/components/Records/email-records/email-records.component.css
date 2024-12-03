@@ -12,16 +12,7 @@ thead {
   font-size: 1rem;
 }
 
-header h1 {
-  font-size: 1.8em;
-  margin-bottom: 0.5em;
-  color: #ffffff;
-}
 
-header p {
-  font-size: 1.2em;
-  color: #b0b0b0;
-}
 
 /* Filter Bar */
 .filter-bar {
@@ -38,9 +29,8 @@ header p {
   flex: 1;
 }
 
-.filter-bar button {
-  background-color: #2196f3; /* Blue for buttons */
-  color: #ffffff;
+.filter-bar {
+  background-color: var(--main-background); 
   border: none;
   padding: 0.5em 1em;
   border-radius: 4px;
@@ -48,20 +38,16 @@ header p {
 }
 
 .filter-bar button:hover {
-  background-color: #1976d2; /* Darker blue on hover */
+  background-color:  var(--hover-background); 
 }
 
 mat-card {
   font-size: 12px;
-  background-image: linear-gradient(
-    to right,
-    rgb(20, 19, 19),
-    rgb(104, 103, 102)
-  );
+  background-color: var(--main-background);
 }
 
 mat-card-header {
-  border-bottom: 1px solid rgba(120, 120, 128, 0.36);
+  border-bottom: var(--border-color);
   padding-bottom: 1rem;
   margin-bottom: 1rem;
 }
@@ -98,25 +84,17 @@ mat-card-content {
 }
 
 .mat-mdc-paginator {
-  background-image: linear-gradient(
-    to right,
-    rgb(20, 19, 19),
-    rgb(104, 103, 102)
-  );
+  background-color: var(--main-background);
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-style: normal;
   /* font-size: 0.75rem; */
 }
 
-.add-btn {
+button.add-btn {
   margin: 1rem;
-  background-image: linear-gradient(
-    to bottom,
-    rgb(198, 201, 226),
-    rgb(3, 76, 145)
-  );
-  color: #fff !important;
+  background-color: var(--button-background);
+  color: var(--secondary-text);
   margin: 0.5rem;
   border-radius: 12px;
 }

@@ -18,7 +18,7 @@ import {
 } from "@angular/forms";
 import { UserAccountService } from "../../../services/user-account.service";
 import { NgIf } from "@angular/common";
-import { EntryUserAccount } from "../../../Models/interface/userAccount.model";
+import { UserAccountUpsert } from "../../../Models/interface/userAccount.model";
 import { MatButtonModule } from "@angular/material/button";
 
 @Component({
@@ -91,7 +91,7 @@ export class AddUserDialogComponent {
 
   loadUserData(id: number): void {
     this.accountService.getUser(id).subscribe({
-      next: (userData: EntryUserAccount) => {
+      next: (userData: UserAccountUpsert) => {
         this.userForm.patchValue({
           id: userData.id,
           username: userData.username,
@@ -107,7 +107,7 @@ export class AddUserDialogComponent {
   }
 
   private addUser(): void {
-    const user: EntryUserAccount = {
+    const user: UserAccountUpsert = {
       ...this.userForm.value, // This will copy the values entered in the form
       addedBy: "admin", // to be set soon
       dateAdded: new Date(), // Set current date
@@ -134,7 +134,7 @@ export class AddUserDialogComponent {
   }
 
   private editUser(): void {
-    const user: EntryUserAccount = {
+    const user: UserAccountUpsert = {
       ...this.userForm.value,
       addedBy: "admin",
       dateAdded: new Date(),
