@@ -21,7 +21,7 @@ import {
   IUserAccount,
 } from '../../../Models/interface/phoneEntryForm.model';
 import { TransactionService } from '../../../services/transaction.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ProductVendorService } from '../../../services/product-vendor.service';
 import { DescriptionService } from '../../../services/description.service';
 import { UserAccountService } from '../../../services/user-account.service';
@@ -72,9 +72,11 @@ export class PhoneEntryFormComponent implements OnInit {
   descriptionSuggest: boolean = true;
   filteredOption: Observable<IDescription[]> = new Observable<IDescription[]>();
   filteredProductVendor: IProductVendor[] = [];
+  autoGeneratePhoneId: Date = new Date();
 
   constructor(
     private fb: FormBuilder,
+    @Optional() private datePipe: DatePipe,
     @Optional() public dialogRef: MatDialogRef<PhoneEntryFormComponent>
   ) {}
 
@@ -83,6 +85,21 @@ export class PhoneEntryFormComponent implements OnInit {
     this.getAllProductVendors();
     this.getAllDescriptions();
     this.getAllUserAccounts();
+    this.autoGenerateId();
+  }
+
+  autoGenerateId() {
+    const base = 'JXF';
+    const today = new Date();
+    console.log(base);
+    console.log(today);
+    this.autoGeneratePhoneId = this.getFormatDate(today);
+    console.log(this.autoGeneratePhoneId);
+  }
+
+  getFormatDate(data: Date) {
+    this.datePipe.transform(data, 'yyyyMMdd')!;
+    return data;
   }
 
   initForm() {
