@@ -72,7 +72,7 @@ export class PhoneEntryFormComponent implements OnInit {
   descriptionSuggest: boolean = true;
   filteredOption: Observable<IDescription[]> = new Observable<IDescription[]>();
   filteredProductVendor: IProductVendor[] = [];
-  autoGeneratePhoneId: Date = new Date();
+  autoGeneratePhoneId: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -91,15 +91,30 @@ export class PhoneEntryFormComponent implements OnInit {
   autoGenerateId() {
     const base = 'JXF';
     const today = new Date();
-    console.log(base);
-    console.log(today);
-    this.autoGeneratePhoneId = this.getFormatDate(today);
-    console.log(this.autoGeneratePhoneId);
+    const formattedDate = this.formatDate(today);
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    const numbers = '0123456789';
+    let randomLetters = '';
+    for (let i = 0; i < 3; i++) {
+      const randomIndex = Math.floor(Math.random() * letters.length);
+      randomLetters += letters[randomIndex];
+    }
+    let randomNumbers = '';
+    for (let i = 0; i < 2; i++) {
+      const randomIndex = Math.floor(Math.random() * numbers.length);
+      randomNumbers += numbers[randomIndex];
+    }
+    const generateRandomString = randomLetters + randomNumbers;
+    this.autoGeneratePhoneId =
+      base + formattedDate + generateRandomString.toUpperCase();
+    this.phoneEntryForm.controls['phoneId'].setValue(this.autoGeneratePhoneId);
   }
 
-  getFormatDate(data: Date) {
-    this.datePipe.transform(data, 'yyyyMMdd')!;
-    return data;
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}${month}${day}`;
   }
 
   initForm() {
