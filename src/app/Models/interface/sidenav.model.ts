@@ -77,7 +77,7 @@ export const RecordsMenuItemData = [
   },
   {
     icon: "face",
-    label: "User Mangement",
+    label: "User Management",
     route: "usermanagement",
   },
   {

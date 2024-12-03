@@ -1,19 +1,15 @@
-body {
-  background-color: black;
-}
 mat-card {
   max-width: 32rem;
   margin: 2em auto;
   text-align: center;
   max-height: 48rem;
-  background-image: linear-gradient(
-    to top,
-    rgb(20, 19, 19),
-    rgb(104, 103, 102)
-  );
-
-  color: #fff;
+  background-color: var(--secondary-background);
+  color: var(--main-text);
   margin-top: 200px;
+}
+
+mat-label {
+  color: var(--main-text);
 }
 
 .header {
@@ -28,25 +24,16 @@ mat-card {
   padding-left: 0px;
 }
 
-.email-input {
-  color: #fff;
-  padding-top: 10px;
-}
-
 .aLink {
   float: right;
   padding-right: 60px;
   text-decoration: none;
 }
 
-.login-btn {
+button.login-btn {
   margin: 1rem;
-  background-image: linear-gradient(
-    to bottom,
-    rgb(198, 201, 226),
-    rgb(3, 76, 145)
-  );
-  color: #fff !important;
+  background-color: var(--button-background);
+  color: #302125;
   margin: 0.5rem;
   border-radius: 12px;
 }

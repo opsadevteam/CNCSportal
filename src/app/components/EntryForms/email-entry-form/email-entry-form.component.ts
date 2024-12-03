@@ -31,11 +31,14 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { filter, map, observable, Observable, startWith } from 'rxjs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-email-entry-form',
   standalone: true,
   imports: [
+    MatAutocompleteModule,
     CommonModule,
     MatDialogActions,
     MatDialogClose,
@@ -64,6 +67,9 @@ export class EmailEntryFormComponent implements OnInit {
   productVendorList: IProductVendor[] = [];
   descriptionList: IDescription[] = [];
   userAccountList: IUserAccount[] = [];
+  descriptionSuggest: boolean = true;
+  filteredOption: Observable<IDescription[]> = new Observable<IDescription[]>();
+  filteredProductVendor: IProductVendor[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -78,17 +84,28 @@ export class EmailEntryFormComponent implements OnInit {
   }
 
   initForm() {
-    this.emailEntryForm = this.fb.group({
-      emailId: ['', [Validators.required]],
-      customerId: ['', [Validators.required]],
-      pickUpDate: ['', [Validators.required]],
-      takeOffDate: ['', [Validators.required]],
-      productVendor: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      remark: ['', [Validators.required]],
-      repliedBy: ['', [Validators.required]],
-      status: ['', [Validators.required]],
+    this.emailEntryForm = new FormGroup({
+      phoneId: new FormControl('', [Validators.required]),
+      customerId: new FormControl('', [Validators.required]),
+      pickUpDate: new FormControl('', [Validators.required]),
+      takeOffDate: new FormControl('', [Validators.required]),
+      productVendor: new FormControl('', [Validators.required]),
+      description: new FormControl('', [Validators.required]),
+      remark: new FormControl('', [Validators.required]),
+      repliedBy: new FormControl('', [Validators.required]),
+      status: new FormControl('', [Validators.required]),
     });
+    this.filteredOption = this.emailEntryForm.valueChanges.pipe(
+      startWith(this.emailEntryForm.value),
+      map((value) => this._filter(value.description))
+    );
+  }
+
+  private _filter(value: string) {
+    const filtervalue = value.toLowerCase();
+    return this.descriptionList.filter((option) =>
+      option.description.toLowerCase().includes(filtervalue)
+    );
   }
 
   getAllProductVendors() {
@@ -97,16 +114,21 @@ export class EmailEntryFormComponent implements OnInit {
     });
   }
 
-  getAllDescriptions() {
-    this.descrptionService.getAllDescriptions().subscribe((res: any) => {
-      this.descriptionList = res;
-    });
-  }
-
   onProductVendorSelect(id: number) {
     this.filteredDescriptions = this.descriptionList.filter(
       (desc) => desc.productVendorId === id
     );
+    this.descriptionSuggest = false;
+    this.emailEntryForm.controls['description'].setValue('');
+  }
+
+  onDescriptionSelect(id: number) {
+    this.emailEntryForm.controls['productVendor'].setValue(id);
+  }
+  getAllDescriptions() {
+    this.descrptionService.getAllDescriptions().subscribe((res: any) => {
+      this.descriptionList = res;
+    });
   }
 
   getAllUserAccounts() {

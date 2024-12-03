@@ -20,7 +20,7 @@ export const Constant = {
     DELETE_SINGLE_EMAIL_RECORDS: 'EmailRecords',
   },
   CNCS_VERSION: {
-    NUMBER: '1.0.2',
+    NUMBER: '1.0.3',
   },
 
   MESSAGES: {
