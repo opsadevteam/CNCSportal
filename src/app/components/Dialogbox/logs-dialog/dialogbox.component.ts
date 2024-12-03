@@ -27,12 +27,12 @@ import { MatCardHeader, MatCardModule } from '@angular/material/card';
   standalone: true,
   imports: [MatDialogModule, MatTableModule,FormsModule, CommonModule ],
   templateUrl: './dialogbox.component.html',
-  styleUrls: ['./dialogbox.component.css'], // Fixed typo here, it should be 'styleUrls'
+  styleUrls: ['./dialogbox.component.css'],
 })
 export class DialogboxComponent {
-  ngStringTitle: string = ''; // Initialize ngStringTitle as an empty string by default
+  ngStringTitle: string = ''; 
 
-  logsData: any[] = []; // Ensure logsData is an array, initialized to an empty array if no data is passed
+  logsData: any[] = [];
   displayedColumns: string[] = [
     'id',
     'logType',
@@ -57,7 +57,7 @@ export class DialogboxComponent {
       // console.log('Parsed data:', data);
       // Check if logs are available and assign it to logsData
       this.logsData = data.transactionLogs || []; // Use transactionLogs as per your previous method
-      this.ngStringTitle = data.emailStringParams || 'Default Title'; // Set a default title if not provided
+      this.ngStringTitle = data.emailStringParams || ''; // Set a default title if not provided
     } else {
       //console.warn('No data passed to the dialog!');
     }
