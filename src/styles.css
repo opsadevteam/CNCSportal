@@ -14,15 +14,6 @@ body {
   );
 }
 
-.btn {
-  color: white;
-  border-radius: 6px;
-  padding: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
 /* Color Variables */
 :root {
   /* basic */
@@ -30,17 +21,4 @@ body {
   --confirm: #1ccc3e;
   --cancel: #f0352d;
   --delete: #ff9f0a;
-}
-
-.btn-confirm {
-  background-color: #1ccc3e;
-}
-.btn-cancel {
-  background-color: #f0352d;
-}
-.btn-primary {
-  background-color: #0a84ff;
-}
-.btn-delete {
-  background-color: #ff9f0a;
 }

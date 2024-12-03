@@ -24,7 +24,7 @@ mat-card-header {
 }
 
 .mat-mdc-table {
-  border-radius: 6px;
+  border-radius: 3px;
   background-color: transparent;
   margin-bottom: 1rem;
 }
@@ -36,7 +36,7 @@ mat-card-header {
 .badge {
   padding: 6px 8px;
   text-align: center;
-  border-radius: 6px;
+  border-radius: 3px;
   font-weight: 500;
   /* font-size: 0.7rem; */
 }

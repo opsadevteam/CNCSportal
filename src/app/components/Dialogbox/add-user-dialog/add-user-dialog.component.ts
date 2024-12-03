@@ -20,6 +20,7 @@ import { UserAccountService } from "../../../services/user-account.service";
 import { NgIf } from "@angular/common";
 import { UserAccountUpsert } from "../../../Models/interface/userAccount.model";
 import { MatButtonModule } from "@angular/material/button";
+import { Constant } from "../../../constant/Constants";
 
 @Component({
   selector: "app-add-user-dialog",
@@ -41,6 +42,7 @@ import { MatButtonModule } from "@angular/material/button";
   styleUrls: ["./add-user-dialog.component.css"],
 })
 export class AddUserDialogComponent {
+  readonly Constant = Constant;
   userForm: FormGroup;
   hidePassword = true;
   id: number = 0;
@@ -66,7 +68,7 @@ export class AddUserDialogComponent {
       fullName: ["", Validators.required],
       password: ["", [Validators.required]],
       userGroup: ["", Validators.required],
-      status: ["Active"],
+      status: ["", Validators.required],
     });
   }
 
