@@ -79,6 +79,9 @@
           <mat-option value="Inactive">{{
             Constant.USER_STATUS.INACTIVE
           }}</mat-option>
+          <mat-option value="Closed">{{
+            Constant.USER_STATUS.CLOSED
+          }}</mat-option>
         </mat-select>
         <mat-error *ngIf="userForm.get('status')?.hasError('required')">
           Status is required.
