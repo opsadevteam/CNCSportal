@@ -56,13 +56,9 @@
       <label>Usergroup</label>
       <mat-form-field appearance="outline">
         <mat-select formControlName="userGroup">
-          <mat-option value="Admin">{{ Constant.USER_GROUP.ADMIN }}</mat-option>
-          <mat-option value="Leader">{{
-            Constant.USER_GROUP.LEADER
-          }}</mat-option>
-          <mat-option value="Officer">{{
-            Constant.USER_GROUP.OFFICER
-          }}</mat-option>
+          <mat-option value="Admin">{{ userGroup.ADMIN }}</mat-option>
+          <mat-option value="Leader">{{ userGroup.LEADER }}</mat-option>
+          <mat-option value="Officer">{{ userGroup.OFFICER }}</mat-option>
         </mat-select>
         <mat-error *ngIf="userForm.get('userGroup')?.hasError('required')">
           User group is required.
@@ -73,15 +69,9 @@
       <label>Status</label>
       <mat-form-field appearance="outline">
         <mat-select formControlName="status">
-          <mat-option value="Active">{{
-            Constant.USER_STATUS.ACTIVE
-          }}</mat-option>
-          <mat-option value="Inactive">{{
-            Constant.USER_STATUS.INACTIVE
-          }}</mat-option>
-          <mat-option value="Closed">{{
-            Constant.USER_STATUS.CLOSED
-          }}</mat-option>
+          <mat-option value="Active">{{ userStatus.ACTIVE }}</mat-option>
+          <mat-option value="Inactive">{{ userStatus.INACTIVE }}</mat-option>
+          <mat-option value="Closed">{{ userStatus.CLOSED }}</mat-option>
         </mat-select>
         <mat-error *ngIf="userForm.get('status')?.hasError('required')">
           Status is required.

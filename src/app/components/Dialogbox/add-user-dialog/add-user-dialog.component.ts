@@ -42,7 +42,8 @@ import { Constant } from "../../../constant/Constants";
   styleUrls: ["./add-user-dialog.component.css"],
 })
 export class AddUserDialogComponent {
-  readonly Constant = Constant;
+  readonly userStatus = Constant.USER_STATUS;
+  readonly userGroup = Constant.USER_GROUP;
   userForm: FormGroup;
   hidePassword = true;
   id: number = 0;

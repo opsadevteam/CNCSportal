@@ -47,6 +47,7 @@ import { Constant } from "../../../constant/Constants";
 export class UserManagementComponent implements OnInit {
   readonly ACTIVE = Constant.USER_STATUS.ACTIVE;
   readonly INACTIVE = Constant.USER_STATUS.INACTIVE;
+  readonly CLOSED = Constant.USER_STATUS.CLOSED;
 
   @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
