@@ -1,11 +1,65 @@
-.mat-dialog-content {
-  max-width: 100%;
-  overflow-x: auto;
+
+.center-header {
+  text-align: right;
 }
 
-table.mat-table {
-  width: 100%;
-  table-layout: auto;
+thead {
+  text-align: center;
+}
+
+.page-header {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+header h1 {
+  font-size: 1.8em;
+  margin-bottom: 0.5em;
+  color: #ffffff;
+}
+
+header p {
+  font-size: 1.2em;
+  color: #b0b0b0;
+}
+
+mat-card {
+  font-size: 12px;
+  background-image: linear-gradient(
+    to right,
+    rgb(20, 19, 19),
+    rgb(104, 103, 102)
+  );
+}
+
+mat-card-header {
+  border-bottom: 1px solid rgba(120, 120, 128, 0.36);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+mat-card-content {
+  font-size: 12px;
+}
+
+.mat-mdc-table {
+  border-radius: 6px;
+  background-color: transparent;
+  margin-bottom: 1rem;
+}
+
+.mat-mdc-header-cell,
+.mat-mdc-cell {
+  text-align: center;
+  word-wrap: break-word; /* Allows breaking long words */
+  word-break: break-word; /* Forces break within long words */
+  white-space: normal; /* Allows wrapping */
+  max-width: 150px; /* Optional: Limit column width */
+  font-family: "Poppins", sans-serif;
+}
+
+.cdk-text-column {
+  text-align: center;
 }
 
 .badge {
@@ -13,5 +67,7 @@ table.mat-table {
   text-align: center;
   border-radius: 6px;
   font-weight: 500;
-  /* font-size: 0.7rem; */
+  display: inline-block;
+
 }
+

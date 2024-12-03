@@ -8,9 +8,9 @@
       <td mat-cell *matCellDef="let element">{{ element.id }}</td>
     </ng-container>
     <!-- Action Column -->
-    <ng-container matColumnDef="action">
+    <ng-container matColumnDef="logType">
       <th mat-header-cell *matHeaderCellDef>Action</th>
-      <td mat-cell *matCellDef="let element">{{ element.action }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.logType }}</td>
     </ng-container>
     <!-- Status Column -->
     <ng-container matColumnDef="status">
@@ -30,20 +30,20 @@
         <div
           class="badge"
           [style.background]="
-            element.status === 'CLOSED'
+            element.status.toUpperCase() === 'CLOSED'
               ? 'rgba(240, 52, 45, 0.15)'
-              : element.status === 'PENDING'
+              : element.status.toUpperCase() === 'PENDING'
               ? 'rgba(255, 159, 10, 0.15)'
-              : element.status === 'PROCESSING'
+              : element.status.toUpperCase() === 'PROCESSING'
               ? 'rgba(28, 195, 62, 0.15)'
               : 'rgba(116, 116, 128, 0.15)'
           "
           [style.color]="
-            element.status === 'CLOSED'
+            element.status.toUpperCase() === 'CLOSED'
               ? '#F0352D'
-              : element.status === 'PENDING'
+              : element.status.toUpperCase() === 'PENDING'
               ? '#FF9F0A'
-              : element.status === 'PROCESSING'
+              : element.status.toUpperCase() === 'PROCESSING'
               ? '#1CC33E'
               : '#747480'
           "
@@ -52,11 +52,13 @@
         </div>
       </td>
     </ng-container>
-    <!-- Email Id Column -->
-    <ng-container matColumnDef="emailId">
-      <th mat-header-cell *matHeaderCellDef>Email Id</th>
-      <td mat-cell *matCellDef="let element">{{ element.emailId }}</td>
-    </ng-container>
+    <!-- TransactionId Column -->
+    <ng-container matColumnDef="transactionId">
+      <th mat-header-cell *matHeaderCellDef>
+        {{ ngStringTitle === 'Email' ? 'Email ID' : 'Phone ID' }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.transactionId }}</td>
+    </ng-container>    
     <!-- Customer Id Column -->
     <ng-container matColumnDef="customerId">
       <th mat-header-cell *matHeaderCellDef>Customer ID</th>
@@ -68,29 +70,35 @@
       <td mat-cell *matCellDef="let element">{{ element.repliedBy }}</td>
     </ng-container>
     <!-- Received Date Column -->
-    <ng-container matColumnDef="receivedDate">
+    <ng-container matColumnDef="pickUpDate">
       <th mat-header-cell *matHeaderCellDef>Received Date</th>
-      <td mat-cell *matCellDef="let element">{{ element.receivedDate | date : "d MMM y" }}</td>
+      <td mat-cell *matCellDef="let element">
+        {{ element.pickUpDate | date : "d MMM y" }}
+      </td>
     </ng-container>
     <!-- Sending Date Column -->
-    <ng-container matColumnDef="sendingDate">
+    <ng-container matColumnDef="takeOffDate">
       <th mat-header-cell *matHeaderCellDef>Sending Date</th>
-      <td mat-cell *matCellDef="let element">{{ element.sendingDate | date : "d MMM y" }}</td>
+      <td mat-cell *matCellDef="let element">
+        {{ element.takeOffDate | date : "d MMM y" }}
+      </td>
     </ng-container>
     <!-- Vendor Column -->
-    <ng-container matColumnDef="vendor">
+    <ng-container matColumnDef="productVendorId">
       <th mat-header-cell *matHeaderCellDef>Vendor</th>
-      <td mat-cell *matCellDef="let element">{{ element.vendor }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.productVendorId }}</td>
     </ng-container>
     <!-- Description Column -->
-    <ng-container matColumnDef="description">
+    <ng-container matColumnDef="descriptionId">
       <th mat-header-cell *matHeaderCellDef>Description</th>
-      <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.descriptionId }}</td>
     </ng-container>
     <!-- Date Added Column -->
     <ng-container matColumnDef="dateAdded">
       <th mat-header-cell *matHeaderCellDef>Date Added</th>
-      <td mat-cell *matCellDef="let element">{{ element.dateAdded | date : "d MMM y" }}</td>
+      <td mat-cell *matCellDef="let element">
+        {{ element.dateAdded | date : "d MMM y" }}
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

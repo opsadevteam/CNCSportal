@@ -4,44 +4,62 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { MatTableModule } from '@angular/material/table';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { MatCardHeader, MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-dialogbox',
   standalone: true,
-  imports: [MatDialogModule, MatTableModule, CommonModule],
+  imports: [MatDialogModule, MatTableModule,FormsModule, CommonModule ],
   templateUrl: './dialogbox.component.html',
-  styleUrls: ['./dialogbox.component.css'], // Fixed typo here, it should be 'styleUrls'
+  styleUrls: ['./dialogbox.component.css'],
 })
 export class DialogboxComponent {
-  ngStringTitle: string = ''; // Initialize ngStringTitle as an empty string by default
+  ngStringTitle: string = ''; 
 
-  logsData: any[] = []; // Ensure logsData is an array, initialized to an empty array if no data is passed
+  logsData: any[] = [];
   displayedColumns: string[] = [
     'id',
-    'action',
+    'logType',
     'status',
-    'emailId',
+    'transactionId',
     'customerId',
     'repliedBy',
-    'receivedDate',
-    'sendingDate',
-    'vendor',
-    'description',
+    'pickUpDate',
+    'takeOffDate',
+    'productVendorId',
+    'descriptionId',
     'dateAdded',
   ];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, // Inject MAT_DIALOG_DATA to access passed data
     public dialogRef: MatDialogRef<DialogboxComponent>
-  ) {   
+  ) {
+    //console.log('Dialog data:', data);
     // Ensure data is passed and handle undefined or missing data safely
     if (data) {
-      this.logsData = data.logs || []; // Use empty array if logs are not passed
-      this.ngStringTitle = data.emailStringParams || 'Default Title'; // Set title to 'Default Title' if not provided
+      // console.log('Parsed data:', data);
+      // Check if logs are available and assign it to logsData
+      this.logsData = data.transactionLogs || []; // Use transactionLogs as per your previous method
+      this.ngStringTitle = data.emailStringParams || ''; // Set a default title if not provided
+    } else {
+      //console.warn('No data passed to the dialog!');
     }
   }
-
 }
