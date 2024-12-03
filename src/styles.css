@@ -15,6 +15,8 @@
   /* text */
   --main-text: #9fadbc;
   --secondary-text: #302125;
+  --hover-background: #82bafa; 
+  --disabled: #2f2d2d;
 
   /* --tertiary-background: #eaeaea; 
   --header-background: #333333; 
@@ -22,7 +24,7 @@
   --card-background: #fafafa; 
   --modal-background: rgba(0, 0, 0, 0.6); 
  
-  --hover-background: #0056b3;  */
+   */
 
   /* Fonts or text */
   /* 
@@ -30,7 +32,7 @@
   --heading-text: #111111;
   --link-text: #007bff;
   --link-hover-text: #0056b3;
-  --disabled-text: #b0b0b0; */
+   */
 }
 
 html,
