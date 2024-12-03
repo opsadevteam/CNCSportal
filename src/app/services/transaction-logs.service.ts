@@ -23,7 +23,7 @@ export class TransactionLogsService {
         catchError((error) => {
           console.error('Error fetching transaction logs:', error);
           throw error;
-        })
+        }) 
       );
     } 
 
