@@ -20,14 +20,18 @@ mat-label {
   width: 80%;
 }
 
-.forgot-password {
-  padding-left: 0px;
-}
-
-.aLink {
+.forgot-pass {
   float: right;
   padding-right: 60px;
   text-decoration: none;
+  cursor: pointer;
+}
+
+.remember-me {
+  float: left;
+  padding-left: 60px;
+  position: relative;
+  bottom: 0.6rem;
 }
 
 button.login-btn {
@@ -36,4 +40,7 @@ button.login-btn {
   color: #302125;
   margin: 0.5rem;
   border-radius: 12px;
+  text-align: center;
+  width: 24rem;
+  margin-bottom: 2rem;
 }
