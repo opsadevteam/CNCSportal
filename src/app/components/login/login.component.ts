@@ -11,11 +11,13 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
+    MatCheckboxModule,
     CommonModule,
     MatCardModule,
     MatIconModule,
@@ -41,6 +43,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
+      rememberMe: new FormControl('', [Validators.required]),
     });
   }
 

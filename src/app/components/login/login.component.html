@@ -5,7 +5,7 @@
         width="100"
         height="100"
         style="border-radius: 100%"
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQathrq-9gMB7p7vlRZHMW_20kLCa21AKoODg&s"
+        src="/CNCS_PrototypeLogo_PNG.png"
         alt=""
       />
       <h1>CNCS</h1>
@@ -28,7 +28,6 @@
         </mat-form-field>
       </div>
       <div>
-        <span class="aLink">Forgot Password</span>
         <mat-form-field class="full-width" appearance="outline">
           <mat-label>Password</mat-label>
           <input
@@ -51,6 +50,12 @@
             Required password
           </mat-error>
         </mat-form-field>
+
+        <mat-checkbox class="remember-me" formControlName="rememberMe"
+          >Remember Me</mat-checkbox
+        >
+        <a class="forgot-pass">Forgot Password?</a>
+        <br />
       </div>
       <button type="submit" mat-raised-button class="login-btn">Login</button>
     </form>
