@@ -1,0 +1,18 @@
+mat-card {
+  background-color: var(--main--background);
+  margin: 1rem;
+}
+
+mat-card-footer {
+  border-top: solid 1px rgb(52, 50, 50);
+}
+
+.mat-header {
+  background-color: var(--secondary-background);
+  color: var(--main-text);
+}
+
+.mat-cell {
+  background-color: var(--main--background);
+  color: var(--main-text);
+}

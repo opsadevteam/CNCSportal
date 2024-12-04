@@ -2,6 +2,7 @@
 export const Constant = {
   API_TRANSACTIONS_METHOD: {
     CREATE_TRANSACTION: 'Transaction',
+    GET_ALL_TRANSACTION: 'Transaction',
   },
   API_PRODUCT_VENDOR_METHOD: {
     GET_ALL_PRODUCT_VENDORS: 'ProductVendor',

@@ -22,7 +22,13 @@ export class TransactionService {
       this.baseUrl + Constant.API_TRANSACTIONS_METHOD.CREATE_TRANSACTION,
       obj
     );
-  }  
+  }
+
+  getAllTransactions(): Observable<IPhoneEntryFormTransaction> {
+    return this.http.get<IPhoneEntryFormTransaction>(
+      this.baseUrl + Constant.API_TRANSACTIONS_METHOD.GET_ALL_TRANSACTION
+    );
+  }
 
   //
   //

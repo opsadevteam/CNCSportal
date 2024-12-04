@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardHeader, MatCardModule } from '@angular/material/card';
@@ -9,11 +9,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { TransactionService } from '../../../services/transaction.service';
+import { IPhoneEntryFormTransaction } from '../../../Models/interface/phoneEntryForm.model';
 
 @Component({
   selector: 'app-history-phone-dialog',
@@ -39,12 +41,11 @@ import { MatTableModule } from '@angular/material/table';
   templateUrl: './history-phone-dialog.component.html',
   styleUrl: './history-phone-dialog.component.css',
 })
-export class HistoryPhoneDialogComponent {
+export class HistoryPhoneDialogComponent implements OnInit {
   dataSource: any;
   displayedColumns: string[] = [
-    'LOG ID',
+    'PHONE ID',
     'STATUS',
-    'EMAIL ID',
     'REPLIED BY',
     'RECEIVED DATE',
     'SENDING DATE',
@@ -52,5 +53,21 @@ export class HistoryPhoneDialogComponent {
     'DESCRIPTION',
     'DATE ADDED',
   ];
-  constructor() {}
+  transactionList!: IPhoneEntryFormTransaction[];
+  @ViewChild(MatPaginator) myPaginator!: MatPaginator;
+
+  constructor(private transactionSevice: TransactionService) {}
+  ngOnInit(): void {
+    this.getAllTransactions();
+  }
+
+  getAllTransactions() {
+    this.transactionSevice.getAllTransactions().subscribe((res: any) => {
+      this.transactionList = res;
+      this.dataSource = new MatTableDataSource<IPhoneEntryFormTransaction>(
+        this.transactionList
+      );
+      this.dataSource.paginator = this.myPaginator;
+    });
+  }
 }
