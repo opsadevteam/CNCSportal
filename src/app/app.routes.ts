@@ -9,6 +9,7 @@ import { WorkloadStatisticsComponent } from './components/Reports/workload-stati
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { authGuard } from './services/auth.guard';
 import { UserManagementComponent } from './components/Records/user-management/user-management.component';
+import { ChangePasswordComponent } from './components/Settings/change-password/change-password.component';
 
 export const routes: Routes = [
   {
@@ -46,6 +47,10 @@ export const routes: Routes = [
         path: 'workloadstatistics',
         component: WorkloadStatisticsComponent,
       },
+      {
+        path: 'changepassword',
+        component: ChangePasswordComponent
+      }
     ],
   },
 ];
