@@ -71,6 +71,7 @@ export class EmailEntryFormComponent implements OnInit {
   descriptionSuggest: boolean = true;
   filteredOption: Observable<IDescription[]> = new Observable<IDescription[]>();
   filteredProductVendor: IProductVendor[] = [];
+  autoGenerateEmailId: string = '';
   isEdit: boolean = false;
 
   constructor(
@@ -84,6 +85,36 @@ export class EmailEntryFormComponent implements OnInit {
     this.getAllProductVendors();
     this.getAllDescriptions();
     this.getAllUserAccounts();
+    this.autoGenerateId();
+  }
+
+  autoGenerateId() {
+    const base = 'JXF';
+    const today = new Date();
+    const formattedDate = this.formatDate(today);
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    const numbers = '0123456789';
+    let randomLetters = '';
+    for (let i = 0; i < 3; i++) {
+      const randomIndex = Math.floor(Math.random() * letters.length);
+      randomLetters += letters[randomIndex];
+    }
+    let randomNumbers = '';
+    for (let i = 0; i < 2; i++) {
+      const randomIndex = Math.floor(Math.random() * numbers.length);
+      randomNumbers += numbers[randomIndex];
+    }
+    const generateRandomString = randomLetters + randomNumbers;
+    this.autoGenerateEmailId =
+      base + formattedDate + generateRandomString.toUpperCase();
+    this.emailEntryForm.controls['emailId'].setValue(this.autoGenerateEmailId);
+  }
+
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}${month}${day}`;
     this.editCase();
   }
 
@@ -149,7 +180,7 @@ export class EmailEntryFormComponent implements OnInit {
       this.emailEntryForm.value.takeOffDate -
       this.emailEntryForm.value.pickUpDate;
     let myDays = myMilliseconds / (1000 * 3600 * 24);
-    let myDateNow = '2024-11-19T16:00:00.000Z';
+    let myDateNow = new Date().toISOString();
     let myUserNow = 'Robert M. Verano';
     let myShift = 'Morning';
     let myTransactionType = 'Email';
