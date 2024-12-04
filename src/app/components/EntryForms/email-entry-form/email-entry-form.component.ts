@@ -86,6 +86,7 @@ export class EmailEntryFormComponent implements OnInit {
     this.getAllDescriptions();
     this.getAllUserAccounts();
     this.autoGenerateId();
+    this.editCase();
   }
 
   autoGenerateId() {
