@@ -22,7 +22,12 @@
           placeholder="Please enter the customer ID"
         />
       </mat-form-field>
-      <button type="button" mat-raised-button class="history-btn">
+      <button
+        type="button"
+        mat-raised-button
+        (click)="openDialog()"
+        class="history-btn"
+      >
         <mat-icon>history </mat-icon>
         History
       </button>

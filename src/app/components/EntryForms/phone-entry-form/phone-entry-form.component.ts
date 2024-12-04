@@ -26,6 +26,7 @@ import { ProductVendorService } from '../../../services/product-vendor.service';
 import { DescriptionService } from '../../../services/description.service';
 import { UserAccountService } from '../../../services/user-account.service';
 import {
+  MatDialog,
   MatDialogActions,
   matDialogAnimations,
   MatDialogClose,
@@ -35,6 +36,7 @@ import {
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { filter, map, observable, Observable, startWith } from 'rxjs';
 import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
+import { HistoryPhoneDialogComponent } from '../../Dialogbox/history-phone-dialog/history-phone-dialog.component';
 
 @Component({
   selector: 'app-phone-entry-form',
@@ -76,6 +78,7 @@ export class PhoneEntryFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private readonly dialog: MatDialog,
     @Optional() private datePipe: DatePipe,
     @Optional() public dialogRef: MatDialogRef<PhoneEntryFormComponent>
   ) {}
@@ -219,5 +222,14 @@ export class PhoneEntryFormComponent implements OnInit {
         }
       );
     }
+  }
+
+  openDialog(id?: number): void {
+    const dialogRef = this.dialog.open(HistoryPhoneDialogComponent, {
+      width: '75%',
+      height: '60%',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+    });
   }
 }
