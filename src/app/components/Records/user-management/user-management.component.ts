@@ -22,6 +22,8 @@ import { DeleteDialogComponent } from "../../Dialogbox/delete-dialog/delete-dial
 import { UserAccountService } from "../../../services/user-account.service";
 import { UserAccountGet } from "../../../Models/interface/userAccount.model";
 import { Constant } from "../../../constant/Constants";
+import { MatInputModule } from "@angular/material/input";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-user-management",
@@ -39,6 +41,8 @@ import { Constant } from "../../../constant/Constants";
     MatIconModule,
     MatDividerModule,
     MatMenuModule,
+    MatInputModule,
+    FormsModule
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./user-management.component.html",
@@ -48,6 +52,7 @@ export class UserManagementComponent implements OnInit {
   readonly ACTIVE = Constant.USER_STATUS.ACTIVE;
   readonly INACTIVE = Constant.USER_STATUS.INACTIVE;
   readonly CLOSED = Constant.USER_STATUS.CLOSED;
+  hidePassword = true;
 
   @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -111,5 +116,9 @@ export class UserManagementComponent implements OnInit {
         });
       }
     });
+  }
+
+  togglePasswordVisibility(event: MouseEvent): void {
+    this.hidePassword = !this.hidePassword;
   }
 }

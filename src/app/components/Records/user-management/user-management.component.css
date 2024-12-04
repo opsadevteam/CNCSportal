@@ -49,3 +49,15 @@ button.add-btn {
   margin: 0.5rem;
   border-radius: 12px;
 }
+
+.password-field {
+  background-color: inherit;
+  color: rgb(227, 226, 230);
+  font-family: "Roboto";
+  font-size: 20px;
+  text-align: center;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  width: 120px;
+}
