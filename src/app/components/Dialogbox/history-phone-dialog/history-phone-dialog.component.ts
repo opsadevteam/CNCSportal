@@ -12,7 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSortModule } from '@angular/material/sort';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TransactionService } from '../../../services/transaction.service';
 import { IPhoneEntryFormTransaction } from '../../../Models/interface/phoneEntryForm.model';
@@ -55,6 +55,7 @@ export class HistoryPhoneDialogComponent implements OnInit {
   ];
   transactionList!: IPhoneEntryFormTransaction[];
   @ViewChild(MatPaginator) myPaginator!: MatPaginator;
+  @ViewChild(MatSort) mySort!: MatSort;
 
   constructor(private transactionSevice: TransactionService) {}
   ngOnInit(): void {
@@ -68,6 +69,7 @@ export class HistoryPhoneDialogComponent implements OnInit {
         this.transactionList
       );
       this.dataSource.paginator = this.myPaginator;
+      this.dataSource.sort = this.mySort;
     });
   }
 }
