@@ -1,29 +1,32 @@
-import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import {
   MatDialogActions,
   MatDialogClose,
   MatDialogTitle,
   MAT_DIALOG_DATA,
   MatDialogRef,
-} from "@angular/material/dialog";
-import { MatSelectModule } from "@angular/material/select";
-import { MatInputModule } from "@angular/material/input";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
+} from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
-} from "@angular/forms";
-import { UserAccountService } from "../../../services/user-account.service";
-import { NgIf } from "@angular/common";
-import { UserAccountGet, UserAccountUpsert } from "../../../Models/interface/userAccount.model";
-import { MatButtonModule } from "@angular/material/button";
-import { Constant } from "../../../constant/Constants";
+} from '@angular/forms';
+import { UserAccountService } from '../../../services/user-account.service';
+import { NgIf } from '@angular/common';
+import {
+  UserAccountCreate,
+  UserAccountGetAndUpdate,
+} from '../../../Models/interface/userAccount.model';
+import { MatButtonModule } from '@angular/material/button';
+import { Constant } from '../../../constant/Constants';
 
 @Component({
-  selector: "app-add-user-dialog",
+  selector: 'app-add-user-dialog',
   standalone: true,
   imports: [
     MatDialogActions,
@@ -38,8 +41,8 @@ import { Constant } from "../../../constant/Constants";
     MatButtonModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: "./add-user-dialog.component.html",
-  styleUrls: ["./add-user-dialog.component.css"],
+  templateUrl: './add-user-dialog.component.html',
+  styleUrls: ['./add-user-dialog.component.css'],
 })
 export class AddUserDialogComponent {
   readonly userStatus = Constant.USER_STATUS;
@@ -65,11 +68,11 @@ export class AddUserDialogComponent {
   private createUserForm(): FormGroup {
     return this.fb.group({
       id: [0],
-      username: ["", [Validators.required]],
-      fullName: ["", Validators.required],
-      password: ["", [Validators.required]],
-      userGroup: ["", Validators.required],
-      status: ["", Validators.required],
+      username: ['', [Validators.required]],
+      fullName: ['', Validators.required],
+      password: ['', [Validators.required]],
+      userGroup: ['', Validators.required],
+      status: ['', Validators.required],
     });
   }
 
@@ -94,7 +97,7 @@ export class AddUserDialogComponent {
 
   loadUserData(id: number): void {
     this.accountService.getUser(id).subscribe({
-      next: (userData: UserAccountGet) => {
+      next: (userData: UserAccountGetAndUpdate) => {
         this.userForm.patchValue({
           id: userData.id,
           username: userData.username,
@@ -110,25 +113,25 @@ export class AddUserDialogComponent {
   }
 
   private addUser(): void {
-    const user: UserAccountUpsert = {
+    const user: UserAccountCreate = {
       ...this.userForm.value, // This will copy the values entered in the form
-      addedBy: "admin", // to be set soon
+      addedBy: 'admin', // to be set soon
       dateAdded: new Date(), // Set current date
       isDeleted: false, // Set default value
-      logId: "log123", // to be set soon
+      logId: 'log123', // to be set soon
     };
 
     this.accountService.addUser(user).subscribe({
       next: () => {
         this.isSubmitting = false;
-        this.dialogRef.close("refresh");
-        alert("User successfully added");
+        this.dialogRef.close('refresh');
+        alert('User successfully added');
         console.log(user);
       },
       error: (err) => {
         this.isSubmitting = false;
         if (err.status === 409) {
-          this.userForm.get("username")?.setErrors({ UsernameTaken: true });
+          this.userForm.get('username')?.setErrors({ UsernameTaken: true });
         } else {
           this.handleErrors(err);
         }
@@ -137,25 +140,19 @@ export class AddUserDialogComponent {
   }
 
   private editUser(): void {
-    const user: UserAccountUpsert = {
-      ...this.userForm.value,
-      addedBy: "admin",
-      dateAdded: new Date(),
-      isDeleted: false,
-      logId: "log123", // to be set soon
-    };
-
+    const user: UserAccountGetAndUpdate = this.userForm
+      .value as UserAccountGetAndUpdate;
     this.accountService.updateUser(this.id, user).subscribe({
       next: () => {
         this.isSubmitting = false;
-        this.dialogRef.close("refresh");
+        this.dialogRef.close('refresh');
         console.log(user);
-        alert("User successfully updated");
+        alert('User successfully updated');
       },
       error: (err) => {
         this.isSubmitting = false;
         if (err.status === 409) {
-          this.userForm.get("username")?.setErrors({ UsernameTaken: true });
+          this.userForm.get('username')?.setErrors({ UsernameTaken: true });
         } else {
           this.handleErrors(err);
         }
@@ -164,7 +161,7 @@ export class AddUserDialogComponent {
   }
 
   private handleErrors(err: any): void {
-    console.error("An error occurred:", err);
+    console.error('An error occurred:', err);
     // Handle error logic or display error messages
   }
 }

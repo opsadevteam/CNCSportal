@@ -1,39 +1,40 @@
-import { HttpClient } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
-import { environment } from "../../environments/environment.development";
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '../../environments/environment.development';
 import {
-  UserAccountGet,
-  UserAccountUpsert,
-} from "../Models/interface/userAccount.model";
-import { Constant } from "../constant/Constants";
-import { Observable } from "rxjs";
+  UserAccountCreate,
+  UserAccountGetAndUpdate,
+  UserAccountList,
+} from '../Models/interface/userAccount.model';
+import { Constant } from '../constant/Constants';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class UserAccountService {
   private http = inject(HttpClient);
 
   baseUrl =
-    environment.ENVI_POINT == "DEV" ? environment.DEV : environment.LOCAL;
+    environment.ENVI_POINT == 'DEV' ? environment.DEV : environment.LOCAL;
 
   constructor() {}
 
-  getUsers(): Observable<UserAccountGet[]> {
-    return this.http.get<UserAccountGet[]>(
+  getUsers(): Observable<UserAccountList[]> {
+    return this.http.get<UserAccountList[]>(
       this.baseUrl + Constant.API_USER_ACCOUNT_METHOD.GET_ALL_USER_ACCOUNT
     );
   }
 
-  getUser(id: number): Observable<UserAccountGet> {
-    return this.http.get<UserAccountGet>(
+  getUser(id: number): Observable<UserAccountGetAndUpdate> {
+    return this.http.get<UserAccountGetAndUpdate>(
       this.baseUrl +
         `${Constant.API_USER_ACCOUNT_METHOD.GET_ALL_USER_ACCOUNT}/${id}`
     );
   }
 
-  addUser(user: UserAccountUpsert): Observable<UserAccountUpsert> {
-    return this.http.post<UserAccountUpsert>(
+  addUser(user: UserAccountCreate): Observable<UserAccountCreate> {
+    return this.http.post<UserAccountCreate>(
       this.baseUrl + Constant.API_USER_ACCOUNT_METHOD.GET_ALL_USER_ACCOUNT,
       user
     );
@@ -41,9 +42,9 @@ export class UserAccountService {
 
   updateUser(
     id: number,
-    user: UserAccountUpsert
-  ): Observable<UserAccountUpsert> {
-    return this.http.put<UserAccountUpsert>(
+    user: UserAccountGetAndUpdate
+  ): Observable<UserAccountGetAndUpdate> {
+    return this.http.put<UserAccountGetAndUpdate>(
       `${this.baseUrl}${Constant.API_USER_ACCOUNT_METHOD.GET_ALL_USER_ACCOUNT}/${id}`,
       user
     );

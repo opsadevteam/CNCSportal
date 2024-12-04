@@ -20,7 +20,7 @@ import { NumberPaddingPipe } from "../../../pipes/number-padding.pipe";
 import { AddUserDialogComponent } from "../../Dialogbox/add-user-dialog/add-user-dialog.component";
 import { DeleteDialogComponent } from "../../Dialogbox/delete-dialog/delete-dialog.component";
 import { UserAccountService } from "../../../services/user-account.service";
-import { UserAccountGet } from "../../../Models/interface/userAccount.model";
+import { UserAccountList } from "../../../Models/interface/userAccount.model";
 import { Constant } from "../../../constant/Constants";
 import { MatInputModule } from "@angular/material/input";
 import { FormsModule } from "@angular/forms";
@@ -57,7 +57,7 @@ export class UserManagementComponent implements OnInit {
   @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  users: UserAccountGet[] = [];
+  users: UserAccountList[] = [];
   displayedColumns = [
     "id",
     "username",
@@ -68,7 +68,7 @@ export class UserManagementComponent implements OnInit {
     "status",
     "action",
   ];
-  dataSource = new MatTableDataSource<UserAccountGet>(this.users);
+  dataSource = new MatTableDataSource<UserAccountList>(this.users);
 
   constructor(
     private readonly dialog: MatDialog,

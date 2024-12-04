@@ -1,4 +1,4 @@
-export interface UserAccountGet {
+export interface UserAccountList {
   id: number;
   fullName: string;
   username: string;
@@ -6,11 +6,18 @@ export interface UserAccountGet {
   userGroup: string;
   status: string;
   dateAdded: Date;
-  addedBy: string;
 }
 
-export interface UserAccountUpsert {
+export interface UserAccountGetAndUpdate {
   id: number;
+  fullName: string;
+  username: string;
+  password: string;
+  userGroup: string;
+  status: string;
+}
+
+export interface UserAccountCreate {
   fullName: string;
   username: string;
   password: string;
