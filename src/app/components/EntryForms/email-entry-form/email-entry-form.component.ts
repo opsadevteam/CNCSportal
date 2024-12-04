@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, Optional } from '@angular/core';
+import { Component, Inject, inject, OnInit, Optional } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -30,6 +30,7 @@ import {
   MatDialogClose,
   MatDialogModule,
   MatDialogRef,
+  MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { filter, map, observable, Observable, startWith } from 'rxjs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -70,10 +71,12 @@ export class EmailEntryFormComponent implements OnInit {
   descriptionSuggest: boolean = true;
   filteredOption: Observable<IDescription[]> = new Observable<IDescription[]>();
   filteredProductVendor: IProductVendor[] = [];
+  isEdit: boolean = false;
 
   constructor(
     private fb: FormBuilder,
-    @Optional() public dialogRef: MatDialogRef<EmailEntryFormComponent>
+    @Optional() public dialogRef: MatDialogRef<EmailEntryFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { id?: number; isEdit: boolean }
   ) {}
 
   ngOnInit(): void {
@@ -81,11 +84,13 @@ export class EmailEntryFormComponent implements OnInit {
     this.getAllProductVendors();
     this.getAllDescriptions();
     this.getAllUserAccounts();
+    this.editCase();
   }
 
   initForm() {
     this.emailEntryForm = new FormGroup({
-      phoneId: new FormControl('', [Validators.required]),
+      id: new FormControl('', [Validators.required]),
+      emailId: new FormControl('', [Validators.required]),
       customerId: new FormControl('', [Validators.required]),
       pickUpDate: new FormControl('', [Validators.required]),
       takeOffDate: new FormControl('', [Validators.required]),
@@ -102,9 +107,10 @@ export class EmailEntryFormComponent implements OnInit {
   }
 
   private _filter(value: string) {
-    const filtervalue = value.toLowerCase();
+    const filterValue =
+      value && typeof value === 'string' ? value.toLowerCase() : '';
     return this.descriptionList.filter((option) =>
-      option.description.toLowerCase().includes(filtervalue)
+      option.description.toLowerCase().includes(filterValue)
     );
   }
 
@@ -151,6 +157,7 @@ export class EmailEntryFormComponent implements OnInit {
     //JXF20241120WEH10
     //xxxzhueng10
     let mockTransaction: IEmailEntryFormTransaction = {
+      id: this.emailEntryForm.value.id,
       transactionId: this.emailEntryForm.value.emailId,
       customerId: this.emailEntryForm.value.customerId,
       pickUpDate: this.emailEntryForm.value.pickUpDate,
@@ -172,17 +179,76 @@ export class EmailEntryFormComponent implements OnInit {
     const isSave = confirm(
       'Confirmaton for Saving Email Entry Form Transaction'
     );
-    if (isSave) {
-      this.transactionService.addTransaction(mockTransaction).subscribe(
-        (res: IEmailEntryFormTransaction) => {
-          alert('Create Transaction Success!');
-          this.initForm();
-          this.dialogRef.close();
-        },
-        (error) => {
-          alert('Something Went wrong in Transaction!');
-        }
+    if (this.isEdit) {
+      // Update case
+      const isUpdate = confirm(
+        'Confirm to update this Email Entry Form Transaction?'
       );
+      if (isUpdate) {
+        this.transactionService
+          .updateTransaction(mockTransaction.id, mockTransaction)
+          .subscribe(
+            (res: IEmailEntryFormTransaction) => {
+              alert('Update Transaction Success!');
+              this.dialogRef.close('refresh');
+            },
+            (error) => {
+              console.error('Error updating transaction:', error);
+              alert('Something went wrong while updating the transaction.');
+            }
+          );
+      }
+    } else {
+      // Create case
+      const isSave = confirm(
+        'Confirm to save this Email Entry Form Transaction?'
+      );
+      if (isSave) {
+        this.transactionService.addTransaction(mockTransaction).subscribe(
+          (res: IEmailEntryFormTransaction) => {
+            alert('Create Transaction Success!');
+            this.initForm();
+            this.dialogRef.close();
+          },
+          (error) => {
+            alert('Something Went wrong in Transaction!');
+          }
+        );
+      }
+    }
+  }
+
+  // Edit Case
+  editCase(): void {
+    if (this.data) {
+      const { id, isEdit } = this.data;
+      this.isEdit = isEdit;
+
+      if (id) {
+        // Fetch transaction details
+        this.transactionService.getTransactionById(id).subscribe(
+          (transaction) => {
+            console.log(`Editing record:`, transaction);
+            // Populate the form with the fetched data
+            this.emailEntryForm.patchValue({
+              id: transaction.id ?? '',
+              emailId: transaction.transactionId ?? '',
+              customerId: transaction.customerId ?? '',
+              pickUpDate: transaction.pickUpDate ?? '',
+              takeOffDate: transaction.takeOffDate ?? '',
+              productVendor: transaction.productVendorId ?? null,
+              description: transaction.descriptionId ?? null,
+              remark: transaction.remark ?? '',
+              repliedBy: transaction.repliedBy ?? '',
+              status: transaction.status ?? '',
+            });
+          },
+          (error) => {
+            console.error('Error fetching transaction details:', error);
+            alert('Failed to fetch transaction details.');
+          }
+        );
+      }
     }
   }
 }

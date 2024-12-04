@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, Optional } from '@angular/core';
+import { Component, Inject, inject, OnInit, Optional } from '@angular/core';
 import {
   FormGroup,
   ReactiveFormsModule,
@@ -31,6 +31,7 @@ import {
   MatDialogClose,
   MatDialogModule,
   MatDialogRef,
+  MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { filter, map, observable, Observable, startWith } from 'rxjs';
@@ -72,10 +73,12 @@ export class PhoneEntryFormComponent implements OnInit {
   descriptionSuggest: boolean = true;
   filteredOption: Observable<IDescription[]> = new Observable<IDescription[]>();
   filteredProductVendor: IProductVendor[] = [];
+  isEdit: boolean = false;
 
   constructor(
     private fb: FormBuilder,
-    @Optional() public dialogRef: MatDialogRef<PhoneEntryFormComponent>
+    @Optional() public dialogRef: MatDialogRef<PhoneEntryFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { id?: number; isEdit: boolean }
   ) {}
 
   ngOnInit(): void {
@@ -83,10 +86,12 @@ export class PhoneEntryFormComponent implements OnInit {
     this.getAllProductVendors();
     this.getAllDescriptions();
     this.getAllUserAccounts();
+    this.editCase();
   }
 
   initForm() {
     this.phoneEntryForm = new FormGroup({
+      id: new FormControl('', [Validators.required]),
       phoneId: new FormControl('', [Validators.required]),
       customerId: new FormControl('', [Validators.required]),
       pickUpDate: new FormControl('', [Validators.required]),
@@ -104,9 +109,10 @@ export class PhoneEntryFormComponent implements OnInit {
   }
 
   private _filter(value: string) {
-    const filtervalue = value.toLowerCase();
+    const filterValue =
+      value && typeof value === 'string' ? value.toLowerCase() : '';
     return this.descriptionList.filter((option) =>
-      option.description.toLowerCase().includes(filtervalue)
+      option.description.toLowerCase().includes(filterValue)
     );
   }
 
@@ -154,6 +160,7 @@ export class PhoneEntryFormComponent implements OnInit {
     //JXF20241120WEH10
     //xxxzhueng10
     let mockTransaction: IPhoneEntryFormTransaction = {
+      id: this.phoneEntryForm.value.id,
       transactionId: this.phoneEntryForm.value.phoneId,
       customerId: this.phoneEntryForm.value.customerId,
       pickUpDate: this.phoneEntryForm.value.pickUpDate,
@@ -175,17 +182,77 @@ export class PhoneEntryFormComponent implements OnInit {
     const isSave = confirm(
       'Confirmaton for Saving Phone Entry Form Transaction'
     );
-    if (isSave) {
-      this.transactionService.addTransaction(mockTransaction).subscribe(
-        (res: IPhoneEntryFormTransaction) => {
-          alert('Create Transaction Success!');
-          this.initForm();
-          this.dialogRef.close();
-        },
-        (error) => {
-          alert('Something Went wrong in Transaction!');
-        }
+
+    if (this.isEdit) {
+      // Update case
+      const isUpdate = confirm(
+        'Confirm to update this Phone Entry Form Transaction?'
       );
+      if (isUpdate) {
+        this.transactionService
+          .updateTransaction(mockTransaction.id, mockTransaction)
+          .subscribe(
+            (res: IPhoneEntryFormTransaction) => {
+              alert('Update Transaction Success!');
+              this.dialogRef.close('refresh');
+            },
+            (error) => {
+              console.error('Error updating transaction:', error);
+              alert('Something went wrong while updating the transaction.');
+            }
+          );
+      }
+    } else {
+      // Create case
+      const isSave = confirm(
+        'Confirm to save this Phone Entry Form Transaction?'
+      );
+      if (isSave) {
+        this.transactionService.addTransaction(mockTransaction).subscribe(
+          (res: IPhoneEntryFormTransaction) => {
+            alert('Create Transaction Success!');
+            this.initForm();
+            this.dialogRef.close();
+          },
+          (error) => {
+            alert('Something Went wrong in Transaction!');
+          }
+        );
+      }
+    }
+  }
+
+  // Edit Case
+  editCase(): void {
+    if (this.data) {
+      const { id, isEdit } = this.data;
+      this.isEdit = isEdit;
+
+      if (id) {
+        // Fetch transaction details
+        this.transactionService.getTransactionById(id).subscribe(
+          (transaction) => {
+            console.log(`Editing record:`, transaction);
+            // Populate the form with the fetched data
+            this.phoneEntryForm.patchValue({
+              id: transaction.id ?? '',
+              phoneId: transaction.transactionId ?? '',
+              customerId: transaction.customerId ?? '',
+              pickUpDate: transaction.pickUpDate ?? '',
+              takeOffDate: transaction.takeOffDate ?? '',
+              productVendor: transaction.productVendorId ?? null,
+              description: transaction.descriptionId ?? null,
+              remark: transaction.remark ?? '',
+              repliedBy: transaction.repliedBy ?? '',
+              status: transaction.status ?? '',
+            });
+          },
+          (error) => {
+            console.error('Error fetching transaction details:', error);
+            alert('Failed to fetch transaction details.');
+          }
+        );
+      }
     }
   }
 }
