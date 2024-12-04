@@ -25,8 +25,8 @@ export class UserAccountService {
     );
   }
 
-  getUser(id: number): Observable<UserAccountUpsert> {
-    return this.http.get<UserAccountUpsert>(
+  getUser(id: number): Observable<UserAccountGet> {
+    return this.http.get<UserAccountGet>(
       this.baseUrl +
         `${Constant.API_USER_ACCOUNT_METHOD.GET_ALL_USER_ACCOUNT}/${id}`
     );

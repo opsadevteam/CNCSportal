@@ -18,7 +18,7 @@ import {
 } from "@angular/forms";
 import { UserAccountService } from "../../../services/user-account.service";
 import { NgIf } from "@angular/common";
-import { UserAccountUpsert } from "../../../Models/interface/userAccount.model";
+import { UserAccountGet, UserAccountUpsert } from "../../../Models/interface/userAccount.model";
 import { MatButtonModule } from "@angular/material/button";
 import { Constant } from "../../../constant/Constants";
 
@@ -94,7 +94,7 @@ export class AddUserDialogComponent {
 
   loadUserData(id: number): void {
     this.accountService.getUser(id).subscribe({
-      next: (userData: UserAccountUpsert) => {
+      next: (userData: UserAccountGet) => {
         this.userForm.patchValue({
           id: userData.id,
           username: userData.username,
