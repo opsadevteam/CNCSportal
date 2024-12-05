@@ -1,22 +1,22 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { environment } from '../../environments/environment.development';
+import { HttpClient } from "@angular/common/http";
+import { inject, Injectable } from "@angular/core";
+import { environment } from "../../environments/environment.development";
 import {
   UserAccountCreate,
   UserAccountGetAndUpdate,
   UserAccountList,
-} from '../Models/interface/userAccount.model';
-import { Constant } from '../constant/Constants';
-import { Observable } from 'rxjs';
+} from "../Models/interface/userAccount.model";
+import { Constant } from "../constant/Constants";
+import { Observable } from "rxjs";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UserAccountService {
   private http = inject(HttpClient);
 
   baseUrl =
-    environment.ENVI_POINT == 'DEV' ? environment.DEV : environment.LOCAL;
+    environment.ENVI_POINT == "DEV" ? environment.DEV : environment.LOCAL;
 
   constructor() {}
 
@@ -40,7 +40,7 @@ export class UserAccountService {
     );
   }
 
-  updateUser(
+  updateUserDetails(
     id: number,
     user: UserAccountGetAndUpdate
   ): Observable<UserAccountGetAndUpdate> {

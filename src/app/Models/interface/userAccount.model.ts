@@ -28,3 +28,10 @@ export interface UserAccountCreate {
   isDeleted: boolean;
   logId: string;
 }
+
+export interface UserAccountChangePassword {
+  id: number;
+  currentPassword?: string;
+  newPassword?: string;
+  confirmPassword?: string;
+}
