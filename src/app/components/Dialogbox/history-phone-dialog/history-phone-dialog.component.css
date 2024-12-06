@@ -16,3 +16,12 @@ mat-card-footer {
   background-color: var(--main--background);
   color: var(--main-text);
 }
+
+
+.badge {
+  padding: 6px 8px;
+  text-align: center;
+  border-radius: 6px;
+  font-weight: 500;
+  /* font-size: 0.7rem; */
+}
