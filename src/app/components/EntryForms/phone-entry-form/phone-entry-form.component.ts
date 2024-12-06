@@ -226,7 +226,7 @@ export class PhoneEntryFormComponent implements OnInit {
 
   openDialog(id?: number): void {
     const dialogRef = this.dialog.open(HistoryPhoneDialogComponent, {
-      width: '75%',
+      width: '90%',
       height: '50%',
       maxWidth: '100vw',
       maxHeight: '100vh',

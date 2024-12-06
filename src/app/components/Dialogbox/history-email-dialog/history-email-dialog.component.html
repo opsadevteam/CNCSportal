@@ -1,0 +1,93 @@
+<mat-card>
+    <mat-card-header>
+      <h1 matCardTitle></h1>
+    </mat-card-header>
+    <mat-card-content>
+      <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      
+        <ng-container matColumnDef="LOG ID">
+          <th mat-header-cell *matHeaderCellDef class="mat-header">LOG ID</th>
+          <td mat-cell *matCellDef="let element" class="mat-cell">
+            {{ element.logId }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="STATUS">
+          <th mat-header-cell *matHeaderCellDef class="mat-header">STATUS</th>
+          <td mat-cell *matCellDef="let element" class="mat-cell">
+            {{ element.status }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="EMAIL ID">
+          <th mat-header-cell *matHeaderCellDef class="mat-header">EMAIL ID</th>
+          <td mat-cell *matCellDef="let element" class="mat-cell">
+            {{ element.transactionId }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="CUSTOMER ID">
+          <th mat-header-cell *matHeaderCellDef class="mat-header">CUSTOMER ID</th>
+          <td mat-cell *matCellDef="let element" class="mat-cell">
+            {{ element.customerId }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="REPLIED BY">
+          <th mat-header-cell *matHeaderCellDef class="mat-header">REPLIED BY</th>
+          <td mat-cell *matCellDef="let element" class="mat-cell">
+            {{ element.repliedBy }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="RECEIVED DATE">
+          <th mat-header-cell *matHeaderCellDef class="mat-header">
+            RECEIVED DATE
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-cell">
+            {{ element.pickUpDate | date }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="SENDING DATE">
+          <th mat-header-cell *matHeaderCellDef class="mat-header">
+            SENDING DATE
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-cell">
+            {{ element.takeOffDate | date }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="VENDOR">
+          <th mat-header-cell *matHeaderCellDef class="mat-header">VENDOR</th>
+          <td mat-cell *matCellDef="let element" class="mat-cell">
+            {{ element.productVendor.productVendor }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="DESCRIPTION">
+          <th mat-header-cell *matHeaderCellDef class="mat-header">
+            DESCRIPTION
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-cell">
+            {{ element.description.description }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="DATE ADDED">
+          <th mat-header-cell *matHeaderCellDef class="mat-header">DATE ADDED</th>
+          <td mat-cell *matCellDef="let element" class="mat-cell">
+            {{ element.dateAdded | date }}
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </mat-card-content>
+    <br />
+    <mat-card-footer>
+      <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+    </mat-card-footer>
+  </mat-card>
+  
