@@ -1,0 +1,81 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  gap: 20px; /* Add some space between sections */
+}
+
+.product-summary-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between chart and table */
+}
+
+.product-summary, .user-count-summary {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-summary-table {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.chart {
+  width: 100%;
+  height: 360px;
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #1d2125;
+  border-color: #1d2125;
+}
+
+h3{
+  color: #1d2125;
+}
+
+.table-container th, .table-container td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.table-container th {
+  background-color: #f4f4f4;
+}
+
+button.export-btn {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button.export-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive styling */
+@media (max-width: 1024px) {
+  .product-summary-container {
+    flex-direction: column; /* Stack elements on medium screens */
+  }
+}
+
+@media (max-width: 600px) {
+  .product-summary-container {
+    flex-direction: column; /* Stack elements on small screens */
+  }
+}
