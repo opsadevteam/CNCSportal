@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Inject,
+} from "@angular/core";
 import {
   MatDialogActions,
   MatDialogClose,
@@ -45,6 +50,9 @@ import { Constant } from "../../../constant/Constants";
   styleUrls: ["./add-user-dialog.component.css"],
 })
 export class AddUserDialogComponent {
+  fb = inject(FormBuilder);
+  dialogRef = inject(MatDialogRef<AddUserDialogComponent>);
+  accountService = inject(UserAccountService);
   readonly userStatus = Constant.USER_STATUS;
   readonly userGroup = Constant.USER_GROUP;
   userForm: FormGroup;
@@ -53,10 +61,7 @@ export class AddUserDialogComponent {
   isSubmitting: boolean = false; //to disable button while submitting data
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { id: number },
-    private readonly fb: FormBuilder,
-    private readonly dialogRef: MatDialogRef<AddUserDialogComponent>,
-    private readonly accountService: UserAccountService
+    @Inject(MAT_DIALOG_DATA) public data: { id: number } // private readonly fb: FormBuilder, // private readonly dialogRef: MatDialogRef<AddUserDialogComponent>, // private readonly accountService: UserAccountService
   ) {
     this.id = data.id;
     this.userForm = this.createUserForm();

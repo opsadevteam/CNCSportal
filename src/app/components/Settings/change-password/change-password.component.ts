@@ -106,7 +106,10 @@ export class ChangePasswordComponent implements OnInit {
         .subscribe({
           next: () => {
             this.isSubmitting = false;
+            this.passwordForm.reset();
+            this.passwordForm.markAsPristine();
             alert("password successfully updated");
+            this.loadUserData(this.id);
           },
           error: (err) => {
             this.handleErrors(err);
