@@ -20,6 +20,11 @@
     "@angular/platform-browser": "^18.2.0",
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
+    "@canvasjs/angular-charts": "^1.2.0",
+    "@canvasjs/charts": "^3.10.18",
+    "apexcharts": "^4.1.0",
+    "chart.js": "^4.4.7",
+    "ng2-charts": "^7.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"

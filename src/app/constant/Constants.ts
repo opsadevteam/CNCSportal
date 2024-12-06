@@ -22,6 +22,10 @@ export const Constant = {
   API_TRANSACTION_LOGS_METHOD: {
     GET_TRANSACTION_LOGS_RECORDS: 'TransactionLogs/id',   
   },
+  API_WORKLOAD_STATISTICS_METHOD: {
+    GET_SUMMARY_RECORDS: 'WorkloadStatistics/ProductSummary',   
+    GET_USER_COUNTS_RECORDS: 'WorkloadStatistics/Usercount', 
+  },
   CNCS_VERSION: {
     NUMBER: '1.0.3',
   },

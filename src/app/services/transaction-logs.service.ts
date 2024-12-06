@@ -14,7 +14,7 @@ export class TransactionLogsService {
   constructor(private http: HttpClient) {}
 
   baseUrl =
-    environment.ENVI_POINT == 'LOCAL' ? environment.DEV : environment.LOCAL;
+    environment.ENVI_POINT == 'DEV' ? environment.DEV : environment.LOCAL;
 
     getTransactionLogsByTransactionId(transactionId: string): Observable<ITransactionLog[]> {
       const url = `${this.baseUrl}${Constant.API_TRANSACTION_LOGS_METHOD.GET_TRANSACTION_LOGS_RECORDS}/${transactionId}`;
