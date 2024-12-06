@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { environment } from "../../environments/environment.development";
 import {
+  UserAccountChangePassword,
   UserAccountCreate,
   UserAccountGetAndUpdate,
   UserAccountList,
@@ -14,6 +15,12 @@ import { Observable } from "rxjs";
 })
 export class UserAccountService {
   private http = inject(HttpClient);
+  private userAccounts =
+    Constant.API_USER_ACCOUNTS_METHOD.GET_ALL_USER_ACCOUNTS;
+  private details =
+    Constant.API_USER_ACCOUNTS_METHOD.UPDATE_USER_ACCOUNT_DETAILS;
+  private password =
+    Constant.API_USER_ACCOUNTS_METHOD.UPDATE_USER_ACCOUNT_PASSWORD;
 
   baseUrl =
     environment.ENVI_POINT == "DEV" ? environment.DEV : environment.LOCAL;
@@ -22,35 +29,44 @@ export class UserAccountService {
 
   getUsers(): Observable<UserAccountList[]> {
     return this.http.get<UserAccountList[]>(
-      this.baseUrl + Constant.API_USER_ACCOUNT_METHOD.GET_ALL_USER_ACCOUNT
+      `${this.baseUrl}${this.userAccounts}`
     );
   }
 
-  getUser(id: number): Observable<UserAccountGetAndUpdate> {
+  getUser(userAccountId: number): Observable<UserAccountGetAndUpdate> {
     return this.http.get<UserAccountGetAndUpdate>(
-      this.baseUrl +
-        `${Constant.API_USER_ACCOUNT_METHOD.GET_ALL_USER_ACCOUNT}/${id}`
+      `${this.baseUrl}${this.userAccounts}/${userAccountId}`
     );
   }
 
   addUser(user: UserAccountCreate): Observable<UserAccountCreate> {
     return this.http.post<UserAccountCreate>(
-      this.baseUrl + Constant.API_USER_ACCOUNT_METHOD.GET_ALL_USER_ACCOUNT,
+      `${this.baseUrl}${this.userAccounts}`,
       user
     );
   }
 
   updateUserDetails(
-    id: number,
+    userAccountId: number,
     user: UserAccountGetAndUpdate
   ): Observable<UserAccountGetAndUpdate> {
     return this.http.put<UserAccountGetAndUpdate>(
-      `${this.baseUrl}${Constant.API_USER_ACCOUNT_METHOD.GET_ALL_USER_ACCOUNT}/${id}`,
+      `${this.baseUrl}${this.userAccounts}/${userAccountId}/${this.details}`,
       user
     );
   }
 
-  deleteUser(id: number): Observable<any> {
-    return this.http.delete(this.baseUrl + `UserAccount/${id}`);
+  updateUserPassword(userAccountId: number,
+    user: UserAccountChangePassword): Observable<UserAccountChangePassword>{
+      return this.http.put<UserAccountChangePassword>(
+        `${this.baseUrl}${this.userAccounts}/${userAccountId}/${this.password}`,
+        user
+      )
+  };
+
+  deleteUser(userAccountId: number): Observable<any> {
+    return this.http.delete(
+      `${this.baseUrl}${this.userAccounts}/${userAccountId}`
+    );
   }
 }

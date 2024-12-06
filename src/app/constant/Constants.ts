@@ -9,8 +9,10 @@ export const Constant = {
   API_DESCRIPTION_METHOD: {
     GET_ALL_DESCRIPTIONS: "Description",
   },
-  API_USER_ACCOUNT_METHOD: {
-    GET_ALL_USER_ACCOUNT: "UserAccount",
+  API_USER_ACCOUNTS_METHOD: {
+    GET_ALL_USER_ACCOUNTS: "UserAccounts",
+    UPDATE_USER_ACCOUNT_DETAILS: "Details",
+    UPDATE_USER_ACCOUNT_PASSWORD: "ChangePassword",
   },
   API_ACTIVITY_LOG_METHOD: {
     GET_ALL_LOG_ACCOUNT: "ActivityLog",

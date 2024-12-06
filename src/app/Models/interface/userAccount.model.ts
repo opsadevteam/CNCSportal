@@ -9,7 +9,6 @@ export interface UserAccountList {
 }
 
 export interface UserAccountGetAndUpdate {
-  id: number;
   fullName: string;
   username: string;
   password: string;
@@ -30,8 +29,5 @@ export interface UserAccountCreate {
 }
 
 export interface UserAccountChangePassword {
-  id: number;
-  currentPassword?: string;
-  newPassword?: string;
-  confirmPassword?: string;
+  newPassword: string;
 }

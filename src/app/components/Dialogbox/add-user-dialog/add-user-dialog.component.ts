@@ -99,7 +99,6 @@ export class AddUserDialogComponent {
     this.accountService.getUser(id).subscribe({
       next: (userData: UserAccountGetAndUpdate) => {
         this.userForm.patchValue({
-          id: userData.id,
           username: userData.username,
           fullName: userData.fullName,
           password: userData.password,
