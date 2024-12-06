@@ -231,5 +231,6 @@ export class PhoneEntryFormComponent implements OnInit {
       maxWidth: '100vw',
       maxHeight: '100vh',
     });
+    dialogRef.componentInstance.customerId = this.phoneEntryForm.value.customerId;
   }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild, viewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardHeader, MatCardModule } from '@angular/material/card';
@@ -56,20 +56,23 @@ export class HistoryPhoneDialogComponent implements OnInit {
   transactionList!: IPhoneEntryFormTransaction[];
   @ViewChild(MatPaginator) myPaginator!: MatPaginator;
   @ViewChild(MatSort) mySort!: MatSort;
+  @Input() customerId: string = '';
 
   constructor(private transactionSevice: TransactionService) {}
   ngOnInit(): void {
-    this.getAllTransactions();
+    this.getTransactionsByCustomerId(this.customerId);
   }
 
-  getAllTransactions() {
-    this.transactionSevice.getAllTransactions().subscribe((res: any) => {
-      this.transactionList = res;
-      this.dataSource = new MatTableDataSource<IPhoneEntryFormTransaction>(
-        this.transactionList
-      );
-      this.dataSource.paginator = this.myPaginator;
-      this.dataSource.sort = this.mySort;
-    });
+  getTransactionsByCustomerId(customerId: string) {
+    this.transactionSevice
+      .getTransactionsByCustomerId(customerId)
+      .subscribe((res: any) => {
+        this.transactionList = res;
+        this.dataSource = new MatTableDataSource<IPhoneEntryFormTransaction>(
+          this.transactionList
+        );
+        this.dataSource.paginator = this.myPaginator;
+        this.dataSource.sort = this.mySort;
+      });
   }
 }

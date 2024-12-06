@@ -30,6 +30,16 @@ export class TransactionService {
     );
   }
 
+  getTransactionsByCustomerId(
+    customerId: string
+  ): Observable<IPhoneEntryFormTransaction> {
+    return this.http.get<IPhoneEntryFormTransaction>(
+      this.baseUrl +
+        Constant.API_TRANSACTIONS_METHOD.GET_TRANSACTIONS_BY_CUSTOMER_ID +
+        customerId
+    );
+  }
+
   //
   //
   //
