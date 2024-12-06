@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IPhoneEntryFormTransaction } from '../Models/interface/phoneEntryForm.model';
+import { IPhoneEntryFormTransaction, IPhoneEntryFormTransactionDetailed } from '../Models/interface/phoneEntryForm.model';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { Constant } from '../constant/Constants';
@@ -32,8 +32,8 @@ export class TransactionService {
 
   getTransactionsByCustomerId(
     customerId: string
-  ): Observable<IPhoneEntryFormTransaction> {
-    return this.http.get<IPhoneEntryFormTransaction>(
+  ): Observable<IPhoneEntryFormTransactionDetailed> {
+    return this.http.get<IPhoneEntryFormTransactionDetailed>(
       this.baseUrl +
         Constant.API_TRANSACTIONS_METHOD.GET_TRANSACTIONS_BY_CUSTOMER_ID +
         customerId

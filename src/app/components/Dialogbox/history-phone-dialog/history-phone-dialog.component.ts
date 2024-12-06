@@ -15,7 +15,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TransactionService } from '../../../services/transaction.service';
-import { IPhoneEntryFormTransaction } from '../../../Models/interface/phoneEntryForm.model';
+import { IPhoneEntryFormTransaction, IPhoneEntryFormTransactionDetailed } from '../../../Models/interface/phoneEntryForm.model';
 
 @Component({
   selector: 'app-history-phone-dialog',
@@ -68,11 +68,12 @@ export class HistoryPhoneDialogComponent implements OnInit {
       .getTransactionsByCustomerId(customerId)
       .subscribe((res: any) => {
         this.transactionList = res;
-        this.dataSource = new MatTableDataSource<IPhoneEntryFormTransaction>(
+        this.dataSource = new MatTableDataSource<IPhoneEntryFormTransactionDetailed>(
           this.transactionList
         );
         this.dataSource.paginator = this.myPaginator;
         this.dataSource.sort = this.mySort;
+        console.log(this.transactionList);
       });
   }
 }
