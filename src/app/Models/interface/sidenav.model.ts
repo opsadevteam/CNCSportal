@@ -102,7 +102,7 @@ export const AccountsMenuItemData = [
   {
     icon: "shopping_cart",
     label: "Product & Vendor",
-    route: "settings",
+    route: "productandvendor",
   },
   {
     icon: "security",

@@ -1,0 +1,54 @@
+mat-card {
+  font-size: 12px;
+  background-color: var(--main-background);
+}
+
+.pv-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  padding: 1rem;
+  column-gap: 1rem;
+}
+
+button.add-btn {
+  margin: 1rem;
+  background-color: var(--button-background);
+  color: var(--secondary-text);
+  margin: 0.5rem;
+  border-radius: 12px;
+}
+
+.btn-right {
+  text-align: right;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+}
+
+.page-header {
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  background-color: var(--secondary-background);
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+table {
+  background-color: var(--main-background);
+}
+hr {
+  color: var(--secondary-background);
+  margin: 1rem 0;
+}
+
+table th {
+  background-color: var(--secondary-background);
+}
+
+@media (max-width: 600px) {
+  .pv-container {
+    grid-template-columns: auto;
+  }
+}

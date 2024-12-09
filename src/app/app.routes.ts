@@ -1,56 +1,61 @@
-import { Routes } from '@angular/router';
-import { PhoneEntryFormComponent } from './components/EntryForms/phone-entry-form/phone-entry-form.component';
-import { LoginComponent } from './components/login/login.component';
-import { EmailEntryFormComponent } from './components/EntryForms/email-entry-form/email-entry-form.component';
-import { PhoneRecordsComponent } from './components/Records/phone-records/phone-records.component';
-import { EmailRecordsComponent } from './components/Records/email-records/email-records.component';
-import { ActivityLogsComponent } from './components/Records/activity-logs/activity-logs.component';
-import { WorkloadStatisticsComponent } from './components/Reports/workload-statistics/workload-statistics.component';
-import { SidenavComponent } from './components/sidenav/sidenav.component';
-import { authGuard } from './services/auth.guard';
-import { UserManagementComponent } from './components/Records/user-management/user-management.component';
-import { ChangePasswordComponent } from './components/Settings/change-password/change-password.component';
+import { Routes } from "@angular/router";
+import { PhoneEntryFormComponent } from "./components/EntryForms/phone-entry-form/phone-entry-form.component";
+import { LoginComponent } from "./components/login/login.component";
+import { EmailEntryFormComponent } from "./components/EntryForms/email-entry-form/email-entry-form.component";
+import { PhoneRecordsComponent } from "./components/Records/phone-records/phone-records.component";
+import { EmailRecordsComponent } from "./components/Records/email-records/email-records.component";
+import { ActivityLogsComponent } from "./components/Records/activity-logs/activity-logs.component";
+import { WorkloadStatisticsComponent } from "./components/Reports/workload-statistics/workload-statistics.component";
+import { SidenavComponent } from "./components/sidenav/sidenav.component";
+import { authGuard } from "./services/auth.guard";
+import { UserManagementComponent } from "./components/Records/user-management/user-management.component";
+import { ChangePasswordComponent } from "./components/Settings/change-password/change-password.component";
+import { ProductAndVendorComponent } from "./components/Settings/product-and-vendor/product-and-vendor.component";
 
 export const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
+    path: "",
+    redirectTo: "login",
+    pathMatch: "full",
   },
   {
-    path: 'login',
+    path: "login",
     component: LoginComponent,
   },
 
   {
-    path: '',
+    path: "",
     component: SidenavComponent,
     canActivate: [authGuard],
     children: [
       {
-        path: 'phonerecords',
+        path: "phonerecords",
         component: PhoneRecordsComponent,
       },
       {
-        path: 'emailrecords',
+        path: "emailrecords",
         component: EmailRecordsComponent,
       },
       {
-        path: 'usermanagement',
+        path: "usermanagement",
         component: UserManagementComponent,
       },
       {
-        path: 'activitylogs',
+        path: "activitylogs",
         component: ActivityLogsComponent,
       },
       {
-        path: 'workloadstatistics',
+        path: "workloadstatistics",
         component: WorkloadStatisticsComponent,
       },
       {
-        path: 'changepassword',
-        component: ChangePasswordComponent
-      }
+        path: "changepassword",
+        component: ChangePasswordComponent,
+      },
+      {
+        path: "productandvendor",
+        component: ProductAndVendorComponent,
+      },
     ],
   },
 ];
