@@ -77,7 +77,7 @@ export class EmailRecordsComponent implements OnInit {
   dateFrom: Date | null = null;
   dateTo: Date | null = null;
   filterBy: string = 'id';
-  emailStringParams: string = 'Email'; 
+  emailStringParams: string = 'Email';
   records: IEmailRecord[] = [];
   filteredRecords: IEmailRecord[] = [];
   displayedColumns: string[] = [
@@ -119,7 +119,6 @@ export class EmailRecordsComponent implements OnInit {
    */
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   /**
@@ -148,10 +147,6 @@ export class EmailRecordsComponent implements OnInit {
           // Apply search and date range filters
           this.filterSearch(); // Apply filters based on search term and date range
         }
-
-        // Reset pagination and sorting with updated data
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
 
         // Set default sorting explicitly
         this.sort.sort({
@@ -275,7 +270,7 @@ export class EmailRecordsComponent implements OnInit {
   }
 
   showLogs(emailId: number): void {
-    // Fetch transaction logs for the given emailId (or modify the logic as per your need)
+    // Fetch transaction logs for the given emailId
     this.transactionlogsService
       .getTransactionLogsByTransactionId(emailId.toString())
       .subscribe(
@@ -304,8 +299,6 @@ export class EmailRecordsComponent implements OnInit {
       );
   }
 
-  showEdit(action: string) {}
-
   deleteRecord(id: number): void {
     // Open the delete confirmation dialog
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
@@ -329,12 +322,37 @@ export class EmailRecordsComponent implements OnInit {
     });
   }
 
-  openDialog(id?: number): void {
+  showEdit(id?: number, isEdit: boolean = true): void {
     const dialogRef = this.dialog.open(EmailEntryFormComponent, {
       width: '80%',
       height: '95%',
       maxWidth: '100vw',
       maxHeight: '100vh',
+      data: { id, isEdit },
+    });
+
+    // After the dialog is closed, check if the dialog was closed with the 'refresh' action
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'refresh') {
+        this.ngOnInit();
+      }
+    });
+  }
+
+  openDialog(id?: number, isEdit: boolean = false): void {
+    const dialogRef = this.dialog.open(EmailEntryFormComponent, {
+      width: '80%',
+      height: '95%',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      data: { id, isEdit }, // Passing data to the dialog
+    });
+
+    // After the dialog is closed, check if the dialog was closed with the 'refresh' action
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'refresh') {
+        this.ngOnInit();
+      }
     });
   }
 }

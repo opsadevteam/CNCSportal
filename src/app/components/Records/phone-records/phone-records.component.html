@@ -205,7 +205,7 @@
                     <mat-icon>visibility</mat-icon>
                     Show Logs
                   </button>
-                  <button mat-menu-item (click)="showEdit('editAction')">
+                  <button mat-menu-item (click)="showEdit(element.id)">
                     <mat-icon>edit</mat-icon>
                     Edit
                   </button>
@@ -234,6 +234,7 @@
       </mat-paginator> -->
       <mat-paginator
         [pageSizeOptions]="[5, 10, 20]"
+        [pageSize]="10"
         showFirstLastButtons
         aria-label="Select page of periodic elements"
       >
@@ -241,3 +242,5 @@
     </div>
   </mat-card-content>
 </mat-card>
+<br />
+<br />
