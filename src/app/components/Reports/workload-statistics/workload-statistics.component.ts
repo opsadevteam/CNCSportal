@@ -37,15 +37,15 @@ export class WorkloadStatisticsComponent implements OnInit {
   transactionPerDay: ITransactionPerDayDto | null = null;
   descriptionData: IDescriptionSummaryDto | null = null;
 
-  productChartOptions: any = {}; // For product summary chart
-  userChartOptions: any = {}; // For user count chart
-  transactionsChartOptions: any = {}; // For transactions per day chart
+  productChartOptions: any = {}; 
+  userChartOptions: any = {}; 
+  transactionsChartOptions: any = {};
   productSummaryTotalOptions: any = {};
   transactionPerDayOptions: any = {};
-  userCountTableDataOptions: any[] = []; // Table data
-  descriptionsOptions: any[] = []; // Correctly typed as an array of IDescriptionSummary
+  userCountTableDataOptions: any[] = []; 
+  descriptionsOptions: any[] = []; 
 
-  filteredDescriptionsOptions: any[] = []; // Filtered data based on date range
+  filteredDescriptionsOptions: any[] = []; 
   startDate: Date | null = null;
   endDate: Date | null = null;
   searchTerm: any;
@@ -258,31 +258,3 @@ export class WorkloadStatisticsComponent implements OnInit {
     XLSX.writeFile(workbook, 'Descriptions.xlsx');
   }
 }
-
-//     // placeholder for fetching transactions per day chart data (if available)
-//     // fetch transactions per day data (if available)
-//     this.workloadStatisticsService.gettransactionsperdaydata()
-//       .subscribe((data) => {
-//         this.transactionschartoptions = {
-//           animationenabled: true,
-//           title: {
-//             text: "transactions per day"
-//           },
-//           data: [{
-//             type: "line",
-//             datapoints: data.map(item => ({
-//               x: new date(item.date), // assuming item.date is in date format
-//               y: item.transactioncount
-//             }))
-//           }]
-//         };
-//       });
-
-//     // placeholder for fetching descriptions (if available)
-//     // assuming descriptions have a structure that provides these fields
-//     this.workloadStatisticsService.getdescriptionsummary()
-//       .subscribe((data) => {
-//         this.descriptions = data;
-//       });
-//   }
-// }
