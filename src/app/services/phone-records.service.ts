@@ -40,7 +40,7 @@ export class PhoneRecordsService {
       };
       return this.http.put(
         this.baseUrl +
-          Constant.API_EMAIL_RECORDS_METHOD.DELETE_SINGLE_EMAIL_RECORDS +
+          Constant.API_EMAIL_RECORDS_METHOD.GET_ALL_EMAIL_RECORDS +
           `/delete/${id}`,
         deleteDto
       );

@@ -117,7 +117,6 @@ export class PhoneRecordsComponent implements OnInit {
     private readonly dialog: MatDialog,
     private readonly phonerecordsService: PhoneRecordsService,
     private readonly transactionlogsService: TransactionLogsService
-  
   ) {}
 
   /**
@@ -135,7 +134,6 @@ export class PhoneRecordsComponent implements OnInit {
    */
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   /**
@@ -160,10 +158,6 @@ export class PhoneRecordsComponent implements OnInit {
         } else {
           this.filterSearch();
         }
-
-        // Ensure sorting and pagination are properly linked
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
 
         // Set default sorting explicitly
         this.sort.sort({
@@ -286,10 +280,10 @@ export class PhoneRecordsComponent implements OnInit {
     this.applyFilter();
   }
 
-  showLogs(emailId: number): void {
-    // Fetch transaction logs for the given emailId (or modify the logic as per your need)
+  showLogs(phoneId: number): void {
+    // Fetch transaction logs for the given phoneId
     this.transactionlogsService
-      .getTransactionLogsByTransactionId(emailId.toString())
+      .getTransactionLogsByTransactionId(phoneId.toString())
       .subscribe(
         (logs: ITransactionLog[]) => {
           // Once logs are fetched, open the dialog and pass the logs as data
@@ -297,7 +291,7 @@ export class PhoneRecordsComponent implements OnInit {
             width: '90vw',
             maxWidth: '100vw',
             data: {
-              emailId: emailId,
+              emailId: phoneId,
               emailStringParams: this.emailStringParams,
               transactionLogs: logs, // Passing the fetched transaction logs
             },
@@ -315,8 +309,6 @@ export class PhoneRecordsComponent implements OnInit {
         }
       );
   }
-
-  showEdit(action: string) {}
 
   deleteRecord(id: number): void {
     // Open the delete confirmation dialog
@@ -341,15 +333,37 @@ export class PhoneRecordsComponent implements OnInit {
     });
   }
 
-  openDialog(id?: number): void {
+  showEdit(id?: number, isEdit: boolean = true): void {
     const dialogRef = this.dialog.open(PhoneEntryFormComponent, {
       width: '80%',
       height: '95%',
       maxWidth: '100vw',
       maxHeight: '100vh',
+      data: { id, isEdit },
     });
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   // if (result === "refresh") this.loadUsers();
-    // });
+
+    // After the dialog is closed, check if the dialog was closed with the 'refresh' action
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'refresh') {
+        this.ngOnInit();
+      }
+    });
+  }
+
+  openDialog(id?: number, isEdit: boolean = false): void {
+    const dialogRef = this.dialog.open(PhoneEntryFormComponent, {
+      width: '80%',
+      height: '95%',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      data: { id, isEdit }, // Passing data to the dialog
+    });
+
+    // After the dialog is closed, check if the dialog was closed with the 'refresh' action
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'refresh') {
+        this.ngOnInit();
+      }
+    });
   }
 }
