@@ -17,14 +17,12 @@ export const Constant = {
   },
   API_EMAIL_RECORDS_METHOD: {
     GET_ALL_EMAIL_RECORDS: 'EmailRecords',
-    DELETE_SINGLE_EMAIL_RECORDS: 'EmailRecords',
   },
   API_TRANSACTION_LOGS_METHOD: {
-    GET_TRANSACTION_LOGS_RECORDS: 'TransactionLogs/id',   
+    GET_TRANSACTION_LOGS_RECORDS: 'TransactionLogs/id', //get transactionID instead of ID only (only exception)
   },
   API_WORKLOAD_STATISTICS_METHOD: {
-    GET_SUMMARY_RECORDS: 'WorkloadStatistics/ProductSummary',   
-    GET_USER_COUNTS_RECORDS: 'WorkloadStatistics/Usercount', 
+    GET_SUMMARY_RECORDS: 'WorkloadStatistics',
   },
   CNCS_VERSION: {
     NUMBER: '1.0.3',
