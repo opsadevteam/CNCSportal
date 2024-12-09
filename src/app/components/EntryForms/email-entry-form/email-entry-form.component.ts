@@ -26,6 +26,7 @@ import {
 } from '../../../Models/interface/phoneEntryForm.model';
 import { CommonModule, DatePipe } from '@angular/common';
 import {
+  MatDialog,
   MatDialogActions,
   MatDialogClose,
   MatDialogModule,
@@ -34,6 +35,8 @@ import {
 } from '@angular/material/dialog';
 import { filter, map, observable, Observable, startWith } from 'rxjs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { HistoryPhoneDialogComponent } from '../../Dialogbox/history-phone-dialog/history-phone-dialog.component';
+import { HistoryEmailDialogComponent } from '../../Dialogbox/history-email-dialog/history-email-dialog.component';
 
 @Component({
   selector: 'app-email-entry-form',
@@ -76,9 +79,11 @@ export class EmailEntryFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private readonly dialog: MatDialog,
     @Optional() private datePipe: DatePipe,
-    @Optional() public dialogRef: MatDialogRef<EmailEntryFormComponent>,
+    @Optional() public dialogRef: MatDialogRef<EmailEntryFormComponent>
     @Inject(MAT_DIALOG_DATA) public data: { id?: number; isEdit: boolean }
+
   ) {}
 
   ngOnInit(): void {
@@ -283,5 +288,15 @@ export class EmailEntryFormComponent implements OnInit {
         );
       }
     }
+  }
+
+  openDialog(id?: number): void {
+    const dialogRef = this.dialog.open(HistoryEmailDialogComponent, {
+      width: '90%',
+      height: '50%',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+    });
+    dialogRef.componentInstance.customerId = this.emailEntryForm.value.customerId;
   }
 }

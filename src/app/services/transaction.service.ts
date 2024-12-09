@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IPhoneEntryFormTransaction } from '../Models/interface/phoneEntryForm.model';
+import { IPhoneEntryFormTransaction, IPhoneEntryFormTransactionDetailed } from '../Models/interface/phoneEntryForm.model';
 import { map, Observable, catchError } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { Constant } from '../constant/Constants';
@@ -24,6 +24,21 @@ export class TransactionService {
     );
   }
 
+  getAllTransactions(): Observable<IPhoneEntryFormTransaction> {
+    return this.http.get<IPhoneEntryFormTransaction>(
+      this.baseUrl + Constant.API_TRANSACTIONS_METHOD.GET_ALL_TRANSACTION
+    );
+  }
+
+  getTransactionsByCustomerId(
+    customerId: string
+  ): Observable<IPhoneEntryFormTransactionDetailed> {
+    return this.http.get<IPhoneEntryFormTransactionDetailed>(
+      this.baseUrl +
+        Constant.API_TRANSACTIONS_METHOD.GET_TRANSACTIONS_BY_CUSTOMER_ID +
+        customerId
+    );
+  }
   // Fetch transaction by ID
   getTransactionById(id: number): Observable<IPhoneEntryFormTransaction> {
     const url = `${this.baseUrl}${Constant.API_TRANSACTIONS_METHOD.CREATE_TRANSACTION}/${id}`;
