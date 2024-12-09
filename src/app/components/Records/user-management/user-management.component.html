@@ -43,7 +43,17 @@
       <!-- Password Column -->
       <ng-container matColumnDef="password">
         <th mat-header-cell *matHeaderCellDef>PASSWORD</th>
-        <td mat-cell *matCellDef="let element">{{ element.password }}</td>
+        <!-- <td mat-cell *matCellDef="let element">{{ element.password }}</td> -->
+        <td mat-cell *matCellDef="let element" class="password-field-col">
+          <div class="password-field-container">
+            <input
+              type="password"
+              [(ngModel)]="element.password"
+              readonly
+              class="password-field"
+            />
+          </div>
+        </td>
       </ng-container>
 
       <!-- Date Added Column -->
@@ -71,9 +81,17 @@
             [style.background]="
               element.status == ACTIVE
                 ? 'rgba(28, 204, 62, 0.15)'
-                : 'rgba(116, 116, 128, 0.15)'
+                : element.status == INACTIVE
+                ? 'rgba(255, 159, 10, 0.15)'
+                : 'rgba(240, 52, 45, 0.15)'
             "
-            [style.color]="element.status == ACTIVE ? '#1ccc3e' : '#747480'"
+            [style.color]="
+              element.status == ACTIVE
+                ? '#1CC33E'
+                : element.status == INACTIVE
+                ? '#FF9F0A'
+                : '#F0352D'
+            "
           >
             {{ element.status | uppercase }}
           </div>
@@ -98,9 +116,10 @@
                 <button mat-menu-item (click)="openDialog(element.id)">
                   Edit
                 </button>
-                <button mat-menu-item (click)="confirmDelete(element.id)">
+                <!-- removed as per new requirements -->
+                <!-- <button mat-menu-item (click)="confirmDelete(element.id)">
                   Delete
-                </button>
+                </button> -->
               </mat-menu>
             </div>
           </div>

@@ -51,63 +51,63 @@ export interface IAccountsMenuItem {
 //Menu items
 export const EntryFormsMenuItemData = [
   {
-    icon: 'phone',
-    label: 'Phone',
-    route: 'phoneform',
+    icon: "phone",
+    label: "Phone",
+    route: "phoneform",
   },
   {
-    icon: 'email',
-    label: 'Email',
-    route: 'emailform',
+    icon: "email",
+    label: "Email",
+    route: "emailform",
   },
 ];
 
 export const RecordsMenuItemData = [
   {
-    icon: 'view_list',
-    label: 'Phone Records',
-    route: 'phonerecords',
+    icon: "view_list",
+    label: "Phone Records",
+    route: "phonerecords",
   },
   {
-    icon: 'view_list',
-    label: 'Email Records',
-    route: 'emailrecords',
+    icon: "view_list",
+    label: "Email Records",
+    route: "emailrecords",
   },
   {
-    icon: 'face',
-    label: 'User Management',
-    route: 'usermanagement',
+    icon: "face",
+    label: "User Management",
+    route: "usermanagement",
   },
   {
-    icon: 'tune',
-    label: 'Activity Logs',
-    route: 'activitylogs',
+    icon: "tune",
+    label: "Activity Logs",
+    route: "activitylogs",
   },
 ];
 
 export const ReportsMenuItemData = [
   {
-    icon: 'poll',
-    label: 'Workload Statistics',
-    route: 'workloadstatistics',
+    icon: "poll",
+    label: "Workload Statistics",
+    route: "workloadstatistics",
   },
 ];
 
 export const AccountsMenuItemData = [
   {
-    icon: 'settings',
-    label: 'Settings',
-    route: 'settings',
+    icon: "settings",
+    label: "Settings",
+    route: "settings",
   },
   {
-    icon: 'shopping_cart',
-    label: 'Product & Vendor',
-    route: 'settings',
+    icon: "shopping_cart",
+    label: "Product & Vendor",
+    route: "productandvendor",
   },
   {
-    icon: 'security',
-    label: 'Change Password',
-    route: 'settings',
+    icon: "security",
+    label: "Change Password",
+    route: "changepassword",
   },
   // {
   //   icon: 'brightness_high',

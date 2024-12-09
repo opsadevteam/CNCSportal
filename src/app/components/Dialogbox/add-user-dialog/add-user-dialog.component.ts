@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Inject,
+} from "@angular/core";
 import {
   MatDialogActions,
   MatDialogClose,
@@ -18,7 +23,10 @@ import {
 } from "@angular/forms";
 import { UserAccountService } from "../../../services/user-account.service";
 import { NgIf } from "@angular/common";
-import { UserAccountUpsert } from "../../../Models/interface/userAccount.model";
+import {
+  UserAccountCreate,
+  UserAccountGetAndUpdate,
+} from "../../../Models/interface/userAccount.model";
 import { MatButtonModule } from "@angular/material/button";
 import { Constant } from "../../../constant/Constants";
 
@@ -42,17 +50,18 @@ import { Constant } from "../../../constant/Constants";
   styleUrls: ["./add-user-dialog.component.css"],
 })
 export class AddUserDialogComponent {
-  readonly Constant = Constant;
+  fb = inject(FormBuilder);
+  dialogRef = inject(MatDialogRef<AddUserDialogComponent>);
+  accountService = inject(UserAccountService);
+  readonly userStatus = Constant.USER_STATUS;
+  readonly userGroup = Constant.USER_GROUP;
   userForm: FormGroup;
   hidePassword = true;
   id: number = 0;
   isSubmitting: boolean = false; //to disable button while submitting data
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { id: number },
-    private readonly fb: FormBuilder,
-    private readonly dialogRef: MatDialogRef<AddUserDialogComponent>,
-    private readonly accountService: UserAccountService
+    @Inject(MAT_DIALOG_DATA) public data: { id: number } // private readonly fb: FormBuilder, // private readonly dialogRef: MatDialogRef<AddUserDialogComponent>, // private readonly accountService: UserAccountService
   ) {
     this.id = data.id;
     this.userForm = this.createUserForm();
@@ -93,9 +102,8 @@ export class AddUserDialogComponent {
 
   loadUserData(id: number): void {
     this.accountService.getUser(id).subscribe({
-      next: (userData: UserAccountUpsert) => {
+      next: (userData: UserAccountGetAndUpdate) => {
         this.userForm.patchValue({
-          id: userData.id,
           username: userData.username,
           fullName: userData.fullName,
           password: userData.password,
@@ -109,7 +117,7 @@ export class AddUserDialogComponent {
   }
 
   private addUser(): void {
-    const user: UserAccountUpsert = {
+    const user: UserAccountCreate = {
       ...this.userForm.value, // This will copy the values entered in the form
       addedBy: "admin", // to be set soon
       dateAdded: new Date(), // Set current date
@@ -136,15 +144,9 @@ export class AddUserDialogComponent {
   }
 
   private editUser(): void {
-    const user: UserAccountUpsert = {
-      ...this.userForm.value,
-      addedBy: "admin",
-      dateAdded: new Date(),
-      isDeleted: false,
-      logId: "log123", // to be set soon
-    };
-
-    this.accountService.updateUser(this.id, user).subscribe({
+    const user: UserAccountGetAndUpdate = this.userForm
+      .value as UserAccountGetAndUpdate;
+    this.accountService.updateUserDetails(this.id, user).subscribe({
       next: () => {
         this.isSubmitting = false;
         this.dialogRef.close("refresh");
