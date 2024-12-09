@@ -24,7 +24,7 @@ import {
   IProductVendor,
   IUserAccount,
 } from '../../../Models/interface/phoneEntryForm.model';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import {
   MatDialogActions,
   MatDialogClose,
@@ -76,6 +76,7 @@ export class EmailEntryFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    @Optional() private datePipe: DatePipe,
     @Optional() public dialogRef: MatDialogRef<EmailEntryFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id?: number; isEdit: boolean }
   ) {}
