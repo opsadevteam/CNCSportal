@@ -16,12 +16,13 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TransactionService } from '../../../services/transaction.service';
 import {
+  IEmailEntryFormTransactionDetailed,
   IPhoneEntryFormTransaction,
   IPhoneEntryFormTransactionDetailed,
 } from '../../../Models/interface/phoneEntryForm.model';
 
 @Component({
-  selector: 'app-history-phone-dialog',
+  selector: 'app-history-email-dialog',
   standalone: true,
   imports: [
     FormsModule,
@@ -41,15 +42,15 @@ import {
     MatCardHeader,
     MatCardModule,
   ],
-  templateUrl: './history-phone-dialog.component.html',
-  styleUrl: './history-phone-dialog.component.css',
+  templateUrl: './history-email-dialog.component.html',
+  styleUrl: './history-email-dialog.component.css',
 })
-export class HistoryPhoneDialogComponent implements OnInit {
+export class HistoryEmailDialogComponent implements OnInit {
   dataSource: any;
   displayedColumns: string[] = [
     'LOG ID',
     'STATUS',
-    'PHONE ID',
+    'EMAIL ID',
     'CUSTOMER ID',
     'REPLIED BY',
     'RECEIVED DATE',
@@ -73,10 +74,10 @@ export class HistoryPhoneDialogComponent implements OnInit {
       .getTransactionsByCustomerId(customerId)
       .subscribe((res: any) => {
         this.transactionList = res.filter(
-          (transaction: any) => transaction.transactionType === 'Phone'
+          (transaction: any) => transaction.transactionType === 'Email'
         );
         this.dataSource =
-          new MatTableDataSource<IPhoneEntryFormTransactionDetailed>(
+          new MatTableDataSource<IEmailEntryFormTransactionDetailed>(
             this.transactionList
           );
         this.dataSource.paginator = this.myPaginator;
