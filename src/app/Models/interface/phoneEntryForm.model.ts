@@ -1,4 +1,5 @@
 export interface IPhoneEntryFormTransaction {
+  id: number;
   transactionId: string;
   customerId: string;
   pickUpDate: string;
@@ -45,6 +46,7 @@ export interface IPhoneEntryFormTransactionDetailed {
 }
 
 export interface IEmailEntryFormTransaction {
+  id: number;
   transactionId: string;
   customerId: string;
   pickUpDate: string;
