@@ -20,9 +20,7 @@ mat-card-header {
 }
 
 .mat-mdc-table {
-  border-radius: 3px;
   background-color: transparent;
-  margin-bottom: 1rem;
 }
 
 .mat-mdc-cell,
@@ -60,4 +58,8 @@ button.add-btn {
   border: none;
   box-shadow: none;
   width: 120px;
+}
+
+.bg-row:hover {
+  background-color: var(--border-color);
 }
