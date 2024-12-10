@@ -1,11 +1,13 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, inject, ViewChild } from "@angular/core";
 import { MatButton, MatButtonModule } from "@angular/material/button";
 import { MatCard } from "@angular/material/card";
 import { MatIcon, MatIconModule } from "@angular/material/icon";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { ProductAndVendorModel } from "../../../Models/interface/product-and-vendor.model";
 import { MatMenu, MatMenuModule, MatMenuTrigger } from "@angular/material/menu";
 import { MatPaginator } from "@angular/material/paginator";
+import { ProdAndDescListModel } from "../../../Models/interface/product-vendor.model";
+import { ProductVendorService } from "../../../services/product-vendor.service";
+import { ProductDescriptionModel } from "../../../Models/interface/product-description.model";
 
 @Component({
   selector: "app-product-and-vendor",
@@ -21,12 +23,47 @@ import { MatPaginator } from "@angular/material/paginator";
   styleUrl: "./product-and-vendor.component.css",
 })
 export class ProductAndVendorComponent {
+  prodVendorService = inject(ProductVendorService);
   @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  productAndVendorList: ProductAndVendorModel[] = [];
-  dataSource = new MatTableDataSource<ProductAndVendorModel>(
-    this.productAndVendorList
+  //array for ProductVendor
+  prodAndDescList: ProdAndDescListModel[] = [];
+
+  //array for ProductDescription
+  selectedDescriptions: ProductDescriptionModel[] = [];
+
+  productColumns = ["name", "view", "edit", "delete"];
+  descriptionColumns = ["description", "view", "edit", "delete"];
+
+  dataSource = new MatTableDataSource<ProdAndDescListModel>(
+    this.prodAndDescList
   );
-  displayedColumns = ["productName", "view", "edit", "delete"];
+
+  descriptionDataSource = new MatTableDataSource<ProductDescriptionModel>(
+    this.selectedDescriptions
+  );
+
+  ngOnInit(): void {
+    this.loadProdAndDescList();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+  }
+
+  loadProdAndDescList(): void {
+    this.prodVendorService.getProdAndDescList().subscribe({
+      next: (prodList) => {
+        this.dataSource.data = prodList;
+      },
+      error: (err) => console.error("Failed to load data", err),
+    });
+  }
+
+  //extract the descriptions[] from ProdAndDescListModel[]
+  onProductClick(element: ProdAndDescListModel): void {
+    this.selectedDescriptions = element.descriptions || [];
+    this.descriptionDataSource.data = this.selectedDescriptions;
+  }
 }
