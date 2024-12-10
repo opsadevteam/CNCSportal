@@ -79,10 +79,10 @@ mat-card-content {
 .mat-mdc-header-cell,
 .mat-mdc-cell {
   text-align: center;
-  word-wrap: break-word; /* Allows breaking long words */
-  word-break: break-word; /* Forces break within long words */
-  white-space: normal; /* Allows wrapping */
-  max-width: 150px; /* Optional: Limit column width */
+  word-wrap: break-word; 
+  /* word-break: break-word;  */
+  white-space: normal; 
+  max-width: 150px; 
 }
 
 .cdk-text-column {
