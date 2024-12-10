@@ -192,10 +192,13 @@ export class PhoneRecordsComponent implements OnInit {
 
       // Check if record matches the search term
       const matchesSearch =
-        record.transactionId.toLowerCase().includes(term) ||
-        record.repliedBy.toLowerCase().includes(term) ||
-        record.customerId.toLowerCase().includes(term) ||
-        record.status.toLowerCase().includes(term);
+      record.transactionId.toLowerCase().includes(term) ||
+      record.repliedBy.toLowerCase().includes(term) ||
+      record.customerId.toLowerCase().includes(term) ||
+      record.status.toLowerCase().includes(term) ||
+      record.productVendorId?.toLowerCase().includes(term) ||
+      record.descriptionId?.toLowerCase().includes(term);
+      record.remark.toLowerCase().includes(term);
 
       // Parse dates for date filtering
       const dateAdded = new Date(record.dateAdded);
