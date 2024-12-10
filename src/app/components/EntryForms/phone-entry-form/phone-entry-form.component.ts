@@ -38,6 +38,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { filter, map, observable, Observable, startWith } from 'rxjs';
 import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 import { HistoryPhoneDialogComponent } from '../../Dialogbox/history-phone-dialog/history-phone-dialog.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-phone-entry-form',
@@ -57,6 +58,7 @@ import { HistoryPhoneDialogComponent } from '../../Dialogbox/history-phone-dialo
     MatSelectModule,
     MatButtonModule,
     MatDialogModule,
+    MatSnackBarModule,
   ],
   templateUrl: './phone-entry-form.component.html',
   styleUrl: './phone-entry-form.component.css',
@@ -79,6 +81,7 @@ export class PhoneEntryFormComponent implements OnInit {
   isEdit: boolean = false;
 
   constructor(
+    private snackBar: MatSnackBar,
     private fb: FormBuilder,
     private readonly dialog: MatDialog,
     @Optional() private datePipe: DatePipe,
@@ -213,10 +216,11 @@ export class PhoneEntryFormComponent implements OnInit {
       logId: myLogId,
       isDeleted: false,
     };
-    console.log(mockTransaction);
-    const isSave = confirm(
-      'Confirmaton for Saving Phone Entry Form Transaction'
-    );
+
+    // console.log(mockTransaction);
+    // const isSave = confirm(
+    //   'Confirmaton for Saving Phone Entry Form Transaction'
+    // );
 
     if (this.isEdit) {
       // Update case
@@ -267,7 +271,13 @@ export class PhoneEntryFormComponent implements OnInit {
         // Fetch transaction details
         this.transactionService.getTransactionById(id).subscribe(
           (transaction) => {
-            console.log(`Editing record:`, transaction);
+            // console.log(`Editing record:`, transaction);
+
+            // Find the description based on descriptionId
+            const descriptionItem = this.descriptionList.find(
+              (desc) => desc.id === transaction.descriptionId
+            );
+
             // Populate the form with the fetched data
             this.phoneEntryForm.patchValue({
               id: transaction.id ?? '',
@@ -276,7 +286,7 @@ export class PhoneEntryFormComponent implements OnInit {
               pickUpDate: transaction.pickUpDate ?? '',
               takeOffDate: transaction.takeOffDate ?? '',
               productVendor: transaction.productVendorId ?? null,
-              description: transaction.descriptionId ?? null,
+              description: descriptionItem ? descriptionItem.description : null,
               remark: transaction.remark ?? '',
               repliedBy: transaction.repliedBy ?? '',
               status: transaction.status ?? '',
@@ -298,6 +308,16 @@ export class PhoneEntryFormComponent implements OnInit {
       maxWidth: '100vw',
       maxHeight: '100vh',
     });
-    dialogRef.componentInstance.customerId = this.phoneEntryForm.value.customerId;
+    dialogRef.componentInstance.customerId =
+      this.phoneEntryForm.value.customerId;
+  }
+
+  openSnackbar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+      panelClass: 'custom-snackbar',
+    });
   }
 }

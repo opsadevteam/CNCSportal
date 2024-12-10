@@ -192,7 +192,7 @@ export class EmailRecordsComponent implements OnInit {
       
 
       // Parse dates for date filtering
-      const dateAdded = new Date(record.dateAdded);
+      const pickupDate = new Date(record.pickUpDate);
       const from = this.dateFrom ? new Date(this.dateFrom) : null;
       const to = this.dateTo ? new Date(this.dateTo) : null;
 
@@ -201,7 +201,7 @@ export class EmailRecordsComponent implements OnInit {
 
       // Check if record matches the date range
       const matchesDate =
-        (!from || dateAdded >= from) && (!to || dateAdded <= to);
+        (!from || pickupDate >= from) && (!to || pickupDate <= to);
 
       // Apply isDeleted filter in combination with other filters
       const matchesIsDeleted = !record.isDeleted;
@@ -294,7 +294,7 @@ export class EmailRecordsComponent implements OnInit {
           // Optionally, you can subscribe to the dialog's afterClosed() event
           dialogRef.afterClosed().subscribe((result) => {
             // Handle any logic after the dialog is closed, if necessary
-            console.log('The dialog was closed', result);
+           // console.log('The dialog was closed', result);
           });
         },
         (error) => {
@@ -329,8 +329,8 @@ export class EmailRecordsComponent implements OnInit {
 
   showEdit(id?: number, isEdit: boolean = true): void {
     const dialogRef = this.dialog.open(EmailEntryFormComponent, {
-      width: '80%',
-      height: '95%',
+      width: '900px',
+      height: '90',
       maxWidth: '100vw',
       maxHeight: '100vh',
       data: { id, isEdit },
