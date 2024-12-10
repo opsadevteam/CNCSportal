@@ -49,6 +49,10 @@ hr {
   background-color: transparent;
 }
 
+.selected {
+  background-color: var(--border-color);
+}
+
 .bg-row:hover {
   background-color: var(--border-color);
 }

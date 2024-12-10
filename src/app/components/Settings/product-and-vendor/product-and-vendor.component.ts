@@ -27,11 +27,9 @@ export class ProductAndVendorComponent {
   @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  //array for ProductVendor
   prodAndDescList: ProdAndDescListModel[] = [];
-
-  //array for ProductDescription
   selectedDescriptions: ProductDescriptionModel[] = [];
+  selectedRow: ProdAndDescListModel | null = null;
 
   productColumns = ["name", "view", "edit", "delete"];
   descriptionColumns = ["description", "view", "edit", "delete"];
@@ -65,5 +63,6 @@ export class ProductAndVendorComponent {
   onProductClick(element: ProdAndDescListModel): void {
     this.selectedDescriptions = element.descriptions || [];
     this.descriptionDataSource.data = this.selectedDescriptions;
+    this.selectedRow = element;
   }
 }
