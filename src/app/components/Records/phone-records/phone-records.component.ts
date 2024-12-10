@@ -352,8 +352,8 @@ export class PhoneRecordsComponent implements OnInit {
 
   openDialog(id?: number, isEdit: boolean = false): void {
     const dialogRef = this.dialog.open(PhoneEntryFormComponent, {
-      width: '80%',
-      height: '95%',
+      width: '900px',
+      height: '90',
       maxWidth: '100vw',
       maxHeight: '100vh',
       data: { id, isEdit }, // Passing data to the dialog

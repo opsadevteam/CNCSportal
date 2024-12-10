@@ -1,10 +1,12 @@
-mat-card {
-  border: solid rgb(47, 46, 46) 1px;
+mat-card { 
   color: #fff;
   background-color: var(--main-background);
   font-size: 12px;
+  max-width: 1410px;
   overflow: hidden;
+  border-radius: 0; 
 }
+
 mat-card-header {
   color: var(--main-text);
 }
@@ -16,6 +18,21 @@ mat-card-content {
 mat-form-field {
   font-size: 12px;
 }
+
+/* Date Picker Width */
+.date-picker {
+  width: 200px; 
+
+}
+
+mat-form-field.date-picker {
+  width: 200px; 
+}
+
+mat-form-field.date-picker {
+  max-width: 300px; 
+}
+
 mat-label {
   font-size: 12px;
 }
@@ -32,8 +49,9 @@ mat-option {
 }
 
 .half-width {
-  width: 50%;
+  width: 30%;
 }
+
 
 .pickup-label {
   margin-left: 52rem;
