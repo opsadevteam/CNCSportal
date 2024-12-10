@@ -8,7 +8,7 @@ import {
   IProductSummaryChartTotalDto,
   IUserCountSummaryChartDto,
   ITransactionPerDayDto,
-  IDescriptionSummaryDto
+  IDescriptionSummaryDto,
 } from '../Models/interface/workload-statistics.model';
 
 @Injectable({
@@ -23,7 +23,7 @@ export class WorkloadStatisticsService {
   // Method to get product summary chart data
   getProductSummaryChartData(): Observable<IProductSummaryChartDto> {
     return this.http.get<IProductSummaryChartDto>(
-       `${this.baseUrl}${Constant.API_WORKLOAD_STATISTICS_METHOD.GET_SUMMARY_RECORDS}/ProductSummary`
+      `${this.baseUrl}${Constant.API_WORKLOAD_STATISTICS_METHOD.GET_SUMMARY_RECORDS}/ProductSummary`
     );
   }
 
@@ -46,10 +46,9 @@ export class WorkloadStatisticsService {
     );
   }
 
-getDescriptionCount(): Observable<IDescriptionSummaryDto> {
-  return this.http.get<IDescriptionSummaryDto>(
-    `${this.baseUrl}${Constant.API_WORKLOAD_STATISTICS_METHOD.GET_SUMMARY_RECORDS}/Description-Table`
-  );
-}
-
+  getDescriptionCount(): Observable<IDescriptionSummaryDto> {
+    return this.http.get<IDescriptionSummaryDto>(
+      `${this.baseUrl}${Constant.API_WORKLOAD_STATISTICS_METHOD.GET_SUMMARY_RECORDS}/Description-Table`
+    );
+  }
 }
