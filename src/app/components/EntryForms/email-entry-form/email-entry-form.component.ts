@@ -81,7 +81,7 @@ export class EmailEntryFormComponent implements OnInit {
     private fb: FormBuilder,
     private readonly dialog: MatDialog,
     @Optional() private datePipe: DatePipe,
-    @Optional() public dialogRef: MatDialogRef<EmailEntryFormComponent>
+    @Optional() public dialogRef: MatDialogRef<EmailEntryFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id?: number; isEdit: boolean }
 
   ) {}
