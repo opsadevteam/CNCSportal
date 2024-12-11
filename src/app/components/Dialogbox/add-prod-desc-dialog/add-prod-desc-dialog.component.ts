@@ -36,33 +36,33 @@ export class AddProdDescDialogComponent implements OnInit {
 
   // PROPS
   objType: string = "";
-  obj: any = null;
+  id: number = 0;
   isSubmitting: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { objType: string; obj: any }
+    public data: { objType: string; id: number }
   ) {
     this.objType = data.objType;
-    this.obj = data.obj;
+    this.id = data.id;
   }
   ngOnInit(): void {
     this.initialize();
   }
 
   private initialize(): void {
-    if (this.objType === "Product" && this.obj) {
-      this.loadProduct(this.obj);
-    } else if (this.objType === "Description" && this.obj) {
-      this.loadDescription(this.obj);
+    if (this.objType === "Product" && this.id) {
+      this.loadProduct(this.id);
+    } else if (this.objType === "Description" && this.id) {
+      this.loadDescription(this.id);
     }
   }
 
   loadProduct(obj: any): void {
-    console.log(obj)
+    console.log(obj);
   }
 
   loadDescription(obj: any): void {
-    console.log(obj)
+    console.log(obj);
   }
 }

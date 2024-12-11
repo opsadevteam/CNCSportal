@@ -2,7 +2,11 @@
   <mat-card appearance="outlined" class="pv-container">
     <div class="prod-wrapper">
       <div class="btn-right">
-        <button mat-raised-button class="add-btn" (click)="openProdDialog()">
+        <button
+          mat-raised-button
+          class="add-btn"
+          (click)="openDialog('Product')"
+        >
           <mat-icon>add</mat-icon>
           Add
         </button>
@@ -13,7 +17,7 @@
       <hr />
       <table
         mat-table
-        [dataSource]="dataSource"
+        [dataSource]="productDS"
         class="mat-elevation-z8 rounded-table"
       >
         <!-- Product/Vendor Column -->
@@ -41,7 +45,7 @@
           <td mat-cell *matCellDef="let element" class="action-column">
             <button
               type="button"
-              (click)="openProdDialog(element.id)"
+              (click)="openDialog('Product', element)"
               mat-icon-button
             >
               <mat-icon
@@ -69,15 +73,19 @@
         <tr
           mat-row
           *matRowDef="let row; columns: productColumns"
-          [class.selected]="row === selectedRow"
-          (click)="onProductClick(row)"
+          [ngClass]="{ 'selected': row.id === selectedRow }"
+          (click)="onProductClick(row.id)"
         ></tr>
       </table>
     </div>
     <div class="desc-wrapper">
       <div class="btn-alignment">
         <div class="btn-right">
-          <button mat-raised-button class="add-btn" (click)="openDescDialog()">
+          <button
+            mat-raised-button
+            class="add-btn"
+            (click)="openDialog('Description')"
+          >
             <mat-icon>add</mat-icon>
             Add
           </button>
@@ -88,7 +96,7 @@
       <hr />
       <table
         mat-table
-        [dataSource]="descriptionDataSource"
+        [dataSource]="descriptionDS"
         class="mat-elevation-z8 rounded-table"
       >
         <!-- Description Column -->
@@ -116,7 +124,7 @@
           <td mat-cell *matCellDef="let description" class="action-column">
             <button
               type="button"
-              (click)="openDescDialog(description.id)"
+              (click)="openDialog('Description', description.id)"
               mat-icon-button
             >
               <mat-icon

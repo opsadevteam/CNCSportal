@@ -10,11 +10,15 @@ import { MatIcon, MatIconModule } from "@angular/material/icon";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatMenu, MatMenuModule, MatMenuTrigger } from "@angular/material/menu";
 import { MatPaginator } from "@angular/material/paginator";
-import { ProdAndDescListModel } from "../../../Models/interface/product-vendor.model";
+
 import { ProductVendorService } from "../../../services/product-vendor.service";
-import { ProductDescriptionModel } from "../../../Models/interface/product-description.model";
+
 import { MatDialog } from "@angular/material/dialog";
 import { AddProdDescDialogComponent } from "../../Dialogbox/add-prod-desc-dialog/add-prod-desc-dialog.component";
+import { Product } from "../../../Models/interface/product-vendor.model";
+import { Description } from "../../../Models/interface/product-description.model";
+import { DescriptionService } from "../../../services/description.service";
+import { NgClass } from "@angular/common";
 
 @Component({
   selector: "app-product-and-vendor",
@@ -25,66 +29,60 @@ import { AddProdDescDialogComponent } from "../../Dialogbox/add-prod-desc-dialog
     MatButtonModule,
     MatTableModule,
     MatMenuModule,
+    NgClass,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./product-and-vendor.component.html",
   styleUrl: "./product-and-vendor.component.css",
 })
 export class ProductAndVendorComponent {
-  prodVendorService = inject(ProductVendorService);
+  productService = inject(ProductVendorService);
+  descriptionService = inject(DescriptionService);
   prodDescDialog = inject(MatDialog);
   @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  prodAndDescList: ProdAndDescListModel[] = [];
-  selectedDescriptions: ProductDescriptionModel[] = [];
-  selectedRow: ProdAndDescListModel | null = null;
+  selectedRow: number = 0;
 
   productColumns = ["name", "view", "edit", "delete"];
   descriptionColumns = ["description", "view", "edit", "delete"];
 
-  dataSource = new MatTableDataSource<ProdAndDescListModel>(
-    this.prodAndDescList
-  );
-
-  descriptionDataSource = new MatTableDataSource<ProductDescriptionModel>(
-    this.selectedDescriptions
-  );
+  productDS = new MatTableDataSource<Product>([]);
+  descriptionDS = new MatTableDataSource<Description>([]);
 
   ngOnInit(): void {
-    this.loadProdAndDescList();
+    this.loadProducts();
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+    this.productDS.paginator = this.paginator;
   }
 
-  loadProdAndDescList(): void {
-    this.prodVendorService.getProdAndDescList().subscribe({
-      next: (prodList) => {
-        this.dataSource.data = prodList;
-      },
+  loadProducts(): void {
+    this.productService.getProducts().subscribe({
+      next: (prodList) => (this.productDS.data = prodList),
       error: (err) => console.error("Failed to load data", err),
     });
   }
 
-  //extract the descriptions[] from ProdAndDescListModel[]
-  onProductClick(element: ProdAndDescListModel): void {
-    this.selectedDescriptions = element.descriptions || [];
-    this.descriptionDataSource.data = this.selectedDescriptions;
-    this.selectedRow = element;
-  }
-
-  openProdDialog(Id?: number): void {
-    const dialogRef = this.prodDescDialog.open(AddProdDescDialogComponent, {
-      data: { obj: "Product", id: Id ?? null },
-      width: "750px",
+  loadDescriptions(productId: number): void {
+    this.descriptionService.getDescriptionsById(productId).subscribe({
+      next: (prodList) => (this.descriptionDS.data = prodList),
+      error: (err) => {
+        console.error("Failed to load data", err);
+        this.descriptionDS.data = [];
+      },
     });
   }
 
-  openDescDialog(Id?: number): void {
+  onProductClick(productId: number): void {
+    this.loadDescriptions(productId);
+    this.selectedRow = productId;
+  }
+
+  openDialog(objType: string, id?: number): void {
     const dialogRef = this.prodDescDialog.open(AddProdDescDialogComponent, {
-      data: { obj: "Description", id: Id ?? null },
+      data: { objType: objType, id: id ?? null },
       width: "750px",
     });
   }

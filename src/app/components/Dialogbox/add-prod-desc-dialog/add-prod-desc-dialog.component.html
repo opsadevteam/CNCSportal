@@ -5,9 +5,9 @@
       style="border-bottom: 1px solid rgba(120, 120, 128, 0.36)"
     >
       {{
-        objType === "Product" && obj
+        objType === "Product" && id
           ? "Update Product/Vendor"
-          : objType === "Description" && obj
+          : objType === "Description" && id
           ? "Update Description"
           : objType === "Product"
           ? "Add Product/Vendor"
@@ -34,7 +34,7 @@
           type="submit"
           [disabled]="isSubmitting"
         >
-          {{ obj ? "Update" : "Submit" }}
+          {{ id ? "Update" : "Submit" }}
         </button>
         <button mat-flat-button mat-dialog-close class="btn btn-cancel">
           Cancel
