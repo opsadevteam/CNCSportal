@@ -78,16 +78,14 @@ mat-list-item.selected-menu-item {
 
 .accounts-header {
   position: fixed;  
-  padding-left: 0.2em;
-  bottom: 5px;        
-  left: 5px;         
-  width: 100%;      
+  bottom: 0;        
+  left: 10px;         
   z-index: 1000;   
 }
 
 @media (max-width: 768px) {
   .accounts-header {
-    padding: 8px;
+    padding: 8px; /* Adjust padding for smaller screens */
   }
 }
 
