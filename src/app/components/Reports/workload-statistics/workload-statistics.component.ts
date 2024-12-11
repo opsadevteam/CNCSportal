@@ -259,12 +259,8 @@ export class WorkloadStatisticsComponent implements OnInit {
   }
 
   searchData() {}
-  filterBy(){
-  
+  filterBy() {}
 }
-}
-
-
 
 //     // placeholder for fetching transactions per day chart data (if available)
 //     // fetch transactions per day data (if available)

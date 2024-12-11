@@ -128,8 +128,7 @@ export class EmailEntryFormComponent implements OnInit {
   }
 
   initForm() {
-    this.emailEntryForm = new FormGroup({
-      id: new FormControl('', [Validators.required]),
+    this.emailEntryForm = new FormGroup({     
       emailId: new FormControl('', [Validators.required]),
       customerId: new FormControl('', [Validators.required]),
       pickUpDate: new FormControl('', [Validators.required]),
