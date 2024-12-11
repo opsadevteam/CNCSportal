@@ -293,8 +293,8 @@ export class PhoneEntryFormComponent implements OnInit {
             });
           },
           (error) => {
-            console.error('Error fetching transaction details:', error);
-            alert('Failed to fetch transaction details.');
+            // console.error('Error fetching transaction details:', error);
+            // alert('Failed to fetch transaction details.');
           }
         );
       }
