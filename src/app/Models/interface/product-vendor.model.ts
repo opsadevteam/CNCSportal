@@ -1,12 +1,17 @@
-import { Description } from "./product-description.model";
+import { Description } from './product-description.model';
 
 export interface Product {
   id: number;
   name: string;
 }
 
-export interface ProductWithDescriptions {
-  id: number;
+export interface ProductUpdate {
   name: string;
-  descriptions: Description[];
+}
+
+export interface ProductCreate {
+  name: string;
+  addedBy: string;
+  dateAdded: Date;
+  isDeleted: boolean;
 }

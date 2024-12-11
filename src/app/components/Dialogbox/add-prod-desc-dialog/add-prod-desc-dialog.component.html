@@ -15,7 +15,7 @@
       }}
     </h4>
 
-    <form style="margin: 1rem">
+    <form style="margin: 1rem" [formGroup]="form" (ngSubmit)="submit()">
       <!-- Username -->
       <label>{{
         objType === "Product" ? "Product/Vendor Name:" : "Description Name:"

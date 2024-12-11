@@ -3,25 +3,25 @@ import {
   Component,
   inject,
   ViewChild,
-} from "@angular/core";
-import { MatButton, MatButtonModule } from "@angular/material/button";
-import { MatCard } from "@angular/material/card";
-import { MatIcon, MatIconModule } from "@angular/material/icon";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { MatMenu, MatMenuModule, MatMenuTrigger } from "@angular/material/menu";
-import { MatPaginator } from "@angular/material/paginator";
+} from '@angular/core';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatCard } from '@angular/material/card';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatMenu, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import { MatPaginator } from '@angular/material/paginator';
 
-import { ProductVendorService } from "../../../services/product-vendor.service";
+import { ProductVendorService } from '../../../services/product-vendor.service';
 
-import { MatDialog } from "@angular/material/dialog";
-import { AddProdDescDialogComponent } from "../../Dialogbox/add-prod-desc-dialog/add-prod-desc-dialog.component";
-import { Product } from "../../../Models/interface/product-vendor.model";
-import { Description } from "../../../Models/interface/product-description.model";
-import { DescriptionService } from "../../../services/description.service";
-import { NgClass } from "@angular/common";
+import { MatDialog } from '@angular/material/dialog';
+import { AddProdDescDialogComponent } from '../../Dialogbox/add-prod-desc-dialog/add-prod-desc-dialog.component';
+import { Product } from '../../../Models/interface/product-vendor.model';
+import { Description } from '../../../Models/interface/product-description.model';
+import { DescriptionService } from '../../../services/description.service';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: "app-product-and-vendor",
+  selector: 'app-product-and-vendor',
   standalone: true,
   imports: [
     MatCard,
@@ -32,8 +32,8 @@ import { NgClass } from "@angular/common";
     NgClass,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: "./product-and-vendor.component.html",
-  styleUrl: "./product-and-vendor.component.css",
+  templateUrl: './product-and-vendor.component.html',
+  styleUrl: './product-and-vendor.component.css',
 })
 export class ProductAndVendorComponent {
   productService = inject(ProductVendorService);
@@ -44,8 +44,8 @@ export class ProductAndVendorComponent {
 
   selectedRow: number = 0;
 
-  productColumns = ["name", "view", "edit", "delete"];
-  descriptionColumns = ["description", "view", "edit", "delete"];
+  productColumns = ['name', 'view', 'edit', 'delete'];
+  descriptionColumns = ['description', 'view', 'edit', 'delete'];
 
   productDS = new MatTableDataSource<Product>([]);
   descriptionDS = new MatTableDataSource<Description>([]);
@@ -61,7 +61,7 @@ export class ProductAndVendorComponent {
   loadProducts(): void {
     this.productService.getProducts().subscribe({
       next: (prodList) => (this.productDS.data = prodList),
-      error: (err) => console.error("Failed to load data", err),
+      error: (err) => console.error('Failed to load data', err),
     });
   }
 
@@ -69,7 +69,7 @@ export class ProductAndVendorComponent {
     this.descriptionService.getDescriptionsById(productId).subscribe({
       next: (prodList) => (this.descriptionDS.data = prodList),
       error: (err) => {
-        console.error("Failed to load data", err);
+        console.error('Failed to load data', err);
         this.descriptionDS.data = [];
       },
     });
@@ -83,7 +83,13 @@ export class ProductAndVendorComponent {
   openDialog(objType: string, id?: number): void {
     const dialogRef = this.prodDescDialog.open(AddProdDescDialogComponent, {
       data: { objType: objType, id: id ?? null },
-      width: "750px",
+      width: '750px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadProducts();
+      }
     });
   }
 }
