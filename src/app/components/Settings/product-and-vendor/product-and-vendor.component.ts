@@ -1,4 +1,9 @@
-import { Component, inject, ViewChild } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  ViewChild,
+} from "@angular/core";
 import { MatButton, MatButtonModule } from "@angular/material/button";
 import { MatCard } from "@angular/material/card";
 import { MatIcon, MatIconModule } from "@angular/material/icon";
@@ -8,6 +13,8 @@ import { MatPaginator } from "@angular/material/paginator";
 import { ProdAndDescListModel } from "../../../Models/interface/product-vendor.model";
 import { ProductVendorService } from "../../../services/product-vendor.service";
 import { ProductDescriptionModel } from "../../../Models/interface/product-description.model";
+import { MatDialog } from "@angular/material/dialog";
+import { AddProdDescDialogComponent } from "../../Dialogbox/add-prod-desc-dialog/add-prod-desc-dialog.component";
 
 @Component({
   selector: "app-product-and-vendor",
@@ -19,11 +26,13 @@ import { ProductDescriptionModel } from "../../../Models/interface/product-descr
     MatTableModule,
     MatMenuModule,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./product-and-vendor.component.html",
   styleUrl: "./product-and-vendor.component.css",
 })
 export class ProductAndVendorComponent {
   prodVendorService = inject(ProductVendorService);
+  prodDescDialog = inject(MatDialog);
   @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -64,5 +73,19 @@ export class ProductAndVendorComponent {
     this.selectedDescriptions = element.descriptions || [];
     this.descriptionDataSource.data = this.selectedDescriptions;
     this.selectedRow = element;
+  }
+
+  openProdDialog(Id?: number): void {
+    const dialogRef = this.prodDescDialog.open(AddProdDescDialogComponent, {
+      data: { obj: "Product", id: Id ?? null },
+      width: "750px",
+    });
+  }
+
+  openDescDialog(Id?: number): void {
+    const dialogRef = this.prodDescDialog.open(AddProdDescDialogComponent, {
+      data: { obj: "Description", id: Id ?? null },
+      width: "750px",
+    });
   }
 }

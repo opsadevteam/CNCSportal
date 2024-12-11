@@ -1,0 +1,45 @@
+<div class="container">
+  <div style="padding: 1rem">
+    <h4
+      mat-dialog-title
+      style="border-bottom: 1px solid rgba(120, 120, 128, 0.36)"
+    >
+      {{
+        objType === "Product" && obj
+          ? "Update Product/Vendor"
+          : objType === "Description" && obj
+          ? "Update Description"
+          : objType === "Product"
+          ? "Add Product/Vendor"
+          : "Add Description"
+      }}
+    </h4>
+
+    <form style="margin: 1rem">
+      <!-- Username -->
+      <label>{{
+        objType === "Product" ? "Product/Vendor Name:" : "Description Name:"
+      }}</label>
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="Name" />
+        <mat-error> Username is required. </mat-error>
+      </mat-form-field>
+
+      <!-- Actions buttons -->
+      <mat-dialog-actions>
+        <button
+          mat-flat-button
+          color="primary"
+          class="btn btn-confirm"
+          type="submit"
+          [disabled]="isSubmitting"
+        >
+          {{ obj ? "Update" : "Submit" }}
+        </button>
+        <button mat-flat-button mat-dialog-close class="btn btn-cancel">
+          Cancel
+        </button>
+      </mat-dialog-actions>
+    </form>
+  </div>
+</div>

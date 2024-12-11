@@ -7,13 +7,13 @@ export const Constant = {
   },
   API_PRODUCT_VENDOR_METHOD: {
     GET_ALL_PRODUCT_VENDORS: "ProductVendor",
-    GET_ALL_PRODUCT_VENDORS_NEW: "ProductVendorNew",
+    GET_ALL_PRODUCT: "Products",
   },
   API_PRODUCT_DESCRIPTION_METHOD: {
     GET_ALL_PRODUCT_DESCRIPTIONS: "ProductDescription",
   },
   API_DESCRIPTION_METHOD: {
-    GET_ALL_DESCRIPTIONS: "Description",
+    GET_ALL_DESCRIPTIONS: "Descriptions",
   },
   API_USER_ACCOUNTS_METHOD: {
     GET_ALL_USER_ACCOUNTS: "UserAccounts",

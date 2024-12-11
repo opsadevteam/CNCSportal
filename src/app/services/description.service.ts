@@ -1,22 +1,37 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { IProductVendor } from '../Models/interface/phoneEntryForm.model';
-import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment.development';
-import { Constant } from '../constant/Constants';
+import { HttpClient } from "@angular/common/http";
+import { inject, Injectable } from "@angular/core";
+import { IProductVendor } from "../Models/interface/phoneEntryForm.model";
+import { Observable } from "rxjs";
+import { environment } from "../../environments/environment.development";
+import { Constant } from "../constant/Constants";
+import { Description } from "../Models/interface/product-description.model";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class DescriptionService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+  private products = Constant.API_PRODUCT_VENDOR_METHOD.GET_ALL_PRODUCT;
+  private descriptions = Constant.API_DESCRIPTION_METHOD.GET_ALL_DESCRIPTIONS;
 
   baseUrl =
-    environment.ENVI_POINT == 'DEV' ? environment.DEV : environment.LOCAL;
+    environment.ENVI_POINT == "DEV" ? environment.DEV : environment.LOCAL;
 
   getAllDescriptions(): Observable<IProductVendor> {
     return this.http.get<IProductVendor>(
       this.baseUrl + Constant.API_DESCRIPTION_METHOD.GET_ALL_DESCRIPTIONS
+    );
+  }
+
+  getDescriptionsById(productId: number): Observable<Description[]> {
+    return this.http.get<Description[]>(
+      `${this.baseUrl}${this.products}/${productId}/${this.descriptions}`
+    );
+  }
+
+  getDescription(descriptionId: number): Observable<Description> {
+    return this.http.get<Description>(
+      `${this.baseUrl}${this.products}/${descriptionId}`
     );
   }
 }
