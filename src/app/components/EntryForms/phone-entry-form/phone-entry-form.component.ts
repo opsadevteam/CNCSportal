@@ -128,8 +128,7 @@ export class PhoneEntryFormComponent implements OnInit {
   }
 
   initForm() {
-    this.phoneEntryForm = new FormGroup({
-      id: new FormControl('', [Validators.required]),
+    this.phoneEntryForm = new FormGroup({      
       phoneId: new FormControl('', [Validators.required]),
       customerId: new FormControl('', [Validators.required]),
       pickUpDate: new FormControl('', [Validators.required]),
