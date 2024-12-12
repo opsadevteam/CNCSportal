@@ -17,8 +17,6 @@ export class UserAccountService {
   private http = inject(HttpClient);
   private userAccounts =
     Constant.API_USER_ACCOUNTS_METHOD.GET_ALL_USER_ACCOUNTS;
-  private details =
-    Constant.API_USER_ACCOUNTS_METHOD.UPDATE_USER_ACCOUNT_DETAILS;
   private password =
     Constant.API_USER_ACCOUNTS_METHOD.UPDATE_USER_ACCOUNT_PASSWORD;
 
@@ -51,7 +49,7 @@ export class UserAccountService {
     user: UserAccountGetAndUpdate
   ): Observable<UserAccountGetAndUpdate> {
     return this.http.put<UserAccountGetAndUpdate>(
-      `${this.baseUrl}${this.userAccounts}/${userAccountId}/${this.details}`,
+      `${this.baseUrl}${this.userAccounts}/${userAccountId}`,
       user
     );
   }

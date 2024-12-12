@@ -1,29 +1,29 @@
-import { Component, Inject, inject, OnInit, signal } from "@angular/core";
+import { Component, Inject, inject, OnInit, signal } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
   MatDialogClose,
   MatDialogRef,
   MatDialogTitle,
-} from "@angular/material/dialog";
-import { MatError, MatFormField, MatHint } from "@angular/material/form-field";
-import { ProductVendorService } from "../../../services/product-vendor.service";
-import { DescriptionService } from "../../../services/description.service";
-import { MatInputModule } from "@angular/material/input";
+} from '@angular/material/dialog';
+import { MatError, MatFormField, MatHint } from '@angular/material/form-field';
+import { ProductVendorService } from '../../../services/product-vendor.service';
+import { DescriptionService } from '../../../services/description.service';
+import { MatInputModule } from '@angular/material/input';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
-} from "@angular/forms";
+} from '@angular/forms';
 import {
   ProductCreate,
   ProductUpdate,
-} from "../../../Models/interface/product-vendor.model";
-import { NgIf } from "@angular/common";
+} from '../../../Models/interface/product-vendor.model';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: "app-product-dialog",
+  selector: 'app-product-dialog',
   standalone: true,
   imports: [
     MatFormField,
@@ -36,12 +36,12 @@ import { NgIf } from "@angular/common";
     MatHint,
     NgIf,
   ],
-  templateUrl: "./product-dialog.component.html",
-  styleUrl: "./product-dialog.component.css",
+  templateUrl: './product-dialog.component.html',
+  styleUrl: './product-dialog.component.css',
 })
 export class ProductDialogComponent implements OnInit {
   //#region SIGNAL
-  protected readonly value = signal("");
+  protected readonly value = signal('');
   protected onInput(event: Event) {
     this.value.set((event.target as HTMLInputElement).value);
   }
@@ -55,18 +55,18 @@ export class ProductDialogComponent implements OnInit {
 
   //#region PROPS
   form: FormGroup;
-  product?: any;
+  prodDesc?: any;
   isSubmitting: boolean = false;
   //#endregion
 
   //#region CTOR
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { product?: any }
+    public data: { prodDesc?: any }
   ) {
-    this.product = data.product;
+    this.prodDesc = data.prodDesc;
     this.form = this.fb.group({
-      Name: ["", [Validators.required]],
+      Name: ['', [Validators.required]],
     });
   }
   //#endregion
@@ -79,9 +79,9 @@ export class ProductDialogComponent implements OnInit {
 
   //#region METHODS
   private initializeObj(): void {
-    if (this.product != null) {
+    if (this.prodDesc != null) {
       this.form.patchValue({
-        Name: this.product.name,
+        Name: this.prodDesc.name,
       });
     }
   }
@@ -89,39 +89,39 @@ export class ProductDialogComponent implements OnInit {
   private addProduct(): void {
     const product: ProductCreate = {
       ...this.form.value,
-      addedBy: "Admin",
+      addedBy: 'Admin',
       dateAdded: new Date(),
       isDeleted: false,
     };
     this.productService.addProduct(product).subscribe({
       next: () => {
         this.dialogRef.close(true);
-        alert("Product successfully added");
+        alert('Product successfully added');
       },
       error: (err) => {
         this.isSubmitting = false;
         if (err.status === 409) {
-          this.form.get("Name")?.setErrors({ ProductTaken: true });
+          this.form.get('Name')?.setErrors({ ProductTaken: true });
         } else {
-          console.error("Error adding of product", err);
+          console.error('Error adding of product', err);
         }
       },
     });
   }
 
   private updateProduct(): void {
-    const product: ProductUpdate = this.form.value as ProductUpdate;
-    this.productService.updateProduct(this.product.id, product).subscribe({
+    const prodDesc: ProductUpdate = this.form.value as ProductUpdate;
+    this.productService.updateProduct(this.prodDesc.id, prodDesc).subscribe({
       next: () => {
         this.dialogRef.close(true);
-        alert("Product successfully updated");
+        alert('Product successfully updated');
       },
       error: (err) => {
         this.isSubmitting = false;
         if (err.status === 409) {
-          this.form.get("Name")?.setErrors({ ProductTaken: true });
+          this.form.get('Name')?.setErrors({ ProductTaken: true });
         } else {
-          console.error("Error updating of product", err);
+          console.error('Error updating of product', err);
         }
       },
     });
@@ -132,7 +132,7 @@ export class ProductDialogComponent implements OnInit {
 
     this.isSubmitting = true;
 
-    if (this.product) {
+    if (this.prodDesc) {
       this.updateProduct();
     } else {
       this.addProduct();

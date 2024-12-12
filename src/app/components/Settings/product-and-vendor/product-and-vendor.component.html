@@ -70,7 +70,7 @@
           mat-row
           *matRowDef="let row; columns: productColumns"
           (click)="onProductClick(row)"
-          [ngClass]="{ selected: row === product }"
+          [ngClass]="{ selected: row === selectedProdDesc }"
         ></tr>
       </table>
       <mat-paginator
@@ -87,8 +87,8 @@
           <button
             mat-raised-button
             class="add-btn"
-            (click)="openDescriptionDialog(product)"
-            [disabled]="product === null"
+            (click)="openDescriptionDialog(selectedProdDesc)"
+            [disabled]="selectedProdDesc === null"
           >
             <mat-icon>add</mat-icon>
             Add
@@ -128,7 +128,7 @@
           <td mat-cell *matCellDef="let description" class="action-column">
             <button
               type="button"
-              (click)="openDescriptionDialog(product, description)"
+              (click)="openDescriptionDialog(selectedProdDesc, description)"
               mat-icon-button
             >
               <mat-icon

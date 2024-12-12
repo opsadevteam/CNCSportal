@@ -1,6 +1,14 @@
+import { Description } from './product-description.model';
+
 export interface Product {
   id: number;
   name: string;
+}
+
+export interface ProductDescription {
+  id: number;
+  name: string;
+  descriptions: Description[];
 }
 
 export interface ProductUpdate {

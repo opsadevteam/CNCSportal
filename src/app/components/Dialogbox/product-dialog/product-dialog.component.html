@@ -4,7 +4,7 @@
       mat-dialog-title
       style="border-bottom: 1px solid rgba(120, 120, 128, 0.36)"
     >
-      {{ product ? "Update Product/Vendor" : "Add Product/Vendor" }}
+      {{ prodDesc ? "Update Product/Vendor" : "Add Product/Vendor" }}
     </h4>
 
     <form style="margin: 1rem" [formGroup]="form" (ngSubmit)="submit()">
@@ -37,7 +37,7 @@
           type="submit"
           [disabled]="isSubmitting"
         >
-          {{ product ? "Update" : "Submit" }}
+          {{ prodDesc ? "Update" : "Submit" }}
         </button>
         <button mat-flat-button mat-dialog-close class="btn btn-cancel">
           Cancel
