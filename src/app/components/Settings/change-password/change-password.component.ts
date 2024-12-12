@@ -78,7 +78,6 @@ export class ChangePasswordComponent implements OnInit {
           userGroup: userData.userGroup,
           status: userData.status,
         });
-        console.log(this.userForm.value);
       },
       error: (err) => this.handleErrors(err),
     });

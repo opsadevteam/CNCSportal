@@ -4,7 +4,10 @@ import { IProductVendor } from "../Models/interface/phoneEntryForm.model";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment.development";
 import { Constant } from "../constant/Constants";
-import { Description } from "../Models/interface/product-description.model";
+import {
+  Description,
+  DescriptionCreate,
+} from "../Models/interface/product-description.model";
 
 @Injectable({
   providedIn: "root",
@@ -34,4 +37,24 @@ export class DescriptionService {
       `${this.baseUrl}${this.products}/${descriptionId}`
     );
   }
+
+  addDescription(
+    description: DescriptionCreate
+  ): Observable<DescriptionCreate> {
+    return this.http.post<DescriptionCreate>(
+      `${this.baseUrl}${this.descriptions}`,
+      description
+    );
+  }
+
+  updateDescription(
+    descriptionId: number,
+    description: Description
+  ): Observable<Description> {
+    return this.http.put<Description>(
+      `${this.baseUrl}${this.descriptions}/${descriptionId}`,
+      description
+    );
+  }
+
 }

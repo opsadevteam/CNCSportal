@@ -1,0 +1,48 @@
+* {
+  color: white;
+  font-style: normal;
+}
+
+label {
+  padding-bottom: 12px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-confirm {
+  background-color: var(--confirm);
+}
+
+.btn-cancel {
+  background-color: var(--cancel);
+}
+
+.btn {
+  color: white;
+  border-radius: 4px;
+  padding: 12px;
+  border: 0;
+}
+
+mat-dialog-actions {
+  padding: 0;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.text-area {
+  overflow: hidden;
+  resize: none;
+  height: auto;
+}
+
+mat-error {
+  color: #ffb4ab;
+}
+
+.container {
+  background-color: var(--main-background);
+}

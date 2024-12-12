@@ -49,6 +49,12 @@ hr {
   background-color: transparent;
 }
 
+.mat-mdc-paginator {
+  background-color: var(--main-background);
+  font-weight: 400;
+  font-style: normal;
+}
+
 .selected {
   background-color: var(--border-color);
 }

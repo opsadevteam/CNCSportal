@@ -1,0 +1,19 @@
+* {
+  color: white;
+  font-style: normal;
+}
+
+.btn-confirm {
+  background-color: var(--confirm);
+}
+
+.btn-cancel {
+  background-color: var(--cancel);
+}
+
+.btn {
+  color: white;
+  border-radius: 4px;
+  padding: 12px;
+  border: 0;
+}

@@ -2,11 +2,7 @@
   <mat-card appearance="outlined" class="pv-container">
     <div class="prod-wrapper">
       <div class="btn-right">
-        <button
-          mat-raised-button
-          class="add-btn"
-          (click)="openDialog('Product')"
-        >
+        <button mat-raised-button class="add-btn" (click)="openProductDialog()">
           <mat-icon>add</mat-icon>
           Add
         </button>
@@ -45,7 +41,7 @@
           <td mat-cell *matCellDef="let element" class="action-column">
             <button
               type="button"
-              (click)="openDialog('Product', element)"
+              (click)="openProductDialog(element)"
               mat-icon-button
             >
               <mat-icon
@@ -59,7 +55,7 @@
         <ng-container matColumnDef="delete">
           <th mat-header-cell *matHeaderCellDef class="action-column"></th>
           <td mat-cell *matCellDef="let element" class="action-column">
-            <button mat-icon-button>
+            <button mat-icon-button (click)="confirmDelete(element.id)">
               <mat-icon
                 aria-hidden="false"
                 aria-label="Example home icon"
@@ -73,10 +69,17 @@
         <tr
           mat-row
           *matRowDef="let row; columns: productColumns"
-          [ngClass]="{ 'selected': row.id === selectedRow }"
-          (click)="onProductClick(row.id)"
+          (click)="onProductClick(row)"
+          [ngClass]="{ selected: row === product }"
         ></tr>
       </table>
+      <mat-paginator
+        #productPaginator
+        [pageSizeOptions]="[20]"
+        showFirstLastButtons
+        aria-label="Product Paginator"
+      >
+      </mat-paginator>
     </div>
     <div class="desc-wrapper">
       <div class="btn-alignment">
@@ -84,7 +87,8 @@
           <button
             mat-raised-button
             class="add-btn"
-            (click)="openDialog('Description')"
+            (click)="openDescriptionDialog(product)"
+            [disabled]="product === null"
           >
             <mat-icon>add</mat-icon>
             Add
@@ -124,7 +128,7 @@
           <td mat-cell *matCellDef="let description" class="action-column">
             <button
               type="button"
-              (click)="openDialog('Description', description.id)"
+              (click)="openDescriptionDialog(product, description)"
               mat-icon-button
             >
               <mat-icon
@@ -155,6 +159,13 @@
           class="bg-row"
         ></tr>
       </table>
+      <mat-paginator
+        #descriptionPaginator
+        [pageSizeOptions]="[20]"
+        showFirstLastButtons
+        aria-label="Description Paginator"
+      >
+      </mat-paginator>
     </div>
   </mat-card>
 </section>

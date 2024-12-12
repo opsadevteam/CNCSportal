@@ -1,17 +1,17 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { IProductVendor } from '../Models/interface/phoneEntryForm.model';
-import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment.development';
-import { Constant } from '../constant/Constants';
+import { HttpClient } from "@angular/common/http";
+import { inject, Injectable } from "@angular/core";
+import { IProductVendor } from "../Models/interface/phoneEntryForm.model";
+import { Observable } from "rxjs";
+import { environment } from "../../environments/environment.development";
+import { Constant } from "../constant/Constants";
 import {
   Product,
   ProductCreate,
   ProductUpdate,
-} from '../Models/interface/product-vendor.model';
+} from "../Models/interface/product-vendor.model";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ProductVendorService {
   private http = inject(HttpClient);
@@ -20,7 +20,7 @@ export class ProductVendorService {
   constructor() {}
 
   baseUrl =
-    environment.ENVI_POINT == 'DEV' ? environment.DEV : environment.LOCAL;
+    environment.ENVI_POINT == "DEV" ? environment.DEV : environment.LOCAL;
 
   getAllProductVendors(): Observable<IProductVendor> {
     return this.http.get<IProductVendor>(
@@ -47,5 +47,9 @@ export class ProductVendorService {
       `${this.baseUrl}${this.products}/${productId}`,
       product
     );
+  }
+
+  deleteProduct(productId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}${this.products}/${productId}`);
   }
 }

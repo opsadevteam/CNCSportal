@@ -110,7 +110,6 @@ export class AddUserDialogComponent {
           userGroup: userData.userGroup,
           status: userData.status,
         });
-        console.log(this.userForm.value);
       },
       error: (err) => this.handleErrors(err),
     });
@@ -130,7 +129,6 @@ export class AddUserDialogComponent {
         this.isSubmitting = false;
         this.dialogRef.close("refresh");
         alert("User successfully added");
-        console.log(user);
       },
       error: (err) => {
         this.isSubmitting = false;

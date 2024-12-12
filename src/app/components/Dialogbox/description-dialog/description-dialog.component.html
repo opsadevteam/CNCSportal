@@ -1,0 +1,57 @@
+<div class="container">
+  <div style="padding: 1rem">
+    <h4
+      mat-dialog-title
+      style="border-bottom: 1px solid rgba(120, 120, 128, 0.36)"
+    >
+      {{ description ? "Update Description" : "Add Description" }}
+    </h4>
+    <P style="margin: 1rem" *ngIf="product"
+      >Product: <span style="font-weight: 500">{{ product.name }}</span></P
+    >
+    <form style="margin: 1rem" [formGroup]="form" (ngSubmit)="submit()">
+      <!-- Username -->
+
+      <label>Description:</label>
+      <mat-form-field appearance="outline">
+        <textarea
+          matInput
+          formControlName="Description"
+          #input
+          maxlength="250"
+          (input)="onInput($event)"
+          class="text-area"
+          cdkTextareaAutosize
+          #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="1"
+        ></textarea>
+        <mat-hint align="start">Max 250 characters</mat-hint>
+        <mat-hint align="end">{{ value().length }}/250</mat-hint>
+        <mat-error *ngIf="form.get('Description')?.hasError('required')">
+          This is a required field.
+        </mat-error>
+        <mat-error
+          *ngIf="form.get('Description')?.hasError('DescriptionTaken')"
+        >
+          Description is already taken.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Actions buttons -->
+      <mat-dialog-actions>
+        <button
+          mat-flat-button
+          color="primary"
+          class="btn btn-confirm"
+          type="submit"
+          [disabled]="isSubmitting"
+        >
+          {{ description ? "Update" : "Submit" }}
+        </button>
+        <button mat-flat-button mat-dialog-close class="btn btn-cancel">
+          Cancel
+        </button>
+      </mat-dialog-actions>
+    </form>
+  </div>
+</div>

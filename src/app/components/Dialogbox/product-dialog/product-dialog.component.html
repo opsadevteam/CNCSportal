@@ -4,25 +4,28 @@
       mat-dialog-title
       style="border-bottom: 1px solid rgba(120, 120, 128, 0.36)"
     >
-      {{
-        objType === "Product" && id
-          ? "Update Product/Vendor"
-          : objType === "Description" && id
-          ? "Update Description"
-          : objType === "Product"
-          ? "Add Product/Vendor"
-          : "Add Description"
-      }}
+      {{ product ? "Update Product/Vendor" : "Add Product/Vendor" }}
     </h4>
 
     <form style="margin: 1rem" [formGroup]="form" (ngSubmit)="submit()">
       <!-- Username -->
-      <label>{{
-        objType === "Product" ? "Product/Vendor Name:" : "Description Name:"
-      }}</label>
+      <label>Product/Vendor:</label>
       <mat-form-field appearance="outline">
-        <input matInput formControlName="Name" />
-        <mat-error> Username is required. </mat-error>
+        <input
+          matInput
+          formControlName="Name"
+          #input
+          maxlength="50"
+          (input)="onInput($event)"
+        />
+        <mat-hint align="start">Max 50 characters</mat-hint>
+        <mat-hint align="end">{{ value().length }}/50</mat-hint>
+        <mat-error *ngIf="form.get('Name')?.hasError('required')">
+          This is a required field.
+        </mat-error>
+        <mat-error *ngIf="form.get('Name')?.hasError('ProductTaken')">
+          Product name is already taken.
+        </mat-error>
       </mat-form-field>
 
       <!-- Actions buttons -->
@@ -34,7 +37,7 @@
           type="submit"
           [disabled]="isSubmitting"
         >
-          {{ id ? "Update" : "Submit" }}
+          {{ product ? "Update" : "Submit" }}
         </button>
         <button mat-flat-button mat-dialog-close class="btn btn-cancel">
           Cancel
