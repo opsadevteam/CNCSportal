@@ -66,9 +66,20 @@ export class ProductAndVendorComponent implements OnInit {
   }
 
   loadProductWithDescriptions(): void {
+    const selectedProductId = this.selectedProdWithDesc?.id || null;
     this.prodVendorService.getProductDescriptions().subscribe({
       next: (prodList: ProductWithDescription[]) => {
         this.productDS.data = prodList;
+
+        // If there was previous selected product, reselect it to update the description list
+        if (selectedProductId) {
+          const selectedProduct = prodList.find(
+            (prod) => prod.id === selectedProductId
+          );
+          if (selectedProduct) {
+            this.onProductClick(selectedProduct);
+          }
+        }
       },
       error: (err) => console.error('Failed to load data', err),
     });
@@ -76,9 +87,14 @@ export class ProductAndVendorComponent implements OnInit {
 
   //extract the descriptions[] from ProdAndDescListModel[] upon selection
   onProductClick(prodWithDesc: ProductWithDescription): void {
-    this.descriptions = prodWithDesc.descriptions || [];
-    this.descriptionDS.data = this.descriptions;
+    this.descriptionDS.data = prodWithDesc.descriptions || [];
+    //this code is for selection highlight only
     this.selectedProdWithDesc = prodWithDesc;
+    //extract product to pass to description dialog
+    this.selectedProduct = {
+      id: this.selectedProdWithDesc.id,
+      name: this.selectedProdWithDesc.name,
+    };
   }
 
   openProductDialog(prodDesc?: any): void {
@@ -125,5 +141,4 @@ export class ProductAndVendorComponent implements OnInit {
   }
 }
 
-
-//nasa pagextract na ko ng product at description  ng separate para ipasa sa description dialog
+//nasa edit at delete na ko ng description
