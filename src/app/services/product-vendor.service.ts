@@ -7,7 +7,7 @@ import { Constant } from '../constant/Constants';
 import {
   Product,
   ProductCreate,
-  ProductDescription,
+  ProductWithDescription,
   ProductUpdate,
 } from '../Models/interface/product-vendor.model';
 
@@ -35,8 +35,8 @@ export class ProductVendorService {
     return this.http.get<Product[]>(`${this.baseUrl}${this.products}`);
   }
 
-  getProductDescriptions(): Observable<ProductDescription[]> {
-    return this.http.get<ProductDescription[]>(
+  getProductDescriptions(): Observable<ProductWithDescription[]> {
+    return this.http.get<ProductWithDescription[]>(
       `${this.baseUrl}${this.products}/${this.descriptions}`
     );
   }

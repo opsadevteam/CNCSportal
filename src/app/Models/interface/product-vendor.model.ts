@@ -5,7 +5,7 @@ export interface Product {
   name: string;
 }
 
-export interface ProductDescription {
+export interface ProductWithDescription {
   id: number;
   name: string;
   descriptions: Description[];

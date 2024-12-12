@@ -110,8 +110,8 @@ export class ProductDialogComponent implements OnInit {
   }
 
   private updateProduct(): void {
-    const prodDesc: ProductUpdate = this.form.value as ProductUpdate;
-    this.productService.updateProduct(this.prodDesc.id, prodDesc).subscribe({
+    const product: ProductUpdate = this.form.value as ProductUpdate;
+    this.productService.updateProduct(this.prodDesc.id, product).subscribe({
       next: () => {
         this.dialogRef.close(true);
         alert('Product successfully updated');
