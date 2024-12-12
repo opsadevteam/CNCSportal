@@ -4,10 +4,7 @@ import { IProductVendor } from "../Models/interface/phoneEntryForm.model";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment.development";
 import { Constant } from "../constant/Constants";
-import {
-  ProductWithDescriptions,
-  Product,
-} from "../Models/interface/product-vendor.model";
+import { Product } from "../Models/interface/product-vendor.model";
 
 @Injectable({
   providedIn: "root",
