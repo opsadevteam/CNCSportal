@@ -32,7 +32,7 @@ export const Constant = {
     GET_SUMMARY_RECORDS: 'WorkloadStatistics',
   },
   CNCS_VERSION: {
-    NUMBER: '1.0.3',
+    NUMBER: '1.0.4',
   },
 
   MESSAGES: {
