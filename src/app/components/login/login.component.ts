@@ -58,6 +58,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('username', this.loginObj.username);
         localStorage.setItem('jwtToken', res.accessToken);
         localStorage.setItem('fullName', res.fullName);
+        localStorage.setItem('userGroup', res.userGroup);
         //this.isLoading = false;
       },
       (error) => {
