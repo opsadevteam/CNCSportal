@@ -47,6 +47,12 @@ export class DescriptionService {
     );
   }
 
+  deleteDescription(descriptionId: number): Observable<any> {
+    return this.http.delete(
+      `${this.baseUrl}${this.descriptions}/${descriptionId}`
+    );
+  }
+
   updateDescription(
     descriptionId: number,
     description: Description,

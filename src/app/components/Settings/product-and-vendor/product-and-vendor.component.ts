@@ -22,6 +22,7 @@ import { ProductDialogComponent } from "../../Dialogbox/product-dialog/product-d
 import { DescriptionDialogComponent } from "../../Dialogbox/description-dialog/description-dialog.component";
 import { DeleteDialogComponent } from "../../Dialogbox/delete-dialog/delete-dialog.component";
 import { NgClass } from "@angular/common";
+import { DescriptionService } from "../../../services/description.service";
 
 @Component({
   selector: "app-product-and-vendor",
@@ -40,6 +41,7 @@ import { NgClass } from "@angular/common";
 })
 export class ProductAndVendorComponent implements OnInit {
   prodVendorService = inject(ProductVendorService);
+  descriptionService = inject(DescriptionService);
   productDialog = inject(MatDialog);
   descriptionDialog = inject(MatDialog);
 
@@ -123,26 +125,55 @@ export class ProductAndVendorComponent implements OnInit {
     });
   }
 
-  confirmDelete(id: number): void {
+  private DeleteProduct(id: number): void {
+    this.prodVendorService.deleteProduct(id).subscribe({
+      next: () => {
+        alert(`Product with ID ${id} deleted successfully.`);
+
+        // If the deleted product is currently selected, clear the descriptions
+        if (this.selectedProdWithDesc?.id === id) {
+          this.descriptionDS.data = [];
+          this.selectedProdWithDesc = null!;
+        }
+
+        this.loadProductWithDescriptions();
+      },
+      error: (err) =>
+        console.error(`Failed to delete product with Id: ${id}:`, err),
+    });
+  }
+
+  private DeleteDescription(id: number): void {
+    this.descriptionService.deleteDescription(id).subscribe({
+      next: () => {
+        console.log(id);
+        alert(`Description with ID ${id} deleted successfully.`);
+
+        this.loadProductWithDescriptions();
+      },
+      error: (err) =>
+        console.error(`Failed to delete product with Id: ${id}:`, err),
+    });
+  }
+
+  confirmDelete(id: number, objType: string): void {
     const dialogRef = this.productDialog.open(DeleteDialogComponent);
 
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        this.prodVendorService.deleteProduct(id).subscribe({
-          next: () => {
-            alert(`User with ID ${id} deleted successfully.`);
+        if (objType === "product") {
+          // Delete product
+          this.DeleteProduct(id);
+        } else if (objType === "description") {
+          // Delete description
+          this.DeleteDescription(id);
+        }
 
-            // If the deleted product is currently selected, clear the descriptions
-            if (this.selectedProdWithDesc?.id === id) {
-              this.descriptionDS.data = [];
-              this.selectedProdWithDesc = null!;
-            }
-
-            this.loadProductWithDescriptions();
-          },
-          error: (err) =>
-            console.error(`Failed to delete user with ID ${id}:`, err),
-        });
+        // If the deleted product is currently selected, clear the descriptions
+        if (this.selectedProdWithDesc?.id === id) {
+          this.descriptionDS.data = [];
+          this.selectedProdWithDesc = null!;
+        }
       }
     });
   }
