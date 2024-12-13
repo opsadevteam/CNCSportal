@@ -12,6 +12,7 @@ import {
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AccountLoginService } from '../../services/account-login.service';
 
 @Component({
   selector: 'app-login',
@@ -38,6 +39,7 @@ export class LoginComponent implements OnInit {
   constructor() {}
 
   router = inject(Router);
+  loginService = inject(AccountLoginService);
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -48,16 +50,19 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    if (
-      this.loginObj.username == 'admin' &&
-      this.loginObj.password == 'admin'
-    ) {
-      this.router.navigateByUrl('/phonerecords');
-      localStorage.setItem('empErpUser', this.loginObj.username);
-      //this.isLoading = false;
-    } else {
-      alert('Invalid Account!');
-      //this.isLoading = false;
-    }
+    this.loginService.logInAccountRequest(this.loginObj).subscribe(
+      (res) => {
+        this.router.navigateByUrl('/phonerecords');
+        localStorage.setItem('username', this.loginObj.username);
+        localStorage.setItem('jwtToken', res.accessToken);
+        localStorage.setItem('fullName', res.fullName);
+        localStorage.setItem('userGroup', res.userGroup);
+        //this.isLoading = false;
+      },
+      (error) => {
+        alert('Invalid Account!');
+        //this.isLoading = false;
+      }
+    );
   }
 }
