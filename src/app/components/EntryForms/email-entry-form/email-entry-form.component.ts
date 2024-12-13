@@ -301,7 +301,7 @@ export class EmailEntryFormComponent implements OnInit {
 
   openDialog(id?: number): void {
     const dialogRef = this.dialog.open(HistoryEmailDialogComponent, {
-      width: '90%',
+      width: '65%',
       height: '50%',
       maxWidth: '100vw',
       maxHeight: '100vh',

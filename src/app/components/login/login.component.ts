@@ -52,8 +52,6 @@ export class LoginComponent implements OnInit {
   onLogin() {
     this.loginService.logInAccountRequest(this.loginObj).subscribe(
       (res) => {
-        console.log(res);
-        console.log('Success!');
         this.router.navigateByUrl('/phonerecords');
         localStorage.setItem('username', this.loginObj.username);
         localStorage.setItem('jwtToken', res.accessToken);
@@ -62,7 +60,6 @@ export class LoginComponent implements OnInit {
         //this.isLoading = false;
       },
       (error) => {
-        console.log('Failed!');
         alert('Invalid Account!');
         //this.isLoading = false;
       }
