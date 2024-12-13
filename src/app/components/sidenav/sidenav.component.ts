@@ -54,6 +54,8 @@ export class SidenavComponent {
 
   onLogOut() {
     this.router.navigateByUrl('/login');
-    localStorage.removeItem('empErpUser');
+    localStorage.removeItem('fullName');
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('username');
   }
 }
