@@ -2,32 +2,32 @@
 .dashboard-container {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Space between sections */
+  gap: 20px; 
   padding: 1rem;
 }
 
 .product-summary-container {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Space between chart and table */
+  gap: 20px; 
 }
 
 .product-summary, .user-count-summary {
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow for more depth */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between; /* Distribute items across */
+  justify-content: space-between;
 }
 
 .product-summary-table {
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Adding depth */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Chart Layout */
@@ -42,7 +42,7 @@
   width: 100%;
   border-collapse: collapse;
   color: #333;
-  font-size: 0.875rem; /* Slightly smaller text for better table readability */
+  font-size: 0.875rem; 
 }
 
 h2 {
@@ -66,7 +66,6 @@ h2 {
   color: #333;
 }
 
-/* Date Picker */
 
 /* Export Button */
 button.export-btn {
@@ -83,13 +82,14 @@ button.export-btn {
 
 button.export-btn:hover {
   background-color: #218838;
-  transform: scale(1.05); /* Slight scaling effect for hover */
+  transform: scale(1.05); 
 }
 
 button.export-btn:active {
-  transform: scale(1); /* Reset after click */
+  transform: scale(1);
 }
 
+/* Date Picker */
 .date-filter {
   display: flex;
   gap: 10px;
@@ -108,27 +108,56 @@ button.export-btn:active {
   width: 120px;
 }
 
-.export-btn {
-  margin: 1rem;
-  background-color: var(--button-background);
-  color: var(--secondary-text);
-  margin: 0.5rem;
-  border-radius: 12px;
-}
-
-.export-btn:hover {
-  background-color: #0056b3;
-}
-
+/* Filters Container */
 .filters-container {
   display: flex;
-  flex-direction: row; /* Stack elements vertically */
-  gap: 10px; /* Add space between the filters and the button */
-  max-width: 600px;
-  margin: 0 auto;
+  justify-content: space-between; 
+  align-items: center;
   padding: 20px;
+  gap: 10px;
 }
 
+/* Left Container for Date Pickers and Search */
+.filters-left {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Right Container for Export */
+.filters-right {
+  display: flex;
+  align-items: center;
+}
+
+/* Form Field Styling */
+.filter-date {
+  min-width: 200px;
+}
+
+button.add-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button.add-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+button.add-btn:active {
+  transform: scale(1);
+}
+
+mat-form-field {
+  min-width: 150px;
+}
 
 /* Responsive styles */
 @media (max-width: 600px) {
@@ -145,7 +174,7 @@ button.export-btn:active {
 /* Responsive Styling */
 @media (max-width: 1024px) {
   .product-summary-container {
-    flex-direction: column; /* Stack elements on medium screens */
+    flex-direction: column; 
   }
 }
 
@@ -156,21 +185,21 @@ button.export-btn:active {
   }
 
   .filter-bar input[type="date"] {
-    width: 100%; /* Make date inputs full-width on small screens */
+    width: 100%; 
   }
 
   .product-summary, .user-count-summary {
-    flex-direction: column; /* Stack elements vertically on small screens */
+    flex-direction: column; 
   }
 
   .chart, .line {
-    height: 300px; /* Adjust chart height for smaller screens */
+    height: 300px; 
   }
 }
 
 @media (max-width: 600px) {
   .table-container th, .table-container td {
-    padding: 10px 5px; /* Reduce padding for small screens */
+    padding: 10px 5px; 
   }
 }
 
@@ -187,6 +216,7 @@ button.export-btn:active {
 .filter-select,
 .filter-date {
   flex: 1;
+  max-width: 300px;
 }
 
 .filter-bar {
@@ -202,16 +232,6 @@ button.export-btn:active {
 }
 
 
-
-/* .btn-primary {
-  border-radius: 6px;
-  background-color: #0a84ff;
-  border: 1px solid #0a84ff;
-  color: white;
-  padding: 12px;
-  display: flex;
-  align-items: center;
-} */
 mat-card {
   font-size: 12px;
   background-color: black;
@@ -236,10 +256,8 @@ mat-card-content {
 .mat-mdc-header-cell,
 .mat-mdc-cell {
   text-align: center;
-  word-wrap: break-word; /* Allows breaking long words */
-  word-break: break-word; /* Forces break within long words */
-  white-space: normal; /* Allows wrapping */
-  max-width: 150px; /* Optional: Limit column width */
+  white-space: normal; 
+  max-width: 150px; 
 }
 
 .cdk-text-column {
@@ -250,8 +268,7 @@ mat-card-content {
   padding: 6px 8px;
   text-align: center;
   border-radius: 6px;
-  font-weight: 500;
-  /* font-size: 0.7rem; */
+  font-weight: 500;  
 }
 
 button.add-btn {
@@ -262,12 +279,21 @@ button.add-btn {
   border-radius: 12px;
 }
 
-.filter-container {
+.export-btn-align {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1em;
-  margin-bottom: 1.5em;
-  align-items: center;
   justify-content: flex-end; 
+  padding: 0.5rem; 
 }
+
+button.export-btn {
+  margin: 1rem;
+  background-color: var(--button-background);
+  color: var(--secondary-text);
+  margin: 0.5rem;
+  border-radius: 12px;
+}
+.export-btn:hover {
+  background-color: #0056b3;
+}
+
 
