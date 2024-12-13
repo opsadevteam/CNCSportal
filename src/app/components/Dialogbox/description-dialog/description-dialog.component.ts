@@ -121,7 +121,7 @@ export class DescriptionDialogComponent {
   private updateDescription(): void {
     const description: Description = this.form.value as Description;
     this.descriptionService
-      .updateDescription(description.id, description)
+      .updateDescription(description.id, description, this.product.id)
       .subscribe({
         next: () => {
           this.dialogRef.close(true);

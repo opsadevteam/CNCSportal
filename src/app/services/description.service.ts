@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { IProductVendor } from "../Models/interface/phoneEntryForm.model";
 import { Observable } from "rxjs";
@@ -49,12 +49,15 @@ export class DescriptionService {
 
   updateDescription(
     descriptionId: number,
-    description: Description
+    description: Description,
+    productId: number
   ): Observable<Description> {
+    const params = new HttpParams().set("Product_Id", productId.toString());
+
     return this.http.put<Description>(
       `${this.baseUrl}${this.descriptions}/${descriptionId}`,
-      description
+      description,
+      { params }
     );
   }
-
 }
