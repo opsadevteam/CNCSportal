@@ -1,0 +1,27 @@
+* {
+  color: white;
+  font-style: normal;
+  background-color: var(--main-background);
+}
+
+label {
+  padding-bottom: 12px;
+}
+
+.column-details {
+  width: 30%;
+}
+
+th,
+td {
+  text-align: center;
+}
+
+.table-container {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: var(--main-background);
+  height: 100vh;
+}

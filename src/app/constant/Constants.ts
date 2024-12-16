@@ -8,6 +8,10 @@ export const Constant = {
   API_PRODUCT_VENDOR_METHOD: {
     GET_ALL_PRODUCT_VENDORS: "ProductVendor",
     GET_ALL_PRODUCT: "Products",
+    GET_LOGS: "Logs",
+  },
+  API_PRODUCT_LOGS_METHOD: {
+    GET_PRODUCT_LOGS: "ProductLogs",
   },
   API_PRODUCT_DESCRIPTION_METHOD: {
     GET_ALL_PRODUCT_DESCRIPTIONS: "ProductDescription",

@@ -1,27 +1,29 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { IProductVendor } from '../Models/interface/phoneEntryForm.model';
-import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment.development';
-import { Constant } from '../constant/Constants';
+import { HttpClient } from "@angular/common/http";
+import { inject, Injectable } from "@angular/core";
+import { IProductVendor } from "../Models/interface/phoneEntryForm.model";
+import { Observable } from "rxjs";
+import { environment } from "../../environments/environment.development";
+import { Constant } from "../constant/Constants";
 import {
   Product,
   ProductCreate,
   ProductWithDescription,
   ProductUpdate,
-} from '../Models/interface/product-vendor.model';
+  ProductWithLogs,
+} from "../Models/interface/product-vendor.model";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ProductVendorService {
   private http = inject(HttpClient);
   private products = Constant.API_PRODUCT_VENDOR_METHOD.GET_ALL_PRODUCT;
   private descriptions = Constant.API_DESCRIPTION_METHOD.GET_ALL_DESCRIPTIONS;
+  private logs = Constant.API_PRODUCT_VENDOR_METHOD.GET_LOGS;
   constructor() {}
 
   baseUrl =
-    environment.ENVI_POINT == 'DEV' ? environment.DEV : environment.LOCAL;
+    environment.ENVI_POINT == "DEV" ? environment.DEV : environment.LOCAL;
 
   //old
   getAllProductVendors(): Observable<IProductVendor> {
@@ -41,6 +43,12 @@ export class ProductVendorService {
     );
   }
 
+  getProductWithLogs(productId: number): Observable<ProductWithLogs> {
+    return this.http.get<ProductWithLogs>(
+      `${this.baseUrl}${this.products}/${productId}/${this.logs}`
+    );
+  }
+
   addProduct(product: ProductCreate): Observable<ProductCreate> {
     return this.http.post<ProductCreate>(
       `${this.baseUrl}${this.products}`,
@@ -48,7 +56,6 @@ export class ProductVendorService {
     );
   }
 
-  //make it string since I will just pass 1 property
   updateProduct(
     productId: number,
     product: ProductUpdate

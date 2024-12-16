@@ -48,12 +48,13 @@ export class DescriptionDialogComponent {
   //#region SIGNAL
   protected readonly value = signal("");
   protected onInput(event: Event) {
+    console.log(event);
     this.value.set((event.target as HTMLInputElement).value);
   }
   //#endregion
 
   //#region DI
-  dialogRef = inject(MatDialogRef<DescriptionDialogComponent>);
+  deleteDialogRef = inject(MatDialogRef<DescriptionDialogComponent>);
   descriptionService = inject(DescriptionService);
   fb = inject(FormBuilder);
   //#endregion
@@ -104,7 +105,7 @@ export class DescriptionDialogComponent {
     };
     this.descriptionService.addDescription(description).subscribe({
       next: () => {
-        this.dialogRef.close(true);
+        this.deleteDialogRef.close(true);
         alert("Description successfully added");
       },
       error: (err) => {
@@ -124,7 +125,7 @@ export class DescriptionDialogComponent {
       .updateDescription(description.id, description, this.product.id)
       .subscribe({
         next: () => {
-          this.dialogRef.close(true);
+          this.deleteDialogRef.close(true);
           alert("Description successfully updated");
         },
         error: (err) => {

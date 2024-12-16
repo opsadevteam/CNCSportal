@@ -1,0 +1,66 @@
+<div class="table-container">
+  <div class="table-wrapper">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      class="mat-elevation-z0 rounded-table"
+    >
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.id | numberPadding : 7 }}
+        </td>
+      </ng-container>
+
+      <!-- Activity Column -->
+      <ng-container matColumnDef="details">
+        <th mat-header-cell *matHeaderCellDef class="column-details">
+          Details
+        </th>
+        <td mat-cell *matCellDef="let element" class="column-details">
+          {{ element.details }}
+        </td>
+      </ng-container>
+
+      <!-- User Column -->
+      <ng-container matColumnDef="activity">
+        <th mat-header-cell *matHeaderCellDef>Activity</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.activity }}
+        </td>
+      </ng-container>
+
+      <!-- Usergroup Column -->
+      <ng-container matColumnDef="addedBy">
+        <th mat-header-cell *matHeaderCellDef>Added By</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.addedBy | titlecase }}
+        </td>
+      </ng-container>
+
+      <!-- Datetime Column -->
+      <ng-container matColumnDef="dateAdded">
+        <th mat-header-cell *matHeaderCellDef>Date Added</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.dateAdded | date : "d MMM y HH:mm:ss" }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        class="bg-row"
+      ></tr>
+    </table>
+  </div>
+  <div class="pagination-wrapper">
+    <mat-paginator
+      [pageSizeOptions]="[10]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </div>
+</div>

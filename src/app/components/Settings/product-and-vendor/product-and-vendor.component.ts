@@ -23,6 +23,8 @@ import { DescriptionDialogComponent } from "../../Dialogbox/description-dialog/d
 import { DeleteDialogComponent } from "../../Dialogbox/delete-dialog/delete-dialog.component";
 import { NgClass } from "@angular/common";
 import { DescriptionService } from "../../../services/description.service";
+import { ProductLogsDialogComponent } from "../../Dialogbox/product-logs-dialog/product-logs-dialog.component";
+import { DescriptionLogsDialogComponent } from "../../Dialogbox/description-logs-dialog/description-logs-dialog.component";
 
 @Component({
   selector: "app-product-and-vendor",
@@ -40,24 +42,31 @@ import { DescriptionService } from "../../../services/description.service";
   styleUrl: "./product-and-vendor.component.css",
 })
 export class ProductAndVendorComponent implements OnInit {
+  //#region "DI"
   prodVendorService = inject(ProductVendorService);
   descriptionService = inject(DescriptionService);
-  productDialog = inject(MatDialog);
-  descriptionDialog = inject(MatDialog);
+  productUpsertDialog = inject(MatDialog);
+  descriptionUpsertDialog = inject(MatDialog);
+  productLogsDialog = inject(MatDialog);
+  descriptionLogsDialog = inject(MatDialog);
+  //#endregion
 
+  //#region ViewChild
   @ViewChild("productPaginator") productPaginator!: MatPaginator;
   @ViewChild("descriptionPaginator") descriptionPaginator!: MatPaginator;
+  //#endregion
 
+  //#region Properties
   selectedProduct: Product = null!;
   selectedProdWithDesc: ProductWithDescription = null!;
   descriptions: Description[] = [];
-
   productColumns = ["name", "view", "edit", "delete"];
   descriptionColumns = ["description", "view", "edit", "delete"];
-
   productDS = new MatTableDataSource<ProductWithDescription>([]);
   descriptionDS = new MatTableDataSource<Description>([]);
+  //#endregion
 
+  //#region Hooks
   ngOnInit(): void {
     this.loadProductWithDescriptions();
   }
@@ -66,7 +75,9 @@ export class ProductAndVendorComponent implements OnInit {
     this.productDS.paginator = this.productPaginator;
     this.descriptionDS.paginator = this.descriptionPaginator;
   }
+  //#endregion
 
+  //#region Data initialization
   loadProductWithDescriptions(): void {
     const selectedProductId = this.selectedProdWithDesc?.id || null;
     this.prodVendorService.getProductDescriptions().subscribe({
@@ -98,9 +109,33 @@ export class ProductAndVendorComponent implements OnInit {
       name: this.selectedProdWithDesc.name,
     };
   }
+  //#endregion
 
-  openProductDialog(prodDesc?: any): void {
-    const dialogRef = this.productDialog.open(ProductDialogComponent, {
+  //#region History Modal
+  openProductLogsDialog(productId: number): void {
+    const dialogRef = this.productLogsDialog.open(ProductLogsDialogComponent, {
+      data: { productId: productId ?? null },
+      width: "100vw",
+      maxWidth: "60vw",
+      height: "670px",
+    });
+    console.log(productId);
+  }
+
+  openDescriptionLogsDialog(descriptionId: number): void {
+    const dialogRef = this.descriptionLogsDialog.open(
+      DescriptionLogsDialogComponent,
+      {
+        data: { descriptionId: descriptionId ?? null },
+        width: "750px",
+      }
+    );
+  }
+  //#endregion
+
+  //#region Upsert Modal
+  openUpsertProductDialog(prodDesc?: any): void {
+    const dialogRef = this.productUpsertDialog.open(ProductDialogComponent, {
       data: { prodDesc: prodDesc ?? null },
       width: "750px",
     });
@@ -112,11 +147,17 @@ export class ProductAndVendorComponent implements OnInit {
     });
   }
 
-  openDescriptionDialog(product: Product, description?: Description): void {
-    const dialogRef = this.descriptionDialog.open(DescriptionDialogComponent, {
-      data: { product: product, description: description },
-      width: "750px",
-    });
+  openUpsertDescriptionDialog(
+    product: Product,
+    description?: Description
+  ): void {
+    const dialogRef = this.descriptionUpsertDialog.open(
+      DescriptionDialogComponent,
+      {
+        data: { product: product, description: description },
+        width: "500px",
+      }
+    );
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -124,7 +165,9 @@ export class ProductAndVendorComponent implements OnInit {
       }
     });
   }
+  //#endregion
 
+  //#region Delete method
   private DeleteProduct(id: number): void {
     this.prodVendorService.deleteProduct(id).subscribe({
       next: () => {
@@ -157,7 +200,7 @@ export class ProductAndVendorComponent implements OnInit {
   }
 
   confirmDelete(id: number, objType: string): void {
-    const dialogRef = this.productDialog.open(DeleteDialogComponent);
+    const dialogRef = this.productUpsertDialog.open(DeleteDialogComponent);
 
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
@@ -177,4 +220,5 @@ export class ProductAndVendorComponent implements OnInit {
       }
     });
   }
+  //#endregion
 }
