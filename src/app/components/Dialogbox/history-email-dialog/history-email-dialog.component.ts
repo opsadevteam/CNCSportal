@@ -69,6 +69,7 @@ export class HistoryEmailDialogComponent implements OnInit {
     this.getTransactionsByCustomerId(this.customerId);
   }
 
+    // getting history of specific customerId
   getTransactionsByCustomerId(customerId: string) {
     this.transactionSevice
       .getTransactionsByCustomerId(customerId)

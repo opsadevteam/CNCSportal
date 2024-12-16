@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  // storing data on local storage
   onLogin() {
     this.loginService.logInAccountRequest(this.loginObj).subscribe(
       (res) => {
