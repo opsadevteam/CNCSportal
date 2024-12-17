@@ -50,6 +50,7 @@ export class ProductAndVendorComponent implements OnInit {
   descriptionUpsertDialog = inject(MatDialog);
   productLogsDialog = inject(MatDialog);
   descriptionLogsDialog = inject(MatDialog);
+  toastr = inject(ToastrService);
   //#endregion
 
   //#region ViewChild
@@ -170,7 +171,9 @@ export class ProductAndVendorComponent implements OnInit {
   private DeleteProduct(id: number): void {
     this.prodVendorService.deleteProduct(id).subscribe({
       next: () => {
-        alert(`Product with ID ${id} deleted successfully.`);
+        this.toastr.success(`Product has been deleted successfully`, `Deleted`, {
+          
+        });
 
         // If the deleted product is currently selected, clear the descriptions
         if (this.selectedProdWithDesc?.id === id) {

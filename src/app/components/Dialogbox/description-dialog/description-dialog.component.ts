@@ -30,6 +30,7 @@ import {
 } from "../../../Models/interface/product-description.model";
 import { DescriptionLog } from "../../../Models/interface/description-log.model";
 import { DescriptionLogService } from "../../../services/description-log.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-description-dialog",
@@ -62,6 +63,7 @@ export class DescriptionDialogComponent {
   descriptionService = inject(DescriptionService);
   descriptionLogService = inject(DescriptionLogService);
   fb = inject(FormBuilder);
+  toastr = inject(ToastrService);
   //#endregion
 
   //#region PROPS
@@ -115,14 +117,14 @@ export class DescriptionDialogComponent {
       next: (createdId) => {
         this.deleteDialogRef.close(true);
         this.addDescriptionLogs("CREATE", createdId.id);
-        alert("Description successfully added");
+        this.toastr.success("Description has been successfully added.");
       },
       error: (err) => {
         this.isSubmitting = false;
         if (err.status === 409) {
           this.form.get("Description")?.setErrors({ DescriptionTaken: true });
         } else {
-          console.error("Error adding of description", err);
+          this.toastr.error(`Error adding of description ${err}`);
         }
       },
     });
@@ -148,14 +150,14 @@ export class DescriptionDialogComponent {
       .subscribe({
         next: () => {
           this.deleteDialogRef.close(true);
-          alert("Description successfully updated");
+          this.toastr.success("Description has been successfully updated.");
         },
         error: (err) => {
           this.isSubmitting = false;
           if (err.status === 409) {
             this.form.get("Description")?.setErrors({ DescriptionTaken: true });
           } else {
-            console.error("Error updating of description", err);
+            this.toastr.error(`Error updating of description ${err}`);
           }
         },
       });

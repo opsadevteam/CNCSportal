@@ -111,7 +111,7 @@ export class ProductDialogComponent implements OnInit {
         if (err.status === 409) {
           this.form.get("Name")?.setErrors({ ProductTaken: true });
         } else {
-          console.error("Error adding of product", err);
+          this.toastr.error("Error adding of product", err);
         }
       },
     });
@@ -135,14 +135,14 @@ export class ProductDialogComponent implements OnInit {
     this.productService.updateProduct(this.prodDesc.id, product).subscribe({
       next: () => {
         this.dialogRef.close(true);
-        alert("Product successfully updated");
+        this.toastr.success("Product has been successfully updated.");
       },
       error: (err) => {
         this.isSubmitting = false;
         if (err.status === 409) {
           this.form.get("Name")?.setErrors({ ProductTaken: true });
         } else {
-          console.error("Error updating of product", err);
+          this.toastr.error("Error updating of product", err);
         }
       },
     });
