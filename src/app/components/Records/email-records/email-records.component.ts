@@ -38,6 +38,7 @@ import { EmailEntryFormComponent } from '../../EntryForms/email-entry-form/email
 import { filter } from 'rxjs';
 import { trigger } from '@angular/animations';
 import { TransactionLogsService } from '../../../services/transaction-logs.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-email-records',
@@ -68,7 +69,7 @@ export class EmailRecordsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   readonly menuTrigger = viewChild.required(MatMenuTrigger);
-
+  toastrService = inject(ToastrService);
   searchTerm: string = '';
   isSearchApplied: boolean = false;
   totalItems: number = 0;
@@ -318,9 +319,14 @@ export class EmailRecordsComponent implements OnInit {
           next: () => {
             // console.log(`Record with ID ${id} deleted successfully.`);
             this.fetchRecords(); // Refresh the records after deletion
+            this.toastrService.success(
+              'Delete Transaction Succesfully',
+              'Success'
+            );
           },
           error: (err) => {
             // console.error(`Failed to delete record with ID ${id}:`, err);
+            this.toastrService.error('Delete Transaction Failed', 'Error');
           },
         });
       }

@@ -248,12 +248,19 @@ export class PhoneEntryFormComponent implements OnInit {
           .updateTransaction(mockTransaction.id, mockTransaction)
           .subscribe(
             (res: IPhoneEntryFormTransaction) => {
-              alert('Update Transaction Success!');
+              this.toastrService.success(
+                'Update Transaction Succesfully',
+                'Success'
+              );
+
               this.dialogRef.close('refresh');
             },
             (error) => {
               console.error('Error updating transaction:', error);
-              alert('Something went wrong while updating the transaction.');
+              this.toastrService.error(
+                'Something went wrong while updating the transaction.',
+                'Error'
+              );
             }
           );
       }
@@ -265,12 +272,18 @@ export class PhoneEntryFormComponent implements OnInit {
       if (isSave) {
         this.transactionService.addTransaction(mockTransaction).subscribe(
           (res: IPhoneEntryFormTransaction) => {
-            this.toastrService.success('Save Succesfully', 'Success');
+            this.toastrService.success(
+              'Save Transaction Succesfully',
+              'Success'
+            );
             this.initForm();
             this.dialogRef.close();
           },
           (error) => {
-            alert('Something Went wrong in Transaction!');
+            this.toastrService.error(
+              'Something Went wrong in Transaction',
+              'Error'
+            );
           }
         );
       }

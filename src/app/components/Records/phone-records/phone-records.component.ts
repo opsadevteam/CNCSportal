@@ -38,6 +38,7 @@ import { AddUserDialogComponent } from '../../Dialogbox/add-user-dialog/add-user
 import { PhoneEntryFormComponent } from '../../EntryForms/phone-entry-form/phone-entry-form.component';
 import { EmailEntryFormComponent } from '../../EntryForms/email-entry-form/email-entry-form.component';
 import { TransactionLogsService } from '../../../services/transaction-logs.service';
+import { ToastrService } from 'ngx-toastr';
 
 interface Record {
   id: string;
@@ -83,7 +84,7 @@ export class PhoneRecordsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   readonly menuTrigger = viewChild.required(MatMenuTrigger);
-
+  toastrService = inject(ToastrService);
   searchTerm: string = '';
   isSearchApplied: boolean = false;
   totalItems: number = 0;
@@ -192,12 +193,12 @@ export class PhoneRecordsComponent implements OnInit {
 
       // Check if record matches the search term
       const matchesSearch =
-      record.transactionId.toLowerCase().includes(term) ||
-      record.repliedBy.toLowerCase().includes(term) ||
-      record.customerId.toLowerCase().includes(term) ||
-      record.status.toLowerCase().includes(term) ||
-      record.productVendorId?.toLowerCase().includes(term) ||
-      record.descriptionId?.toLowerCase().includes(term);
+        record.transactionId.toLowerCase().includes(term) ||
+        record.repliedBy.toLowerCase().includes(term) ||
+        record.customerId.toLowerCase().includes(term) ||
+        record.status.toLowerCase().includes(term) ||
+        record.productVendorId?.toLowerCase().includes(term) ||
+        record.descriptionId?.toLowerCase().includes(term);
       record.remark.toLowerCase().includes(term);
 
       // Parse dates for date filtering
@@ -307,7 +308,7 @@ export class PhoneRecordsComponent implements OnInit {
           });
         },
         (error) => {
-         // console.error('Error fetching transaction logs:', error);
+          // console.error('Error fetching transaction logs:', error);
           // Handle error if necessary (show error messages, etc.)
         }
       );
@@ -327,9 +328,14 @@ export class PhoneRecordsComponent implements OnInit {
           next: () => {
             // console.log(`Record with ID ${id} deleted successfully.`);
             this.fetchRecords(); // Refresh the records after deletion
+            this.toastrService.success(
+              'Delete Transaction Succesfully',
+              'Success'
+            );
           },
           error: (err) => {
             // console.error(`Failed to delete record with ID ${id}:`, err);
+            this.toastrService.error('Delete Transaction Failed', 'Error');
           },
         });
       }
