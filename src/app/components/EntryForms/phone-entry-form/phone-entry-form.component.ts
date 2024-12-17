@@ -39,6 +39,7 @@ import { filter, map, observable, Observable, startWith } from 'rxjs';
 import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 import { HistoryPhoneDialogComponent } from '../../Dialogbox/history-phone-dialog/history-phone-dialog.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-phone-entry-form',
@@ -71,6 +72,7 @@ export class PhoneEntryFormComponent implements OnInit {
   productVendorService = inject(ProductVendorService);
   descrptionService = inject(DescriptionService);
   userAccountService = inject(UserAccountService);
+  toastrService = inject(ToastrService);
   productVendorList: IProductVendor[] = [];
   descriptionList: IDescription[] = [];
   userAccountList: IUserAccount[] = [];
@@ -136,8 +138,12 @@ export class PhoneEntryFormComponent implements OnInit {
     this.phoneEntryForm = new FormGroup({
       phoneId: new FormControl('', [Validators.required]),
       customerId: new FormControl('', [Validators.required]),
-      pickUpDate: new FormControl(new Date().toISOString(), [Validators.required]),
-      takeOffDate: new FormControl(new Date().toISOString(), [Validators.required]),
+      pickUpDate: new FormControl(new Date().toISOString(), [
+        Validators.required,
+      ]),
+      takeOffDate: new FormControl(new Date().toISOString(), [
+        Validators.required,
+      ]),
       productVendor: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       remark: new FormControl('', [Validators.required]),
@@ -259,7 +265,7 @@ export class PhoneEntryFormComponent implements OnInit {
       if (isSave) {
         this.transactionService.addTransaction(mockTransaction).subscribe(
           (res: IPhoneEntryFormTransaction) => {
-            alert('Create Transaction Success!');
+            this.toastrService.success('Save Succesfully', 'Success');
             this.initForm();
             this.dialogRef.close();
           },

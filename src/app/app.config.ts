@@ -14,6 +14,7 @@ import { provideRouter } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
 import { customInterceptor } from './services/custom.interceptor';
+import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,5 +23,6 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     importProvidersFrom(MatNativeDateModule),
     provideHttpClient(withInterceptors([customInterceptor])),
+    provideToastr(),
   ],
 };
