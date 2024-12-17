@@ -27,8 +27,13 @@
         ></textarea>
         <mat-hint align="start">Max 250 characters</mat-hint>
         <mat-hint align="end">{{ value().length }}/250</mat-hint>
-        <mat-error *ngIf="form.get('Description')?.hasError('required')">
-          This is a required field.
+        <mat-error
+          *ngIf="
+            form.get('Description')?.hasError('required') ||
+            form.get('Description')?.hasError('invalidDescription')
+          "
+        >
+          This field is required and cannot contain only blank spaces.
         </mat-error>
         <mat-error
           *ngIf="form.get('Description')?.hasError('DescriptionTaken')"

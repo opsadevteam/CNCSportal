@@ -20,8 +20,13 @@
         />
         <mat-hint align="start">Max 50 characters</mat-hint>
         <mat-hint align="end">{{ value().length }}/50</mat-hint>
-        <mat-error *ngIf="form.get('Name')?.hasError('required')">
-          This is a required field.
+        <mat-error
+          *ngIf="
+            form.get('Name')?.hasError('required') ||
+            form.get('Name')?.hasError('invalidDescription')
+          "
+        >
+          This field is required and cannot contain only blank spaces.
         </mat-error>
         <mat-error *ngIf="form.get('Name')?.hasError('ProductTaken')">
           Product name is already taken.

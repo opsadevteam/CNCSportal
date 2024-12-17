@@ -11,9 +11,11 @@ import { ProductVendorService } from "../../../services/product-vendor.service";
 import { DescriptionService } from "../../../services/description.service";
 import { MatInputModule } from "@angular/material/input";
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from "@angular/forms";
 import {
@@ -69,7 +71,7 @@ export class ProductDialogComponent implements OnInit {
   ) {
     this.prodDesc = data.prodDesc;
     this.form = this.fb.group({
-      Name: ["", [Validators.required]],
+      Name: ["", [Validators.required, this.noBlankOrMultipleSpacesValidator]],
     });
   }
   //#endregion
@@ -155,6 +157,18 @@ export class ProductDialogComponent implements OnInit {
     } else {
       this.addProduct();
     }
+  }
+
+  // Custom Validator to check blank or multiple spaces
+  noBlankOrMultipleSpacesValidator(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const value = control.value || "";
+    const hasOnlySpaces = value.trim().length === 0;
+    if (hasOnlySpaces) {
+      return { invalidDescription: true };
+    }
+    return null;
   }
   //#endregion
 }
