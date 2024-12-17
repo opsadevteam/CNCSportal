@@ -18,13 +18,17 @@ export const Constant = {
   },
   API_DESCRIPTION_METHOD: {
     GET_ALL_DESCRIPTIONS: "Descriptions",
+    GET_LOGS: "Logs",
+  },
+  API_DESCRIPTION_LOGS_METHOD: {
+    GET_DESCRIPTION_LOGS: "DescriptionLogs",
   },
   API_USER_ACCOUNTS_METHOD: {
     GET_ALL_USER_ACCOUNTS: "UserAccounts",
     UPDATE_USER_ACCOUNT_PASSWORD: "Password",
   },
   API_ACTIVITY_LOG_METHOD: {
-    GET_ALL_LOG_ACCOUNT: "ActivityLog",
+    GET_ALL_LOG_ACCOUNT: "ActivityLogs",
   },
   API_EMAIL_RECORDS_METHOD: {
     GET_ALL_EMAIL_RECORDS: "EmailRecords",

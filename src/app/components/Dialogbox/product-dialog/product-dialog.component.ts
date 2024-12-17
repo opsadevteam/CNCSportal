@@ -97,8 +97,9 @@ export class ProductDialogComponent implements OnInit {
       isDeleted: false,
     };
     this.productService.addProduct(product).subscribe({
-      next: () => {
+      next: (createdId) => {
         this.deleteDialogRef.close(true);
+        this.addProductLogs("CREATE", createdId.id);
         alert("Product successfully added");
       },
       error: (err) => {
@@ -112,16 +113,17 @@ export class ProductDialogComponent implements OnInit {
     });
   }
 
-  private addProductLogs(action: string): void {
+  private addProductLogs(action: string, id: any): void {
     const productLog: ProductLog = {
       id: 0,
       details: this.form.value.Name,
       activity: action,
       addedBy: "admin",
       dateAdded: new Date(),
-      productVendorId: this.prodDesc.id,
+      productVendorId: id,
     };
     this.productLogService.addProductLogs(productLog).subscribe();
+    console.log(productLog);
   }
 
   private updateProduct(): void {
@@ -149,7 +151,7 @@ export class ProductDialogComponent implements OnInit {
 
     if (this.prodDesc) {
       this.updateProduct();
-      this.addProductLogs("UPDATE");
+      this.addProductLogs("UPDATE", this.prodDesc.id);
     } else {
       this.addProduct();
     }

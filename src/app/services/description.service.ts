@@ -7,6 +7,7 @@ import { Constant } from "../constant/Constants";
 import {
   Description,
   DescriptionCreate,
+  DescriptionWithLogs,
 } from "../Models/interface/product-description.model";
 
 @Injectable({
@@ -16,6 +17,7 @@ export class DescriptionService {
   private http = inject(HttpClient);
   private products = Constant.API_PRODUCT_VENDOR_METHOD.GET_ALL_PRODUCT;
   private descriptions = Constant.API_DESCRIPTION_METHOD.GET_ALL_DESCRIPTIONS;
+  private logs = Constant.API_DESCRIPTION_METHOD.GET_LOGS;
 
   baseUrl =
     environment.ENVI_POINT == "DEV" ? environment.DEV : environment.LOCAL;
@@ -65,5 +67,11 @@ export class DescriptionService {
       description,
       { params }
     );
+  }
+
+  getDescriptionWithLogs(
+    descriptionId: number
+  ): Observable<DescriptionWithLogs> {
+    return this.http.get<DescriptionWithLogs>( `${this.baseUrl}${this.descriptions}/${descriptionId}/${this.logs}`);
   }
 }

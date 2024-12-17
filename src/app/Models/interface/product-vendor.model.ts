@@ -23,6 +23,7 @@ export interface ProductUpdate {
 }
 
 export interface ProductCreate {
+  id?: number;
   name: string;
   addedBy: string;
   dateAdded: Date;

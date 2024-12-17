@@ -113,23 +113,21 @@ export class ProductAndVendorComponent implements OnInit {
 
   //#region History Modal
   openProductLogsDialog(productId: number): void {
-    const dialogRef = this.productLogsDialog.open(ProductLogsDialogComponent, {
+    this.productLogsDialog.open(ProductLogsDialogComponent, {
       data: { productId: productId ?? null },
       width: "100vw",
       maxWidth: "60vw",
       height: "670px",
     });
-    console.log(productId);
   }
 
   openDescriptionLogsDialog(descriptionId: number): void {
-    const dialogRef = this.descriptionLogsDialog.open(
-      DescriptionLogsDialogComponent,
-      {
-        data: { descriptionId: descriptionId ?? null },
-        width: "750px",
-      }
-    );
+    this.descriptionLogsDialog.open(DescriptionLogsDialogComponent, {
+      data: { descriptionId: descriptionId ?? null },
+      width: "100vw",
+      maxWidth: "60vw",
+      height: "670px",
+    });
   }
   //#endregion
 

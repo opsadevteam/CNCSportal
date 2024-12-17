@@ -26,6 +26,8 @@ import {
   Description,
   DescriptionCreate,
 } from "../../../Models/interface/product-description.model";
+import { DescriptionLog } from "../../../Models/interface/description-log.model";
+import { DescriptionLogService } from "../../../services/description-log.service";
 
 @Component({
   selector: "app-description-dialog",
@@ -56,6 +58,7 @@ export class DescriptionDialogComponent {
   //#region DI
   deleteDialogRef = inject(MatDialogRef<DescriptionDialogComponent>);
   descriptionService = inject(DescriptionService);
+  descriptionLogService = inject(DescriptionLogService);
   fb = inject(FormBuilder);
   //#endregion
 
@@ -104,8 +107,9 @@ export class DescriptionDialogComponent {
       productVendorId: this.product?.id,
     };
     this.descriptionService.addDescription(description).subscribe({
-      next: () => {
+      next: (createdId) => {
         this.deleteDialogRef.close(true);
+        this.addDescriptionLogs("CREATE", createdId.id);
         alert("Description successfully added");
       },
       error: (err) => {
@@ -117,6 +121,19 @@ export class DescriptionDialogComponent {
         }
       },
     });
+  }
+
+  private addDescriptionLogs(action: string, id: any): void {
+    const descriptionLog: DescriptionLog = {
+      id: 0,
+      details: this.form.value.Description,
+      activity: action,
+      addedBy: "admin",
+      dateAdded: new Date(),
+      productDescriptionId: id,
+    };
+    this.descriptionLogService.addDescriptionLogs(descriptionLog).subscribe();
+    console.log(descriptionLog);
   }
 
   private updateDescription(): void {
@@ -146,6 +163,8 @@ export class DescriptionDialogComponent {
 
     if (this.description) {
       this.updateDescription();
+      this.addDescriptionLogs("UPDATE", this.description.id);
+      console.log(this.description.id);
     } else {
       this.addDescription();
     }
