@@ -78,6 +78,7 @@ export class EmailEntryFormComponent implements OnInit {
   filteredProductVendor: IProductVendor[] = [];
   autoGenerateEmailId: string = '';
   isEdit: boolean = false;
+  currentUser = localStorage.getItem('fullName');
 
   constructor(
     private snackBar: MatSnackBar,
@@ -97,10 +98,9 @@ export class EmailEntryFormComponent implements OnInit {
     this.editCase();
   }
 
-
-  // auto gereate id for new transaction 
+  // auto gereate id for new transaction
   autoGenerateId() {
-    const base = 'JXF';
+    const base = 'JXFE';
     const today = new Date();
     const formattedDate = this.formatDate(today);
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -124,24 +124,25 @@ export class EmailEntryFormComponent implements OnInit {
   // formating date for auto generate id format
   formatDate(date: Date): string {
     const year = date.getFullYear();
+    const lastTwoDigits = year % 100;
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
-    return `${year}${month}${day}`;
+    return `${lastTwoDigits}${month}${day}`;
     this.editCase();
   }
 
   // initialize form
   initForm() {
-    this.emailEntryForm = new FormGroup({     
+    this.emailEntryForm = new FormGroup({
       emailId: new FormControl('', [Validators.required]),
       customerId: new FormControl('', [Validators.required]),
-      pickUpDate: new FormControl('', [Validators.required]),
-      takeOffDate: new FormControl('', [Validators.required]),
+      pickUpDate: new FormControl(new Date().toISOString(), [Validators.required]),
+      takeOffDate: new FormControl(new Date().toISOString(), [Validators.required]),
       productVendor: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       remark: new FormControl('', [Validators.required]),
-      repliedBy: new FormControl('', [Validators.required]),
-      status: new FormControl('', [Validators.required]),
+      repliedBy: new FormControl(this.currentUser, [Validators.required]),
+      status: new FormControl('Closed', [Validators.required]),
     });
     this.filteredOption = this.emailEntryForm.valueChanges.pipe(
       startWith(this.emailEntryForm.value),
@@ -161,6 +162,11 @@ export class EmailEntryFormComponent implements OnInit {
   getAllProductVendors() {
     this.productVendorService.getAllProductVendors().subscribe((res: any) => {
       this.productVendorList = res;
+      this.productVendorList.sort((a: any, b: any) => {
+        const vendorA = a.productVendor ? String(a.productVendor) : '';
+        const vendorB = b.productVendor ? String(b.productVendor) : '';
+        return vendorA.localeCompare(vendorB); // Sorting alphabetically
+      });
     });
   }
 
