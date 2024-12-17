@@ -25,6 +25,7 @@ import {
 import { NgIf } from "@angular/common";
 import { ProductLogService } from "../../../services/product-log.service";
 import { ProductLog } from "../../../Models/interface/product-log.model";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-product-dialog",
@@ -52,10 +53,11 @@ export class ProductDialogComponent implements OnInit {
   //#endregion
 
   //#region DI
-  deleteDialogRef = inject(MatDialogRef<ProductDialogComponent>);
+  dialogRef = inject(MatDialogRef<ProductDialogComponent>);
   productService = inject(ProductVendorService);
   productLogService = inject(ProductLogService);
   fb = inject(FormBuilder);
+  toastr = inject(ToastrService);
   //#endregion
 
   //#region PROPS
@@ -100,9 +102,9 @@ export class ProductDialogComponent implements OnInit {
     };
     this.productService.addProduct(product).subscribe({
       next: (createdId) => {
-        this.deleteDialogRef.close(true);
+        this.dialogRef.close(true);
         this.addProductLogs("CREATE", createdId.id);
-        alert("Product successfully added");
+        this.toastr.success("Product has been successfully added.");
       },
       error: (err) => {
         this.isSubmitting = false;
@@ -132,7 +134,7 @@ export class ProductDialogComponent implements OnInit {
     const product: ProductUpdate = this.form.value as ProductUpdate;
     this.productService.updateProduct(this.prodDesc.id, product).subscribe({
       next: () => {
-        this.deleteDialogRef.close(true);
+        this.dialogRef.close(true);
         alert("Product successfully updated");
       },
       error: (err) => {

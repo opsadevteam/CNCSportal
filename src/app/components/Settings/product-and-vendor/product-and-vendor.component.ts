@@ -25,6 +25,7 @@ import { NgClass } from "@angular/common";
 import { DescriptionService } from "../../../services/description.service";
 import { ProductLogsDialogComponent } from "../../Dialogbox/product-logs-dialog/product-logs-dialog.component";
 import { DescriptionLogsDialogComponent } from "../../Dialogbox/description-logs-dialog/description-logs-dialog.component";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-product-and-vendor",
@@ -138,7 +139,7 @@ export class ProductAndVendorComponent implements OnInit {
       width: "750px",
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         this.loadProductWithDescriptions();
       }
