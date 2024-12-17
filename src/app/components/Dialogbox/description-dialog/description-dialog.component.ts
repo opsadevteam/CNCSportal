@@ -117,14 +117,17 @@ export class DescriptionDialogComponent {
       next: (createdId) => {
         this.deleteDialogRef.close(true);
         this.addDescriptionLogs("CREATE", createdId.id);
-        this.toastr.success("Description has been successfully added.");
+        this.toastr.success(
+          "Description has been successfully added.",
+          "Success"
+        );
       },
       error: (err) => {
         this.isSubmitting = false;
         if (err.status === 409) {
           this.form.get("Description")?.setErrors({ DescriptionTaken: true });
         } else {
-          this.toastr.error(`Error adding of description ${err}`);
+          this.toastr.error(`Error adding of description ${err}`, "Error");
         }
       },
     });
@@ -150,14 +153,17 @@ export class DescriptionDialogComponent {
       .subscribe({
         next: () => {
           this.deleteDialogRef.close(true);
-          this.toastr.success("Description has been successfully updated.");
+          this.toastr.success(
+            "Description has been successfully updated.",
+            "Success"
+          );
         },
         error: (err) => {
           this.isSubmitting = false;
           if (err.status === 409) {
             this.form.get("Description")?.setErrors({ DescriptionTaken: true });
           } else {
-            this.toastr.error(`Error updating of description ${err}`);
+            this.toastr.error(`Error updating of description ${err}`, "Error");
           }
         },
       });
