@@ -97,6 +97,8 @@ export class EmailEntryFormComponent implements OnInit {
     this.editCase();
   }
 
+
+  // auto gereate id for new transaction 
   autoGenerateId() {
     const base = 'JXF';
     const today = new Date();
@@ -119,6 +121,7 @@ export class EmailEntryFormComponent implements OnInit {
     this.emailEntryForm.controls['emailId'].setValue(this.autoGenerateEmailId);
   }
 
+  // formating date for auto generate id format
   formatDate(date: Date): string {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -127,6 +130,7 @@ export class EmailEntryFormComponent implements OnInit {
     this.editCase();
   }
 
+  // initialize form
   initForm() {
     this.emailEntryForm = new FormGroup({     
       emailId: new FormControl('', [Validators.required]),
@@ -145,6 +149,7 @@ export class EmailEntryFormComponent implements OnInit {
     );
   }
 
+  // filtering data for description and product vendor
   private _filter(value: string) {
     const filterValue =
       value && typeof value === 'string' ? value.toLowerCase() : '';

@@ -98,6 +98,7 @@ export class PhoneEntryFormComponent implements OnInit {
     this.editCase();
   }
 
+    // auto gereate id for new transaction 
   autoGenerateId() {
     const base = 'JXF';
     const today = new Date();
@@ -120,6 +121,7 @@ export class PhoneEntryFormComponent implements OnInit {
     this.phoneEntryForm.controls['phoneId'].setValue(this.autoGeneratePhoneId);
   }
 
+  // formating date for auto generate id format
   formatDate(date: Date): string {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -127,6 +129,7 @@ export class PhoneEntryFormComponent implements OnInit {
     return `${year}${month}${day}`;
   }
 
+    // initialize form
   initForm() {
     this.phoneEntryForm = new FormGroup({      
       phoneId: new FormControl('', [Validators.required]),
@@ -145,6 +148,7 @@ export class PhoneEntryFormComponent implements OnInit {
     );
   }
 
+    // filtering data for description and product vendor
   private _filter(value: string) {
     const filterValue =
       value && typeof value === 'string' ? value.toLowerCase() : '';

@@ -54,6 +54,7 @@ export class SidenavComponent implements OnInit {
     this.loadMenuItems();
   }
 
+  // Checking role of the current user
   checkRole() {
     if (this.userRole === 'Officer') {
       this.isAdmin = false;
@@ -62,6 +63,7 @@ export class SidenavComponent implements OnInit {
     }
   }
 
+  // Load menu items in sidenav
   loadMenuItems() {
     if (this.isAdmin) {
       this.recordsMenuItems = signal<IRecordsMenuItem[]>(
@@ -81,11 +83,11 @@ export class SidenavComponent implements OnInit {
   // entryFormsMenuItems = signal<IEntryFormsMenuItem[]>(EntryFormsMenuItemData);
 
   collapsed = signal(false);
-
+  // Sizing of image and sidenav 
   sideNavWith = computed(() => (this.collapsed() ? '4rem' : '16rem'));
-
   profilePicSize = computed(() => (this.collapsed() ? '24' : '48'));
 
+  // removing local storage items
   onLogOut() {
     this.router.navigateByUrl('/login');
     localStorage.removeItem('fullName');

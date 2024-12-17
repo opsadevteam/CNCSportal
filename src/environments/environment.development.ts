@@ -1,4 +1,5 @@
 export const environment = {
+  // dynamic pointing of environment
   ENVI_POINT: "LOCAL",
   LOCAL: "https://localhost:7050/api/v1/",
   DEV: "https://webapi.bestresource-inc.com/api/v1/",
