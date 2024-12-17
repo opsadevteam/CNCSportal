@@ -79,6 +79,7 @@ export class PhoneEntryFormComponent implements OnInit {
   filteredProductVendor: IProductVendor[] = [];
   autoGeneratePhoneId: string = '';
   isEdit: boolean = false;
+  currentUser = localStorage.getItem('fullName');
 
   constructor(
     private snackBar: MatSnackBar,
@@ -98,9 +99,9 @@ export class PhoneEntryFormComponent implements OnInit {
     this.editCase();
   }
 
-    // auto gereate id for new transaction 
+  // auto gereate id for new transaction
   autoGenerateId() {
-    const base = 'JXF';
+    const base = 'JXFP';
     const today = new Date();
     const formattedDate = this.formatDate(today);
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -124,23 +125,24 @@ export class PhoneEntryFormComponent implements OnInit {
   // formating date for auto generate id format
   formatDate(date: Date): string {
     const year = date.getFullYear();
+    const lastTwoDigits = year % 100;
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
-    return `${year}${month}${day}`;
+    return `${lastTwoDigits}${month}${day}`;
   }
 
-    // initialize form
+  // initialize form
   initForm() {
-    this.phoneEntryForm = new FormGroup({      
+    this.phoneEntryForm = new FormGroup({
       phoneId: new FormControl('', [Validators.required]),
       customerId: new FormControl('', [Validators.required]),
-      pickUpDate: new FormControl('', [Validators.required]),
-      takeOffDate: new FormControl('', [Validators.required]),
+      pickUpDate: new FormControl(new Date().toISOString(), [Validators.required]),
+      takeOffDate: new FormControl(new Date().toISOString(), [Validators.required]),
       productVendor: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       remark: new FormControl('', [Validators.required]),
-      repliedBy: new FormControl('', [Validators.required]),
-      status: new FormControl('', [Validators.required]),
+      repliedBy: new FormControl(this.currentUser, [Validators.required]),
+      status: new FormControl('Closed', [Validators.required]),
     });
     this.filteredOption = this.phoneEntryForm.valueChanges.pipe(
       startWith(this.phoneEntryForm.value),
@@ -148,7 +150,7 @@ export class PhoneEntryFormComponent implements OnInit {
     );
   }
 
-    // filtering data for description and product vendor
+  // filtering data for description and product vendor
   private _filter(value: string) {
     const filterValue =
       value && typeof value === 'string' ? value.toLowerCase() : '';
@@ -160,6 +162,11 @@ export class PhoneEntryFormComponent implements OnInit {
   getAllProductVendors() {
     this.productVendorService.getAllProductVendors().subscribe((res: any) => {
       this.productVendorList = res;
+      this.productVendorList.sort((a: any, b: any) => {
+        const vendorA = a.productVendor ? String(a.productVendor) : '';
+        const vendorB = b.productVendor ? String(b.productVendor) : '';
+        return vendorA.localeCompare(vendorB); // Sorting alphabetically
+      });
     });
   }
 
