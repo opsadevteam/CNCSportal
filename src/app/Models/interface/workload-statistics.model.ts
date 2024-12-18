@@ -1,6 +1,7 @@
 export interface IChartDataPoint {
   label: string;
   y: number;
+  takeOffDate: Date | null;
 }
 
 export interface IProductSummaryChartDto {
@@ -13,6 +14,7 @@ export interface IChartDataTableTotalDataPoints {
   emailTotal: number;
   qqCount: number;
   total: number;
+  takeOffDate: Date | null;
 }
 
 export interface IProductSummaryChartTotalDto {
@@ -25,6 +27,7 @@ export interface IUserChartDataPoint {
   eMailCount: number;
   qqCount: number;
   total: number;
+  takeOffDate: Date | null;
 }
 
 export interface IUserCountSummaryChartDto {
@@ -37,6 +40,7 @@ export interface ITransactionPerDayDataPoint {
   emailTotal: number;
   qqCount: number;
   total: number;
+  takeOffDate: Date | null;
 }
 
 export interface ITransactionPerDayDto {
@@ -49,8 +53,18 @@ export interface IDescriptionSummary {
   eMailCount: number;
   qqCount: number;
   total: number;
+  takeOffDate: Date | null;
 }
 
 export interface IDescriptionSummaryDto {
   dataPoints: IDescriptionSummary[]; 
+}
+
+export interface DescriptionAggregation {
+  description: string;
+  callCount: number;
+  emailCount: number;
+  qqCount: number;
+  total: number;
+  takeOffDate: Date | null; 
 }
