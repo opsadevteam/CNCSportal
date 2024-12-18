@@ -8,5 +8,6 @@ export interface IAccountLoginResponse {
   accessToken: string;
   expiresIn: number;
   userGroup: string;
+  status: string;
   fullName: string;
 }

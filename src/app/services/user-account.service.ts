@@ -54,13 +54,15 @@ export class UserAccountService {
     );
   }
 
-  updateUserPassword(userAccountId: number,
-    user: UserAccountChangePassword): Observable<UserAccountChangePassword>{
-      return this.http.put<UserAccountChangePassword>(
-        `${this.baseUrl}${this.userAccounts}/${userAccountId}/${this.password}`,
-        user
-      )
-  };
+  updateUserPassword(
+    userAccountId: number,
+    user: UserAccountChangePassword
+  ): Observable<UserAccountChangePassword> {
+    return this.http.put<UserAccountChangePassword>(
+      `${this.baseUrl}${this.userAccounts}/${userAccountId}/${this.password}`,
+      user
+    );
+  }
 
   deleteUser(userAccountId: number): Observable<any> {
     return this.http.delete(
