@@ -1,19 +1,20 @@
-import { routes } from './app.routes';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { routes } from "./app.routes";
+import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
   withInterceptors,
-} from '@angular/common/http';
+} from "@angular/common/http";
 import {
   ApplicationConfig,
   importProvidersFrom,
   provideZoneChangeDetection,
-} from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { MatNativeDateModule } from '@angular/material/core';
-import { customInterceptor } from './services/custom.interceptor';
+} from "@angular/core";
+import { provideRouter } from "@angular/router";
+import { MatDialog } from "@angular/material/dialog";
+import { MatNativeDateModule } from "@angular/material/core";
+import { customInterceptor } from "./services/custom.interceptor";
+import { provideToastr } from "ngx-toastr";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,5 +23,10 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     importProvidersFrom(MatNativeDateModule),
     provideHttpClient(withInterceptors([customInterceptor])),
+    provideToastr({
+      positionClass: "toast-top-right",
+      progressBar: true,
+      timeOut: 2000,
+    }),
   ],
 };
