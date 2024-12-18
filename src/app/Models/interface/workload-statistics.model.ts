@@ -57,7 +57,7 @@ export interface IDescriptionSummary {
 }
 
 export interface IDescriptionSummaryDto {
-  dataPoints: IDescriptionSummary[]; 
+  dataPoints: IDescriptionSummary[];
 }
 
 export interface DescriptionAggregation {
@@ -66,5 +66,5 @@ export interface DescriptionAggregation {
   emailCount: number;
   qqCount: number;
   total: number;
-  takeOffDate: Date | null; 
+  takeOffDate: Date | null;
 }
