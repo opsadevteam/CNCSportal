@@ -86,7 +86,7 @@ export class ProductAndVendorComponent implements OnInit {
       next: (prodList: ProductWithDescription[]) => {
         this.productDS.data = prodList;
 
-        // If there was previous selected product, reselect it to update the description list
+        // If there was a previously selected product, reselect it to update the description list
         if (selectedProductId) {
           const selectedProduct = prodList.find(
             (prod) => prod.id === selectedProductId
@@ -96,7 +96,15 @@ export class ProductAndVendorComponent implements OnInit {
           }
         }
       },
-      error: (err) => console.error("Failed to load data", err),
+      error: (err) => {
+        if (err.status === 404) {
+          // Handle the case when no products are found
+          this.productDS.data = [];
+          this.selectedProdWithDesc = null!;
+        } else {
+          this.toastr.error(`${err}`, "Error");
+        }
+      },
     });
   }
 
@@ -171,9 +179,11 @@ export class ProductAndVendorComponent implements OnInit {
   private DeleteProduct(id: number): void {
     this.prodVendorService.deleteProduct(id).subscribe({
       next: () => {
-        this.toastr.success(`Product has been deleted successfully`, `Deleted`, {
-          
-        });
+        this.toastr.success(
+          `Product has been deleted successfully`,
+          `Deleted`,
+          {}
+        );
 
         // If the deleted product is currently selected, clear the descriptions
         if (this.selectedProdWithDesc?.id === id) {
@@ -183,21 +193,21 @@ export class ProductAndVendorComponent implements OnInit {
 
         this.loadProductWithDescriptions();
       },
-      error: (err) =>
-        console.error(`Failed to delete product with Id: ${id}:`, err),
+      error: (err) => this.toastr.error(`${err}`, "Error"),
     });
   }
 
   private DeleteDescription(id: number): void {
     this.descriptionService.deleteDescription(id).subscribe({
       next: () => {
-        console.log(id);
-        alert(`Description with ID ${id} deleted successfully.`);
+        this.toastr.success(
+          "Description has been deleted succesfully",
+          "Deleted"
+        );
 
         this.loadProductWithDescriptions();
       },
-      error: (err) =>
-        console.error(`Failed to delete product with Id: ${id}:`, err),
+      error: (err) => this.toastr.error(`${err}`, "Error"),
     });
   }
 
