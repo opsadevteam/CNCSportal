@@ -15,6 +15,8 @@ import * as XLSX from 'xlsx';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-workload-statistics',
@@ -26,6 +28,9 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     MatDatepickerModule,
     MatSelectModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   templateUrl: './workload-statistics.component.html',
   styleUrls: ['./workload-statistics.component.css'],
@@ -258,13 +263,15 @@ export class WorkloadStatisticsComponent implements OnInit {
     XLSX.writeFile(workbook, 'Descriptions.xlsx');
   }
 
-  searchData() {}
-  filterBy(){
+  searchData() {
+
+  }
+
+  filterBy() {
+
+  }
   
 }
-}
-
-
 
 //     // placeholder for fetching transactions per day chart data (if available)
 //     // fetch transactions per day data (if available)

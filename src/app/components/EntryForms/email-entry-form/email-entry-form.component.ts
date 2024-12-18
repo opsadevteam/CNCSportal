@@ -32,11 +32,12 @@ import {
   MatDialogModule,
   MatDialogRef,
   MAT_DIALOG_DATA,
-} from "@angular/material/dialog";
-import { filter, map, observable, Observable, startWith } from "rxjs";
-import { MatAutocompleteModule } from "@angular/material/autocomplete";
-import { HistoryPhoneDialogComponent } from "../../Dialogbox/history-phone-dialog/history-phone-dialog.component";
-import { HistoryEmailDialogComponent } from "../../Dialogbox/history-email-dialog/history-email-dialog.component";
+} from '@angular/material/dialog';
+import { filter, map, observable, Observable, startWith } from 'rxjs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { HistoryPhoneDialogComponent } from '../../Dialogbox/history-phone-dialog/history-phone-dialog.component';
+import { HistoryEmailDialogComponent } from '../../Dialogbox/history-email-dialog/history-email-dialog.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: "app-email-entry-form",
@@ -56,6 +57,7 @@ import { HistoryEmailDialogComponent } from "../../Dialogbox/history-email-dialo
     MatSelectModule,
     MatButtonModule,
     MatDialogModule,
+    MatSnackBarModule,
   ],
   templateUrl: "./email-entry-form.component.html",
   styleUrl: "./email-entry-form.component.css",
@@ -78,6 +80,7 @@ export class EmailEntryFormComponent implements OnInit {
   isEdit: boolean = false;
 
   constructor(
+    private snackBar: MatSnackBar,
     private fb: FormBuilder,
     private readonly dialog: MatDialog,
     @Optional() private datePipe: DatePipe,
@@ -94,6 +97,8 @@ export class EmailEntryFormComponent implements OnInit {
     this.editCase();
   }
 
+
+  // auto gereate id for new transaction 
   autoGenerateId() {
     const base = "JXF";
     const today = new Date();
@@ -116,6 +121,7 @@ export class EmailEntryFormComponent implements OnInit {
     this.emailEntryForm.controls["emailId"].setValue(this.autoGenerateEmailId);
   }
 
+  // formating date for auto generate id format
   formatDate(date: Date): string {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -124,18 +130,18 @@ export class EmailEntryFormComponent implements OnInit {
     this.editCase();
   }
 
+  // initialize form
   initForm() {
-    this.emailEntryForm = new FormGroup({
-      id: new FormControl("", [Validators.required]),
-      emailId: new FormControl("", [Validators.required]),
-      customerId: new FormControl("", [Validators.required]),
-      pickUpDate: new FormControl("", [Validators.required]),
-      takeOffDate: new FormControl("", [Validators.required]),
-      productVendor: new FormControl("", [Validators.required]),
-      description: new FormControl("", [Validators.required]),
-      remark: new FormControl("", [Validators.required]),
-      repliedBy: new FormControl("", [Validators.required]),
-      status: new FormControl("", [Validators.required]),
+    this.emailEntryForm = new FormGroup({     
+      emailId: new FormControl('', [Validators.required]),
+      customerId: new FormControl('', [Validators.required]),
+      pickUpDate: new FormControl('', [Validators.required]),
+      takeOffDate: new FormControl('', [Validators.required]),
+      productVendor: new FormControl('', [Validators.required]),
+      description: new FormControl('', [Validators.required]),
+      remark: new FormControl('', [Validators.required]),
+      repliedBy: new FormControl('', [Validators.required]),
+      status: new FormControl('', [Validators.required]),
     });
     this.filteredOption = this.emailEntryForm.valueChanges.pipe(
       startWith(this.emailEntryForm.value),
@@ -143,6 +149,7 @@ export class EmailEntryFormComponent implements OnInit {
     );
   }
 
+  // filtering data for description and product vendor
   private _filter(value: string) {
     const filterValue =
       value && typeof value === "string" ? value.toLowerCase() : "";
@@ -212,10 +219,12 @@ export class EmailEntryFormComponent implements OnInit {
       logId: myLogId,
       isDeleted: false,
     };
-    console.log(mockTransaction);
-    const isSave = confirm(
-      "Confirmaton for Saving Email Entry Form Transaction"
-    );
+
+    // console.log(mockTransaction);
+    // const isSave = confirm(
+    //   'Confirmaton for Saving Email Entry Form Transaction'
+    // );
+
     if (this.isEdit) {
       // Update case
       const isUpdate = confirm(
@@ -226,12 +235,12 @@ export class EmailEntryFormComponent implements OnInit {
           .updateTransaction(mockTransaction.id, mockTransaction)
           .subscribe(
             (res: IEmailEntryFormTransaction) => {
-              alert("Update Transaction Success!");
-              this.dialogRef.close("refresh");
+              this.openSnackbar('Update Transaction Success!', 'close');
+              this.dialogRef.close('refresh');
             },
             (error) => {
-              console.error("Error updating transaction:", error);
-              alert("Something went wrong while updating the transaction.");
+              // console.error('Error updating transaction:', error);
+              // alert('Something went wrong while updating the transaction.');
             }
           );
       }
@@ -248,7 +257,7 @@ export class EmailEntryFormComponent implements OnInit {
             this.dialogRef.close();
           },
           (error) => {
-            alert("Something Went wrong in Transaction!");
+            // alert('Something Went wrong in Transaction!');
           }
         );
       }
@@ -265,7 +274,13 @@ export class EmailEntryFormComponent implements OnInit {
         // Fetch transaction details
         this.transactionService.getTransactionById(id).subscribe(
           (transaction) => {
-            console.log(`Editing record:`, transaction);
+            //console.log(`Editing record:`, transaction);
+
+            // Find the description based on descriptionId
+            const descriptionItem = this.descriptionList.find(
+              (desc) => desc.id === transaction.descriptionId
+            );
+
             // Populate the form with the fetched data
             this.emailEntryForm.patchValue({
               id: transaction.id ?? "",
@@ -274,15 +289,15 @@ export class EmailEntryFormComponent implements OnInit {
               pickUpDate: transaction.pickUpDate ?? "",
               takeOffDate: transaction.takeOffDate ?? "",
               productVendor: transaction.productVendorId ?? null,
-              description: transaction.descriptionId ?? null,
-              remark: transaction.remark ?? "",
-              repliedBy: transaction.repliedBy ?? "",
-              status: transaction.status ?? "",
+              description: descriptionItem ? descriptionItem.description : null,
+              remark: transaction.remark ?? '',
+              repliedBy: transaction.repliedBy ?? '',
+              status: transaction.status ?? '',
             });
           },
           (error) => {
-            console.error("Error fetching transaction details:", error);
-            alert("Failed to fetch transaction details.");
+            // console.error('Error fetching transaction details:', error);
+            // alert('Failed to fetch transaction details.');
           }
         );
       }
@@ -291,12 +306,21 @@ export class EmailEntryFormComponent implements OnInit {
 
   openDialog(id?: number): void {
     const dialogRef = this.dialog.open(HistoryEmailDialogComponent, {
-      width: "90%",
-      height: "50%",
-      maxWidth: "100vw",
-      maxHeight: "100vh",
+      width: '65%',
+      height: '50%',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
     });
     dialogRef.componentInstance.customerId =
       this.emailEntryForm.value.customerId;
+  }
+
+  openSnackbar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+      panelClass: 'custom-snackbar',
+    });
   }
 }

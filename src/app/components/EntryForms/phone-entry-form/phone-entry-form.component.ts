@@ -38,6 +38,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { filter, map, observable, Observable, startWith } from 'rxjs';
 import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 import { HistoryPhoneDialogComponent } from '../../Dialogbox/history-phone-dialog/history-phone-dialog.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-phone-entry-form',
@@ -57,6 +58,7 @@ import { HistoryPhoneDialogComponent } from '../../Dialogbox/history-phone-dialo
     MatSelectModule,
     MatButtonModule,
     MatDialogModule,
+    MatSnackBarModule,
   ],
   templateUrl: './phone-entry-form.component.html',
   styleUrl: './phone-entry-form.component.css',
@@ -79,6 +81,7 @@ export class PhoneEntryFormComponent implements OnInit {
   isEdit: boolean = false;
 
   constructor(
+    private snackBar: MatSnackBar,
     private fb: FormBuilder,
     private readonly dialog: MatDialog,
     @Optional() private datePipe: DatePipe,
@@ -95,6 +98,7 @@ export class PhoneEntryFormComponent implements OnInit {
     this.editCase();
   }
 
+    // auto gereate id for new transaction 
   autoGenerateId() {
     const base = 'JXF';
     const today = new Date();
@@ -117,6 +121,7 @@ export class PhoneEntryFormComponent implements OnInit {
     this.phoneEntryForm.controls['phoneId'].setValue(this.autoGeneratePhoneId);
   }
 
+  // formating date for auto generate id format
   formatDate(date: Date): string {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -124,9 +129,9 @@ export class PhoneEntryFormComponent implements OnInit {
     return `${year}${month}${day}`;
   }
 
+    // initialize form
   initForm() {
-    this.phoneEntryForm = new FormGroup({
-      id: new FormControl('', [Validators.required]),
+    this.phoneEntryForm = new FormGroup({      
       phoneId: new FormControl('', [Validators.required]),
       customerId: new FormControl('', [Validators.required]),
       pickUpDate: new FormControl('', [Validators.required]),
@@ -143,6 +148,7 @@ export class PhoneEntryFormComponent implements OnInit {
     );
   }
 
+    // filtering data for description and product vendor
   private _filter(value: string) {
     const filterValue =
       value && typeof value === 'string' ? value.toLowerCase() : '';
@@ -213,10 +219,11 @@ export class PhoneEntryFormComponent implements OnInit {
       logId: myLogId,
       isDeleted: false,
     };
-    console.log(mockTransaction);
-    const isSave = confirm(
-      'Confirmaton for Saving Phone Entry Form Transaction'
-    );
+
+    // console.log(mockTransaction);
+    // const isSave = confirm(
+    //   'Confirmaton for Saving Phone Entry Form Transaction'
+    // );
 
     if (this.isEdit) {
       // Update case
@@ -267,7 +274,13 @@ export class PhoneEntryFormComponent implements OnInit {
         // Fetch transaction details
         this.transactionService.getTransactionById(id).subscribe(
           (transaction) => {
-            console.log(`Editing record:`, transaction);
+            // console.log(`Editing record:`, transaction);
+
+            // Find the description based on descriptionId
+            const descriptionItem = this.descriptionList.find(
+              (desc) => desc.id === transaction.descriptionId
+            );
+
             // Populate the form with the fetched data
             this.phoneEntryForm.patchValue({
               id: transaction.id ?? '',
@@ -276,15 +289,15 @@ export class PhoneEntryFormComponent implements OnInit {
               pickUpDate: transaction.pickUpDate ?? '',
               takeOffDate: transaction.takeOffDate ?? '',
               productVendor: transaction.productVendorId ?? null,
-              description: transaction.descriptionId ?? null,
+              description: descriptionItem ? descriptionItem.description : null,
               remark: transaction.remark ?? '',
               repliedBy: transaction.repliedBy ?? '',
               status: transaction.status ?? '',
             });
           },
           (error) => {
-            console.error('Error fetching transaction details:', error);
-            alert('Failed to fetch transaction details.');
+            // console.error('Error fetching transaction details:', error);
+            // alert('Failed to fetch transaction details.');
           }
         );
       }
@@ -293,11 +306,21 @@ export class PhoneEntryFormComponent implements OnInit {
 
   openDialog(id?: number): void {
     const dialogRef = this.dialog.open(HistoryPhoneDialogComponent, {
-      width: '90%',
+      width: '65%',
       height: '50%',
       maxWidth: '100vw',
       maxHeight: '100vh',
     });
-    dialogRef.componentInstance.customerId = this.phoneEntryForm.value.customerId;
+    dialogRef.componentInstance.customerId =
+      this.phoneEntryForm.value.customerId;
+  }
+
+  openSnackbar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+      panelClass: 'custom-snackbar',
+    });
   }
 }

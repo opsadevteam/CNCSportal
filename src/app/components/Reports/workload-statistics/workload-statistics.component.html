@@ -1,20 +1,43 @@
 <div class="dashboard-container">
-  <!-- <div class="filter-container">
-    <mat-label>Date From</mat-label>
+  <div class="filters-container">
+    <!-- Left: Date Pickers and Search Button -->
+    <div class="filters-left">
+      <mat-form-field appearance="outline" class="filter-date">
+        <mat-label>Date From</mat-label>
+        <input matInput [matDatepicker]="picker1" [(ngModel)]="startDate" />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
 
-    <input matInput [matDatepicker]="picker1" [(ngModel)]="startDate" />
-    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-    <mat-datepicker #picker1></mat-datepicker>
+      <mat-form-field appearance="outline" class="filter-date">
+        <mat-label>Date To</mat-label>
+        <input matInput [matDatepicker]="picker2" [(ngModel)]="endDate" />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
 
-    <mat-label>Date To</mat-label>
-    <input matInput [matDatepicker]="picker2" [(ngModel)]="endDate" />
-    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-    <mat-datepicker #picker2></mat-datepicker>
+      <button mat-raised-button class="add-btn" (click)="searchData()">
+        Search
+      </button>
+    </div>
 
-    <button mat-raised-button class="add-btn" (click)="searchData()">
-      Search
-    </button>
-  </div> -->
+    <!-- Right: Export Dropdown -->
+    <div class="filters-right">
+      <mat-form-field appearance="outline">
+        <mat-label>Export</mat-label>
+        <mat-select>
+          <mat-option value="one">First option</mat-option>
+          <mat-option value="two">Second option</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
 
   <!-- Product Summary Pie -->
   <div class="product-summary-container">
@@ -29,6 +52,11 @@
 
     <!-- Product Summary Table -->
     <div class="product-summary-table card">
+      <div class="export-btn-align">
+        <button mat-raised-button class="export-btn" (click)="searchData()">
+          Export
+        </button>
+      </div>
       <div class="table-container">
         <table>
           <thead>
@@ -81,6 +109,11 @@
   <!-- Transaction per User -->
   <div class="product-summary-table card">
     <div class="table-container">
+      <div class="export-btn-align">
+        <button mat-raised-button class="export-btn" (click)="searchData()">
+          Export
+        </button>
+      </div>
       <table class="user-count-table">
         <thead>
           <tr>
@@ -108,6 +141,11 @@
   <!-- Description per User -->
   <div class="product-summary-table card">
     <h2>Description Summary</h2>
+    <div class="export-btn-align">
+      <button mat-raised-button class="export-btn" (click)="searchData()">
+        Export
+      </button>
+    </div>
     <div class="table-container">
       <table class="user-count-table">
         <thead>
@@ -124,7 +162,7 @@
           <tr *ngFor="let item of descriptionsOptions">
             <td>{{ item.description }}</td>
             <td>{{ item.callCount }}</td>
-            <td>{{ item.eMailCount }}</td>
+            <td>{{ item.emailCount }}</td>
             <td>{{ item.qqCount }}</td>
             <td>{{ item.total }}</td>
           </tr>

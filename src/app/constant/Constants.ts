@@ -1,5 +1,8 @@
 //sample
 export const Constant = {
+  API_ACCOUNT_METHOD: {
+    ACCOUNT_LOGIN: 'Account/Login',
+  },
   API_TRANSACTIONS_METHOD: {
     CREATE_TRANSACTION: "Transaction",
     GET_ALL_TRANSACTION: "Transaction",
@@ -40,26 +43,26 @@ export const Constant = {
     GET_SUMMARY_RECORDS: "WorkloadStatistics",
   },
   CNCS_VERSION: {
-    NUMBER: "1.0.3",
+    NUMBER: '1.0.4',
   },
 
   MESSAGES: {
     PHONE_ENTRY_FORM:
-      "This page is the phone entry form where all inbound and outbound calls are loged. It helps track and document every phone interaction for efficient  record-keeping.",
+      'This page is the phone entry form where all inbound and outbound calls are loged. It helps track and document every phone interaction for efficient  record-keeping.',
 
     EMAIL_ENTRY_FORM:
-      " This page is the email entry form where all incoming and outgoing emails are recorded. It helps track and document email communication for organized and efficient record-keeping",
+      ' This page is the email entry form where all incoming and outgoing emails are recorded. It helps track and document email communication for organized and efficient record-keeping',
   },
 
   USER_STATUS: {
-    ACTIVE: "Active",
-    INACTIVE: "Inactive",
-    CLOSED: "Closed",
+    ACTIVE: 'Active',
+    INACTIVE: 'Inactive',
+    CLOSED: 'Closed',
   },
 
   USER_GROUP: {
-    ADMIN: "Admin",
-    LEADER: "Leader",
-    OFFICER: "Officer",
+    ADMIN: 'Admin',
+    LEADER: 'Leader',
+    OFFICER: 'Officer',
   },
 };
