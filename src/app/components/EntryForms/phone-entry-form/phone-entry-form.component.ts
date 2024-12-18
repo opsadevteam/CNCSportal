@@ -39,6 +39,7 @@ import { filter, map, observable, Observable, startWith } from 'rxjs';
 import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 import { HistoryPhoneDialogComponent } from '../../Dialogbox/history-phone-dialog/history-phone-dialog.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-phone-entry-form',
@@ -71,6 +72,7 @@ export class PhoneEntryFormComponent implements OnInit {
   productVendorService = inject(ProductVendorService);
   descrptionService = inject(DescriptionService);
   userAccountService = inject(UserAccountService);
+  toastrService = inject(ToastrService);
   productVendorList: IProductVendor[] = [];
   descriptionList: IDescription[] = [];
   userAccountList: IUserAccount[] = [];
@@ -79,6 +81,7 @@ export class PhoneEntryFormComponent implements OnInit {
   filteredProductVendor: IProductVendor[] = [];
   autoGeneratePhoneId: string = '';
   isEdit: boolean = false;
+  currentUser = localStorage.getItem('fullName');
 
   constructor(
     private snackBar: MatSnackBar,
@@ -98,8 +101,9 @@ export class PhoneEntryFormComponent implements OnInit {
     this.editCase();
   }
 
+  // auto gereate id for new transaction
   autoGenerateId() {
-    const base = 'JXF';
+    const base = 'JXFP';
     const today = new Date();
     const formattedDate = this.formatDate(today);
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -120,24 +124,31 @@ export class PhoneEntryFormComponent implements OnInit {
     this.phoneEntryForm.controls['phoneId'].setValue(this.autoGeneratePhoneId);
   }
 
+  // formating date for auto generate id format
   formatDate(date: Date): string {
     const year = date.getFullYear();
+    const lastTwoDigits = year % 100;
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
-    return `${year}${month}${day}`;
+    return `${lastTwoDigits}${month}${day}`;
   }
 
+  // initialize form
   initForm() {
-    this.phoneEntryForm = new FormGroup({      
+    this.phoneEntryForm = new FormGroup({
       phoneId: new FormControl('', [Validators.required]),
       customerId: new FormControl('', [Validators.required]),
-      pickUpDate: new FormControl('', [Validators.required]),
-      takeOffDate: new FormControl('', [Validators.required]),
+      pickUpDate: new FormControl(new Date().toISOString(), [
+        Validators.required,
+      ]),
+      takeOffDate: new FormControl(new Date().toISOString(), [
+        Validators.required,
+      ]),
       productVendor: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       remark: new FormControl('', [Validators.required]),
-      repliedBy: new FormControl('', [Validators.required]),
-      status: new FormControl('', [Validators.required]),
+      repliedBy: new FormControl(this.currentUser, [Validators.required]),
+      status: new FormControl('Closed', [Validators.required]),
     });
     this.filteredOption = this.phoneEntryForm.valueChanges.pipe(
       startWith(this.phoneEntryForm.value),
@@ -145,6 +156,7 @@ export class PhoneEntryFormComponent implements OnInit {
     );
   }
 
+  // filtering data for description and product vendor
   private _filter(value: string) {
     const filterValue =
       value && typeof value === 'string' ? value.toLowerCase() : '';
@@ -156,6 +168,11 @@ export class PhoneEntryFormComponent implements OnInit {
   getAllProductVendors() {
     this.productVendorService.getAllProductVendors().subscribe((res: any) => {
       this.productVendorList = res;
+      this.productVendorList.sort((a: any, b: any) => {
+        const vendorA = a.productVendor ? String(a.productVendor) : '';
+        const vendorB = b.productVendor ? String(b.productVendor) : '';
+        return vendorA.localeCompare(vendorB); // Sorting alphabetically
+      });
     });
   }
 
@@ -231,12 +248,19 @@ export class PhoneEntryFormComponent implements OnInit {
           .updateTransaction(mockTransaction.id, mockTransaction)
           .subscribe(
             (res: IPhoneEntryFormTransaction) => {
-              alert('Update Transaction Success!');
+              this.toastrService.success(
+                'Update Transaction Succesfully',
+                'Success'
+              );
+
               this.dialogRef.close('refresh');
             },
             (error) => {
               console.error('Error updating transaction:', error);
-              alert('Something went wrong while updating the transaction.');
+              this.toastrService.error(
+                'Something went wrong while updating the transaction.',
+                'Error'
+              );
             }
           );
       }
@@ -248,12 +272,18 @@ export class PhoneEntryFormComponent implements OnInit {
       if (isSave) {
         this.transactionService.addTransaction(mockTransaction).subscribe(
           (res: IPhoneEntryFormTransaction) => {
-            alert('Create Transaction Success!');
+            this.toastrService.success(
+              'Save Transaction Succesfully',
+              'Success'
+            );
             this.initForm();
             this.dialogRef.close();
           },
           (error) => {
-            alert('Something Went wrong in Transaction!');
+            this.toastrService.error(
+              'Something Went wrong in Transaction',
+              'Error'
+            );
           }
         );
       }

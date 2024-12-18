@@ -68,13 +68,15 @@ export class HistoryPhoneDialogComponent implements OnInit {
     this.getTransactionsByCustomerId(this.customerId);
   }
 
+  // getting history of specific customerId
   getTransactionsByCustomerId(customerId: string) {
     this.transactionSevice
       .getTransactionsByCustomerId(customerId)
       .subscribe((res: any) => {
-        this.transactionList = res.filter(
-          (transaction: any) => transaction.transactionType === 'Phone'
-        );
+        this.transactionList = res;
+        // .filter(
+        //   (transaction: any) => transaction.transactionType === 'Phone'
+        // );
         this.dataSource =
           new MatTableDataSource<IPhoneEntryFormTransactionDetailed>(
             this.transactionList

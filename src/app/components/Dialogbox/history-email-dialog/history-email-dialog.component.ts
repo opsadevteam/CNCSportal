@@ -69,13 +69,15 @@ export class HistoryEmailDialogComponent implements OnInit {
     this.getTransactionsByCustomerId(this.customerId);
   }
 
+  // getting history of specific customerId
   getTransactionsByCustomerId(customerId: string) {
     this.transactionSevice
       .getTransactionsByCustomerId(customerId)
       .subscribe((res: any) => {
-        this.transactionList = res.filter(
-          (transaction: any) => transaction.transactionType === 'Email'
-        );
+        this.transactionList = res;
+        // .filter(
+        //   (transaction: any) => transaction.transactionType === 'Email'
+        // );
         this.dataSource =
           new MatTableDataSource<IEmailEntryFormTransactionDetailed>(
             this.transactionList

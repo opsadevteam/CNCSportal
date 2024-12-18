@@ -38,6 +38,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { HistoryPhoneDialogComponent } from '../../Dialogbox/history-phone-dialog/history-phone-dialog.component';
 import { HistoryEmailDialogComponent } from '../../Dialogbox/history-email-dialog/history-email-dialog.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-email-entry-form',
@@ -70,6 +71,7 @@ export class EmailEntryFormComponent implements OnInit {
   productVendorService = inject(ProductVendorService);
   descrptionService = inject(DescriptionService);
   userAccountService = inject(UserAccountService);
+  toastrService = inject(ToastrService);
   productVendorList: IProductVendor[] = [];
   descriptionList: IDescription[] = [];
   userAccountList: IUserAccount[] = [];
@@ -78,6 +80,7 @@ export class EmailEntryFormComponent implements OnInit {
   filteredProductVendor: IProductVendor[] = [];
   autoGenerateEmailId: string = '';
   isEdit: boolean = false;
+  currentUser = localStorage.getItem('fullName');
 
   constructor(
     private snackBar: MatSnackBar,
@@ -97,8 +100,9 @@ export class EmailEntryFormComponent implements OnInit {
     this.editCase();
   }
 
+  // auto gereate id for new transaction
   autoGenerateId() {
-    const base = 'JXF';
+    const base = 'JXFE';
     const today = new Date();
     const formattedDate = this.formatDate(today);
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -119,25 +123,32 @@ export class EmailEntryFormComponent implements OnInit {
     this.emailEntryForm.controls['emailId'].setValue(this.autoGenerateEmailId);
   }
 
+  // formating date for auto generate id format
   formatDate(date: Date): string {
     const year = date.getFullYear();
+    const lastTwoDigits = year % 100;
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
-    return `${year}${month}${day}`;
+    return `${lastTwoDigits}${month}${day}`;
     this.editCase();
   }
 
+  // initialize form
   initForm() {
-    this.emailEntryForm = new FormGroup({     
+    this.emailEntryForm = new FormGroup({
       emailId: new FormControl('', [Validators.required]),
       customerId: new FormControl('', [Validators.required]),
-      pickUpDate: new FormControl('', [Validators.required]),
-      takeOffDate: new FormControl('', [Validators.required]),
+      pickUpDate: new FormControl(new Date().toISOString(), [
+        Validators.required,
+      ]),
+      takeOffDate: new FormControl(new Date().toISOString(), [
+        Validators.required,
+      ]),
       productVendor: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       remark: new FormControl('', [Validators.required]),
-      repliedBy: new FormControl('', [Validators.required]),
-      status: new FormControl('', [Validators.required]),
+      repliedBy: new FormControl(this.currentUser, [Validators.required]),
+      status: new FormControl('Closed', [Validators.required]),
     });
     this.filteredOption = this.emailEntryForm.valueChanges.pipe(
       startWith(this.emailEntryForm.value),
@@ -145,6 +156,7 @@ export class EmailEntryFormComponent implements OnInit {
     );
   }
 
+  // filtering data for description and product vendor
   private _filter(value: string) {
     const filterValue =
       value && typeof value === 'string' ? value.toLowerCase() : '';
@@ -156,6 +168,11 @@ export class EmailEntryFormComponent implements OnInit {
   getAllProductVendors() {
     this.productVendorService.getAllProductVendors().subscribe((res: any) => {
       this.productVendorList = res;
+      this.productVendorList.sort((a: any, b: any) => {
+        const vendorA = a.productVendor ? String(a.productVendor) : '';
+        const vendorB = b.productVendor ? String(b.productVendor) : '';
+        return vendorA.localeCompare(vendorB); // Sorting alphabetically
+      });
     });
   }
 
@@ -230,12 +247,18 @@ export class EmailEntryFormComponent implements OnInit {
           .updateTransaction(mockTransaction.id, mockTransaction)
           .subscribe(
             (res: IEmailEntryFormTransaction) => {
-              this.openSnackbar('Update Transaction Success!', 'close');
+              this.toastrService.success(
+                'Update Transaction Succesfully',
+                'Success'
+              );
               this.dialogRef.close('refresh');
             },
             (error) => {
-              // console.error('Error updating transaction:', error);
-              // alert('Something went wrong while updating the transaction.');
+              console.error('Error updating transaction:', error);
+              this.toastrService.error(
+                'Something went wrong while updating the transaction.',
+                'Error'
+              );
             }
           );
       }
@@ -247,12 +270,18 @@ export class EmailEntryFormComponent implements OnInit {
       if (isSave) {
         this.transactionService.addTransaction(mockTransaction).subscribe(
           (res: IEmailEntryFormTransaction) => {
-            alert('Create Transaction Success!');
+            this.toastrService.success(
+              'Save Transaction Succesfully',
+              'Success'
+            );
             this.initForm();
             this.dialogRef.close();
           },
           (error) => {
-            // alert('Something Went wrong in Transaction!');
+            this.toastrService.error(
+              'Something Went wrong in Transaction',
+              'Error'
+            );
           }
         );
       }
